@@ -1,3 +1,7 @@
+<!--
+Replace the SVG code with the one you want to use for your logo. 
+ -->
+
 <script setup>
 </script>
 

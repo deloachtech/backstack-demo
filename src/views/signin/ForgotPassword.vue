@@ -3,7 +3,7 @@ import { ForgotPasswordForm } from 'vue-assets';
 import Logo from '@/Logo.vue';
 import { ref } from 'vue';
 import  {validateEmail}  from 'vue-assets/assets/js/validateEmail.js';
-
+import axios from 'axios';
 
 const submitting = ref(false)
 const errors = ref({})
@@ -25,7 +25,7 @@ const lookupPassword = async (data) => {
 
         //https://www.backstack.com/docs/forgot-password
 
-        axios.post('https://api.backstack.com/v1/auth/forgot-password', data)
+        axios.post('https://api.backstack.com/v1/auth/forgot-password', data, { api :'backstack' })
             .then((response) => {
                 success.value = true
             })
@@ -42,7 +42,7 @@ const lookupPassword = async (data) => {
 
 <template>
 
-    <ForgotPasswordForm @submit="lookupPassword" :loading="submitting" :errors="errors" :showSuccess="success">
+    <ForgotPasswordForm @submit="lookupPassword" :loading="submitting" :errors="errors" :success="success">
         <template #logo>
             <Logo class="mb-5" />
         </template>

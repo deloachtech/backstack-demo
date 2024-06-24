@@ -9,7 +9,6 @@ import appSchema from '@/app-schema.json'
 const submitting = ref(false)
 const errors = ref({})
 
-
 const validate = (data) => {
 
     errors.value = {}

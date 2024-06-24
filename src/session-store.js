@@ -43,7 +43,7 @@ export const useSession = defineStore('sessionStore', {
         async initialize(appSchema) {
             this.appSchema = appSchema
             this.loading = true
-            await axios.get('https://api.backstack.com/v1/auth/session')
+            await axios.get('https://api.backstack.com/v1/auth/session', {  api :'backstack' })
                 .then((response) => {
                     this.auth = response.data.auth;
                     this.access = response.data.access;
@@ -67,7 +67,7 @@ export const useSession = defineStore('sessionStore', {
 
         async logout() {
             this.loading = true
-            await axios.get('https://api.backstack.com/v1/auth/logout')
+            await axios.get('https://api.backstack.com/v1/auth/logout', {  api :'backstack' })
                 .then((response) => {
                     this.auth = response.data.auth;
                     this.access = response.data.access;

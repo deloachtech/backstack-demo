@@ -8,19 +8,22 @@ export function setupAxios() {
         (config) => {
 
             config.metadata = { startTime: new Date() };
-
             config.timeout = 60000
-            config.withCredentials = true
-            config.headers.Authorization = `Bearer ${appSchema.app.pub_key}`
 
-            // Modify the URL for developing on the local version of the api.
-            if (process.env.NODE_ENV === 'development') {
+            if (config.api === 'backstack') {
 
-                const find = import.meta.env.VITE_BACKSTACK_API_FIND
-                const replace = import.meta.env.VITE_BACKSTACK_API_REPLACE
+                config.withCredentials = true
+                config.headers.Authorization = `Bearer ${appSchema.app.pub_key}`
 
-                if (find && replace) {
-                    config.url = config.url.replace(find, replace)
+                // Modify the URL for developing on the local version of the api.
+                if (process.env.NODE_ENV === 'development') {
+
+                    const find = import.meta.env.VITE_BACKSTACK_API_FIND
+                    const replace = import.meta.env.VITE_BACKSTACK_API_REPLACE
+
+                    if (find && replace) {
+                        config.url = config.url.replace(find, replace)
+                    }
                 }
             }
             return config
@@ -51,6 +54,13 @@ export function setupAxios() {
         (error) => {
             if (error.response) {
 
+                if(error.response.config.api === 'backstack'){
+                    // See AxiosError component
+
+                }else{
+                    // Handle errors for other configurations...
+                }
+
                 // If the error type is 'user' the error.message will be suitable for display.
 
                 if (error.response.data.error.type === 'user') {
@@ -64,7 +74,8 @@ export function setupAxios() {
                         if (error.response.data.error.fields.length === 0) {
 
                             if (error.response.config.alert !== false) {
-                                alert(error.response.data.error?.message || 'An error occurred. Please try again later.')
+                                // replaced with AxiosError component
+                                //alert(error.response.data.error?.message || 'An error occurred. Please try again later.')
                             }
                         }
                     }
@@ -73,7 +84,8 @@ export function setupAxios() {
 
 
                     if (process.env.NODE_ENV === 'development') {
-                        console.log(error)
+                        // replaced with AxiosError component
+                        //console.log(error)
                     }
 
                     if (error.response.status === 401) {
@@ -83,11 +95,13 @@ export function setupAxios() {
                     } else if (error.response.status === 404) {
 
                         //router.push(error.response.config.route404)
-                        alert('An error occurred. Please try again later.')
+                        // replaced with AxiosError component
+                        //alert('An error occurred. Please try again later.')
 
                     } else {
 
-                        alert('An error occurred. Please try again later.')
+                        // replaced with AxiosError component
+                        //alert('An error occurred. Please try again later.')
                     }
                 }
 

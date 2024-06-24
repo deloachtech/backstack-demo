@@ -24,7 +24,7 @@ const login = async (data) => {
 
         submitting.value = true
 
-        axios.post('https://api.backstack.com/v1/auth/login', data)
+        axios.post('https://api.backstack.com/v1/auth/login', data, { api :'backstack' })
             .then((response) => {
                 //https://www.backstack.com/docs/login
                 if (response.data?.select_account) {

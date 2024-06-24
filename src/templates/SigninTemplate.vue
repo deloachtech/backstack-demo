@@ -1,35 +1,33 @@
 <script setup>
-import Toast from '../components/Toast.vue';
+import AxiosError from '@/components/AxiosError.vue';
 </script>
 
 <template>
-    <Toast/>
-    <div class="d-flex align-items-center justify-content-center py-4" style="height: 100vh;">
-        <div class="form-container">
-            
+    <div class="relative-container">
+
+        <AxiosError class="text-center" style="position: absolute; top: 1.25rem; left: 1.25rem; right: 1.25rem; margin: 0 auto; z-index: 100;" />
+
+        <div class="d-flex align-items-center justify-content-center py-4" style="height: 100vh;">
+            <div class="form-container">
                 <slot></slot>
-            
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.d-flex {
-    display: flex; 
-    
-    /* Center vertically */
-    align-items: center;
+.relative-container {
+    position: relative;
+}
 
-    /* Center horizontally */
+.d-flex {
+    display: flex;
+    align-items: center;
     justify-content: center;
-   
 }
 
 .form-container {
     width: 100%;
     max-width: 350px;
-
-    /* Center horizontally */
-    margin: auto;
 }
 </style>

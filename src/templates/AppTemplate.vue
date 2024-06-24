@@ -1,11 +1,8 @@
 <script setup>
-import Toast from '../components/Toast.vue';
 
 </script>
 
 <template>
-
-<Toast/>
 
 
   <main class="container">

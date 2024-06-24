@@ -2,7 +2,7 @@
     "schema_version": "1.0.1",
     "app": {
         "id": "app_zd9zotrSigDw73OB",
-        "title": "dash.backstack.com",
+        "title": "admin.backstack.com",
         "description": "The core application.",
         "pub_key": "pk_adeloach_backstack",
         "allow_signup": true
