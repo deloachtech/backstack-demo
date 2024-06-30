@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import AppTemplate from '@/templates/AppTemplate.vue';
-import SigninTemplate from './templates/SigninTemplate.vue';
+import AppTemplate from '@/template/AppTemplate.vue';
+import SigninTemplate from './template/SigninTemplate.vue';
 import { Error404, FullScreenSpinner } from 'backstack-vue-assets';
 import { useSession } from './session-store';
 import { ForgotPassword, Login, ResetPassword, Signup } from './views/signin';

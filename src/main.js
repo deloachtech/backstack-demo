@@ -1,6 +1,6 @@
 
-import './styles.scss'
-import './theme.css'
+import './assets/css/styles.scss'
+import './assets/css/theme.css'
 
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'

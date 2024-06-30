@@ -1,6 +1,6 @@
 <script setup>
 import { ResetPasswordForm, FullScreenSpinner } from 'backstack-vue-assets';
-import Logo from '@/Logo.vue';
+import Logo from '@/template/Logo.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 <script setup>
 import { LoginForm, SelectAccountForm } from 'backstack-vue-assets';
 import appSchema from '@/app-schema.json';
-import Logo from '@/Logo.vue';
+import Logo from '@/template/Logo.vue';
 import { ref } from 'vue';
 import { useSession } from '../../session-store';
 import axios from 'axios';

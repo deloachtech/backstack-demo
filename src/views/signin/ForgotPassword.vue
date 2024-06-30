@@ -1,6 +1,6 @@
 <script setup>
 import { ForgotPasswordForm } from 'backstack-vue-assets';
-import Logo from '@/Logo.vue';
+import Logo from '@/template/Logo.vue';
 import { ref } from 'vue';
 import  {validateEmail}  from 'backstack-vue-assets/assets/js/validateEmail.js';
 import axios from 'axios';

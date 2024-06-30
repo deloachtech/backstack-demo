@@ -1,5 +1,5 @@
 <!--
-Replace the SVG below with your logo. 
+Replace the SVG below with the SVG for your logo. 
  -->
 
 <script setup>
