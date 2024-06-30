@@ -1,9 +1,9 @@
 <script setup>
-import { SignupForm } from 'vue-assets';
+import { SignupForm } from 'backstack-vue-assets';
 import Logo from '@/Logo.vue';
 import { ref } from 'vue';
-import { validateEmail } from 'vue-assets/assets/js/validateEmail.js';
-import countries from 'vue-assets/assets/data/countries.json'
+import { validateEmail } from 'backstack-vue-assets/assets/js/validateEmail.js';
+import countries from 'backstack-vue-assets/assets/data/countries.json'
 import appSchema from '@/app-schema.json'
 
 const submitting = ref(false)

@@ -1,5 +1,5 @@
 <script setup>
-import { LoginForm } from 'vue-assets';
+import { LoginForm, SelectAccountForm } from 'backstack-vue-assets';
 import appSchema from '@/app-schema.json';
 import Logo from '@/Logo.vue';
 import { ref } from 'vue';
@@ -8,11 +8,16 @@ import axios from 'axios';
 
 
 const session = useSession()
-
-
 const submitting = ref(false);
 const errors = ref({})
+const select = ref({})
 
+
+/**
+ * Login using the form data.
+ * @see https://backstack.com/login
+ * @param data Form data
+ */
 const login = async (data) => {
 
     errors.value = {}
@@ -24,16 +29,16 @@ const login = async (data) => {
 
         submitting.value = true
 
-        axios.post('https://api.backstack.com/v1/auth/login', data, { api :'backstack' })
+        await axios.post('https://api.backstack.com/v1/auth/login', data, { api: 'backstack' })
             .then((response) => {
-                //https://www.backstack.com/docs/login
-                if (response.data?.select_account) {
-                    session.update(response.data)
-                } else {
 
-                    // todo: select account
-                    console.log(response.data)
-    
+                if (response.data?.select_account) {
+                    
+                    // https://backstack.com/login.html#selecting-accounts
+                    select.value = response.data.select_account
+                    
+                } else {
+                    session.update(response.data)
                 }
             })
             .catch((error) => {
@@ -46,11 +51,34 @@ const login = async (data) => {
 }
 
 
+/**
+ * Select an account using the form data.
+ * @see https://backstack.com/login.html#selecting-accounts
+ * @param data Form data
+ */
+const selectAccount = async (data) => {
+    submitting.value = true
+    await axios.post('https://api.backstack.com/v1/auth/login-account', data, { api: 'backstack' })
+        .then((response) => {
+            session.update(response.data)
+        })
+        .finally(() => {
+            submitting.value = false
+        })
+}
+
 </script>
 
 <template>
 
-    <LoginForm @submit="login" :allowSignup="appSchema.app.allow_signup" :loading="submitting" :errors="errors">
+    <SelectAccountForm v-if="select?.accounts" :values="select" @submit="selectAccount" :loading="submitting"
+        :errors="errors">
+        <template #logo>
+            <Logo class="mb-5" />
+        </template>
+    </SelectAccountForm>
+
+    <LoginForm v-else @submit="login" :allowSignup="appSchema.app.allow_signup" :loading="submitting" :errors="errors">
         <template #logo>
             <Logo class="mb-5" />
         </template>

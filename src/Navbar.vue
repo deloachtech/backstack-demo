@@ -1,4 +1,4 @@
-<script setup>
+ <script setup>
 import { useSession } from './session-store';
 
 

@@ -10,12 +10,11 @@ Built with:
 * Pinia 2
 * Axios 2
 * Bootstrap 5
-* Backstack API
-* Starter `app-schema.json` (Replace with your app-specific version .)
+* Backstack API with a starter `app-schema.json` (Replace with your app-specific version.)
 
 ## Features
 
-Includes common functionality. Add your app-specific pages using built-in components (e.g., tables, settings, file uploads)
+Includes common functionality. Add your app-specific pages using the built-in components (e.g., tables, settings, file uploads)
 
 * Log-in
 * Reset password
@@ -28,9 +27,25 @@ Includes common functionality. Add your app-specific pages using built-in compon
 * Account networking with fee sharing
 
 
+## Components
+
+TODO
+
 ## Installation
 
-Clone the repo into a new project folder.
+### Clone the Repository
+
+```sh
+git clone https://github.com/deloachtech/vue-project.git
+```
+
+### Change the Working Directory
+
+```sh
+cd vue-project
+```
+
+### Install the Assets
 
 ```sh
 npm install
@@ -38,9 +53,44 @@ npm install
 
 ## Get Started
 
+```sh
+npm run dev
+```
+
 Modify the files as needed for the new project. 
 
+# Usage
 
-## Notes
+## Sessions
 
-The session is updated via the Backstack API upon each route change (see `src/router.js`).
+TODO
+
+
+## Access Control
+
+TODO
+
+
+## Axios
+
+The `axios` installation can be used for any api endpoint. There are a couple of configuration values added for using Backstack.
+
+| Key | Value |
+| --- | --- |
+| `api` | An api-specific value for implementing your logic. |
+| `alert` | When using the `backstack` `api`, you can bypass the alert logic by setting this to `false`.
+
+```js
+await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api: 'backstack' }) ...
+```
+
+### Errors
+
+The `AxiosError.vue` component handles Backstack errors using Axios `interceptors`.
+
+## Routing
+
+TODO
+
+
+

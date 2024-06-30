@@ -1,6 +1,6 @@
 <script setup>
 
-import {Dropdown, PageHeading, Breadcrumbs} from "vue-assets"
+import {Dropdown, PageHeading, Breadcrumbs} from "backstack-vue-assets"
 
 </script>
 

@@ -1,14 +1,20 @@
 <script setup>
-import { ForgotPasswordForm } from 'vue-assets';
+import { ForgotPasswordForm } from 'backstack-vue-assets';
 import Logo from '@/Logo.vue';
 import { ref } from 'vue';
-import  {validateEmail}  from 'vue-assets/assets/js/validateEmail.js';
+import  {validateEmail}  from 'backstack-vue-assets/assets/js/validateEmail.js';
 import axios from 'axios';
 
 const submitting = ref(false)
 const errors = ref({})
 const success = ref(false)
 
+
+/**
+ * Lookup the password using the email address.
+ * @see https://backstack.com/reset-passwords#lookup-email-address
+ * @param data Form data
+ */
 const lookupPassword = async (data) => {
 
     errors.value = {}
@@ -23,9 +29,7 @@ const lookupPassword = async (data) => {
 
         submitting.value = true
 
-        //https://www.backstack.com/docs/forgot-password
-
-        axios.post('https://api.backstack.com/v1/auth/forgot-password', data, { api :'backstack' })
+        await axios.post('https://api.backstack.com/v1/auth/forgot-password', data, { api :'backstack' })
             .then((response) => {
                 success.value = true
             })

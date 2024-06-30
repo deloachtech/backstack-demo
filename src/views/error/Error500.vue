@@ -1,5 +1,5 @@
 <script setup>
-import { Error500 } from 'vue-assets';
+import { Error500 } from 'backstack-vue-assets';
 </script>
 
 <template>

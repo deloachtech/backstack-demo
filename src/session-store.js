@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
-import { hasAccess } from "vue-assets/assets/js/hasAccess.js";
+import { hasAccess } from "backstack-vue-assets/assets/js/hasAccess.js";
 
 
 export const useSession = defineStore('sessionStore', {

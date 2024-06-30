@@ -1,5 +1,5 @@
 <script setup>
-import { Error404 } from 'vue-assets';
+import { Error404 } from 'backstack-vue-assets';
 </script>
 
 <template>

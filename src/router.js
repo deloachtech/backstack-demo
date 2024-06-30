@@ -35,7 +35,7 @@ router.beforeEach(async (to, from, next) => {
       if (session.hasAccess(to.meta.access)) {
           next()
       } else {
-          next('/apps')
+          next('/')
       }
   } else {
       //console.log('router', to.path)

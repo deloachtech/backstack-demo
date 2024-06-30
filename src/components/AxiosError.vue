@@ -13,7 +13,7 @@ axios.interceptors.request.use(
 
     showAlert.value = false;
     alertMessage.value = '';
-    
+
     return config
   }
 )
@@ -25,8 +25,6 @@ axios.interceptors.response.use(
     if (error.response) {
 
       if (error.response.config.api === 'backstack') {
-
-        console.log(error)
 
         if (error.response.data.error.type === 'user') {
 
