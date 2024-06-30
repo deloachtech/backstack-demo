@@ -31,27 +31,10 @@ Includes common functionality. Add your app-specific pages using the built-in co
 
 ## Installation
 
-### Clone the Repository
-
 ```sh
 git clone https://github.com/deloachtech/backstack-vue.git
-```
-
-### Change the Working Directory
-
-```sh
 cd backstack-vue
-```
-
-### Install the Assets
-
-```sh
 npm install
-```
-
-### Get Started
-
-```sh
 npm run dev
 ```
 
@@ -68,7 +51,7 @@ The project uses [Vite](https://vitejs.dev/) to compile the `src/assets/css/styl
 
 ## Components
 
-You can easily edit the components included in the `src/components` directory.
+You can directly edit the components included in the `src/components` directory.
 
 Other components are abstracted into the `backstack-vue-assets` npm package. You can find the [actual components](https://github.com/deloachtech/backstack-vue-assets/tree/main/src/components) in the repo of the same name.
 
