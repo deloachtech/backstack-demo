@@ -55,7 +55,8 @@ npm install
 npm run dev
 ```
 
-Modify the files as needed for the new project. 
+Modify the files as needed for the your project.
+
 
 # Customization
 
@@ -74,16 +75,23 @@ Other components are abstracted into the `backstack-vue-assets` npm package. You
 To edit a component provided in the npm package, simply copy the repo component into your project and change the import statement.
 
 ```js
-// include {FooComponent} from "backstack-vue-assets"
+// include { FooComponent } from "backstack-vue-assets"
 include FooComponent from "@/components/FooComponent.vue"
 ```
 
-You may have to change the import path if the component uses other npm package components.
+### Child Components
+
+You may have to change an import path in a parent if it uses other npm package components.
 
 ```js
 //include ChildComponent from "@/component"
 include ChildComponent from "backstack-vue-assets"
 ```
+
+If the component you're modifying is itself a child component in the npm package this won't work.
+
+> We're eliminating the use of imports for child components in the npm package, so this won't be an issue in the near future.
+
 
 ## Templates
 
