@@ -31,15 +31,21 @@ Includes common functionality. Add your app-specific pages using the built-in co
 
 ## Installation
 
+Download and unpack the contents of the zip file into your project directory. From there, install the `package.json` assets and run the development server.
+
 ```sh
-git clone https://github.com/deloachtech/backstack-vue.git
-cd backstack-vue
 npm install
 npm run dev
 ```
 
 Modify the files as needed for the your project.
 
+
+## Updates
+
+This project does not offer typical updating schemas as it is intended to be a starter package that is fully maintained by the user. However, it does incorporate assets from the `backstack-vue-assets` npm package, which can be updated independently.
+
+The [source code for the npm package](https://github.com/deloachtech/backstack-vue-assets) is open source and available for reference.
 
 # Customization
 
