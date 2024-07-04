@@ -16,7 +16,7 @@ coverage
 /cypress/videos/
 /cypress/screenshots/
 
-.vscode/*
+.vscode/settings.json
 !.vscode/extensions.json
 .idea
 *.suo

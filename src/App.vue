@@ -1,10 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import AppTemplate from '@/template/AppTemplate.vue';
-import SigninTemplate from './template/SigninTemplate.vue';
-import { Error404, FullScreenSpinner } from 'backstack-vue-assets';
-import { useSession } from './session-store';
-import { ForgotPassword, Login, ResetPassword, Signup } from './views/signin';
+import SigninTemplate from '@/template/SigninTemplate.vue';
+import { Error404, Spinner } from 'backstack-vue-assets';
+import { useSession } from 'backstack-vue-assets/stores/session';
+import { ForgotPassword, Login, ResetPassword, Signup } from '@/views/signin';
 
 const route = useRoute()
 const session = useSession()
@@ -21,7 +21,7 @@ const session = useSession()
   <SigninTemplate v-else>
 
     <div v-if="session.loading">
-      <FullScreenSpinner />
+      <Spinner />
     </div>
 
     <div v-else>

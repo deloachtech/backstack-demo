@@ -1,16 +1,64 @@
-// https://getbootstrap.com/docs/5.3/customize/sass/#importing
+// https://getbootstrap.com/docs/5.3/customize/sass
 
-// Custom.scss
-// Option A: Include all of Bootstrap
-
-// Include any default variable overrides here (though functions won't be available)
-
+// Variable overrides for Bootstrap
+// $primary: #900;
+// $enable-shadows: true;
+// $prefix: "mo-";
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 
-// Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "../../../node_modules/bootstrap/scss/functions";
+
+// Styles computed by the /backstack-vue-assets package manager.
+@import "../../../node_modules/backstack-vue-assets/dist/style.css";
 
 
-// Then add additional custom code here
+body {
+    /* min-height: 75rem; */
+    padding-top: 4.5rem; // Compensate for floating navbar
+}
 
-@import "../../../node_modules/backstack-vue-assets/dist/style.css"; // Styles computed by the package manager.
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 4.5rem); // navbar height
+    width: 100%;
+}
+
+.content-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: calc(100vh + 4.5rem); // navbar height
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+
+
+// Styles for backstack-view-assets in this project.
+// =================================================
+// .bva-arrow-link{}
+// .bva-breadcrumbs{}
+// .bva-dropdown{}
+// .bva-error-404{}
+// .bva-error-500{}
+// .bva-external-link{}
+// .bva-form-input{}
+// .bva-form-select{}
+.bva-page-heading {
+    margin-top: map-get($spacers, 3); // mt-3
+}
+// .bva-load-more{}
+// .bva-page-subheading{}
+// .bva-select-extended{}
+// .bva-signup-form{}
+// .bva-spinner{}
+.bva-tabs {
+    margin-top: map-get($spacers, 3); // mt-3
+}
+// .bva-table{}
+// =================================================

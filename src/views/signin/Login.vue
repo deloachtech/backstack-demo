@@ -3,8 +3,9 @@ import { LoginForm, SelectAccountForm } from 'backstack-vue-assets';
 import appSchema from '@/app-schema.json';
 import Logo from '@/template/Logo.vue';
 import { ref } from 'vue';
-import { useSession } from '../../session-store';
+import { useSession } from 'backstack-vue-assets/stores/session';
 import axios from 'axios';
+import router from '../../router';
 
 
 const session = useSession()
@@ -39,6 +40,7 @@ const login = async (data) => {
                     
                 } else {
                     session.update(response.data)
+                    router.push('/')
                 }
             })
             .catch((error) => {

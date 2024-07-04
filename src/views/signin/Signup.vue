@@ -8,6 +8,7 @@ import appSchema from '@/app-schema.json'
 
 const submitting = ref(false)
 const errors = ref({})
+const success = ref(false)
 
 const validate = (data) => {
 
@@ -63,7 +64,7 @@ const signup = async (data) => {
 <template>
 
     <SignupForm @submit="(data) => signup(data)" :loading="submitting" :errors="errors" :countries="countries"
-        :domains="appSchema.domains">
+        :domains="appSchema.domains" :success="success">
         <template #logo>
             <Logo class="mb-5" />
         </template>
