@@ -1,6 +1,6 @@
 # Backstack Vue (ALPHA)
 
-> This project is not production ready!
+> Please note that this project is not yet ready for production use.
 
 A starter project for `Vue` applications using the `Backstack API`.
 

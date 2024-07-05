@@ -1,7 +1,10 @@
 <script setup>
-import { Spinner, Settings } from "backstack-vue-assets";
+// https://github.com/deloachtech/backstack-vue-assets/blob/main/src/components
+import { Spinner, FormInput, DataDisplay, Modal } from "backstack-vue-assets";
+
 import { ref } from "vue";
 import axios from "axios";
+
 
 const fetching = ref(false);
 const data = ref({});
@@ -11,7 +14,34 @@ const fetchData = async () => {
   await axios
     .get("https://api.backstack.com/v1/user", { api: "backstack" })
     .then((response) => {
-      data.value = response.data;
+      data.value = [
+        {
+          key: "name",
+          label: "Name",
+          value: response.data.name,
+          action: "Update",
+        },
+        { label: "ID", value: response.data.id },
+        {
+          key: "email",
+          label: "Email address",
+          value: response.data.email,
+          action: "Update",
+        },
+        {
+          key: "username",
+          label: "Username",
+          value: response.data.username,
+          action: "Update",
+        },
+        {
+          key: "password",
+          label: "Password",
+          value: "***************",
+          action: "Update",
+          metadata: { username: response.data.username },
+        },
+      ];
     })
     .finally(() => {
       fetching.value = false;
@@ -19,6 +49,54 @@ const fetchData = async () => {
 };
 
 fetchData();
+
+const item = ref({});
+
+const handleAction = (_item) => {
+  // Create a deep copy of the item to avoid modifying the original data.
+  item.value = JSON.parse(JSON.stringify(_item));
+};
+
+const submitting = ref(false);
+const error = ref(null);
+
+const validate = (_item) => {
+  error.value = null;
+  if (_item.key === "password") {
+    if (_item.value.length < 8) {
+      error.value = "Password must be at least 8 characters";
+      return false;
+    }
+    if (_item.value === _item.metadata.username) {
+      error.value = "Password cannot be your Username";
+      return false;
+    }
+  } else {
+    if (!_item.value) {
+      error.value = "Required value";
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const handleSubmit = (_item) => {
+  if (!validate(_item)) {
+    return;
+  }
+
+  submitting.value = true;
+  
+  setTimeout(() => {
+    submitting.value = false;
+  }, 2000);
+  console.log("Submit triggered", item);
+};
+
+const handleCancel = (_item) => {
+  error.value = null;
+};
 </script>
 
 <template>
@@ -27,69 +105,13 @@ fetchData();
   </div>
 
   <div v-else>
-    <Settings
-      :data="[
-        {
-          key: 'name',
-          label: 'Name',
-          value: data.name,
-          action: 'Update',
-        },
-        {
-          label: 'ID',
-          value: data.id,
-        },
-        {
-          key: 'email',
-          label: 'Email address',
-          value: data.email,
-          action: 'Update',
-        },
-        {
-          key: 'attachments',
-          label: 'Attachments',
-        },
-      ]"
-    >
-      <template #attachments="{ item }">
-        <ul class="list-group">
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <div class="d-flex align-items-center">
-              <i class="bi bi-paperclip me-2"></i>
-              <span class="me-auto">resume_back_end_developer.pdf</span>
-              <span class="badge bg-secondary rounded-pill">2.4mb</span>
-            </div>
-            <div class="ms-4">
-              <button type="button" class="btn btn-outline-primary btn-sm me-2">
-                Update
-              </button>
-              <button type="button" class="btn btn-outline-secondary btn-sm">
-                Remove
-              </button>
-            </div>
-          </li>
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <div class="d-flex align-items-center">
-              <i class="bi bi-paperclip me-2"></i>
-              <span class="me-auto">coverletter_back_end_developer.pdf</span>
-              <span class="badge bg-secondary rounded-pill">4.5mb</span>
-            </div>
-            <div class="ms-4">
-              <button type="button" class="btn btn-outline-primary btn-sm me-2">
-                Update
-              </button>
-              <button type="button" class="btn btn-outline-secondary btn-sm">
-                Remove
-              </button>
-            </div>
-          </li>
-        </ul>
+    <DataDisplay modalId="modal1" :data="data" @action="(item) => handleAction(item)"> </DataDisplay>
+    <Modal id="modal1" :loading="submitting" :item="item" @submit="(item) => handleSubmit(item)" @cancel="handleCancel(item)">
+      <template #default>
+        <FormInput v-if="['name', 'email', 'username'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" />
+        <FormInput v-else-if="item.key === 'password'" v-model="item.value" label="Password" type="password" :error="error" help="Must be 8 or more characters. Cannot be your Username." />
       </template>
-    </Settings>
+    </Modal>
   </div>
 </template>
 
