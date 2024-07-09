@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-Modify the files as needed for the your project.
+Modify the files as needed for your project.
 
 
 ## Updates
