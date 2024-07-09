@@ -103,12 +103,12 @@ TODO
 
 ## Axios
 
-The `axios` installation can be used for any api endpoint. There are a couple of `axios.config` values added for using Backstack.
+The `axios` installation can be used for any endpoint without additional configuration. A few`axios.config` settings have been added for using the Backstack features related to this project.
 
 | Config key | Description |
 | --- | --- |
 | `api` | An optional api-specific setting for implementing your logic. |
-| `alert` | When using the `backstack api`, you can bypass the alert logic when needed by setting this to `false`.
+| `alert` | When using the `backstack api`, you can bypass the alert logic when needed by setting this value to `false`.
 
 ```js
 await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api: 'backstack' }) ...
@@ -116,7 +116,7 @@ await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api
 
 ### Errors
 
-The `AxiosError.vue` component handles Backstack errors using Axios `interceptors`.
+The [AxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling  logic elsewhere. You can modify this component to incorporate other services.
 
 ## Routing
 
