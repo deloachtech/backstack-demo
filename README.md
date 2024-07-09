@@ -103,12 +103,12 @@ TODO
 
 ## Axios
 
-The `axios` installation can be used for any api endpoint. There are a couple of configuration values added for using Backstack.
+The `axios` installation can be used for any api endpoint. There are a couple of `axios.config` values added for using Backstack.
 
-| Key | Value |
+| Config key | Description |
 | --- | --- |
-| `api` | An api-specific value for implementing your logic. |
-| `alert` | When using the `backstack` `api`, you can bypass the alert logic by setting this to `false`.
+| `api` | An optional api-specific setting for implementing your logic. |
+| `alert` | When using the `backstack api`, you can bypass the alert logic when needed by setting this to `false`.
 
 ```js
 await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api: 'backstack' }) ...
