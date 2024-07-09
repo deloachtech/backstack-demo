@@ -2,7 +2,7 @@
 
 > Please note that this project is not yet ready for production use.
 
-A starter project for `Vue` applications using the `Backstack API`.
+A starter project using the `Backstack API` for applications created with `Vue`.
 
 Built with:
 
@@ -12,11 +12,10 @@ Built with:
 * Pinia 2
 * Axios 2
 * Bootstrap 5
-* Backstack API with a starter `app-schema.json` (Replace with your app-specific version.)
 
 ## Features
 
-Includes common functionality. Add your app-specific pages using the built-in components (e.g., tables, settings, file uploads)
+Includes common functionality. Add your app-specific views using the built-in components (e.g., tables, settings, file uploads) or your own.
 
 * Log-in
 * Reset password
@@ -25,7 +24,7 @@ Includes common functionality. Add your app-specific pages using the built-in co
 * User settings
 * Account settings
 * Application versioning (e.g., Basic, Advanced, Premium)
-* In-app module subscriptions (e.g., additional users, more widgets)
+* In-app module purchases (e.g., additional users, more widgets)
 * Account networking with fee sharing
 
 
@@ -43,7 +42,7 @@ Modify the files as needed for the your project.
 
 ## Updates
 
-This project does not offer typical updating schemas as it is intended to be a starter package that is fully maintained by the user. However, it does incorporate assets from the `backstack-vue-assets` npm package, which can be updated independently.
+This project does not offer typical updating schemas as it's intended to be a starter package that's fully managed by the user. However, it does incorporate assets from the `backstack-vue-assets` npm package, which can be updated independently.
 
 The [source code for the npm package](https://github.com/deloachtech/backstack-vue-assets) is open source and available for reference.
 
