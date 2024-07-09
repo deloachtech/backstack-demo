@@ -1,12 +1,3 @@
-<script setup>
-import AxiosError from "../components/AxiosError.vue";
-import Navbar from "./Navbar.vue";
-import { useSession } from "backstack-vue-assets/stores/session";
-import { Spinner } from "backstack-vue-assets";
-
-const session = useSession();
-</script>
-
 <template>
   <Navbar />
 
@@ -19,8 +10,16 @@ const session = useSession();
   </main>
 </template>
 
-<style scoped>
+<script setup>
+import AxiosError from "../components/AxiosError.vue";
+import Navbar from "./Navbar.vue";
+import { useSession } from "backstack-vue-assets/stores/session";
+import { Spinner } from "backstack-vue-assets";
 
+const session = useSession();
+</script>
+
+<style scoped>
 .bva-spinner {
   flex: 1;
   display: flex;

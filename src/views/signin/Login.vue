@@ -1,3 +1,17 @@
+<template>
+  <SelectAccountForm v-if="select?.accounts" :values="select" @submit="selectAccount" :loading="submitting" :errors="errors">
+    <template #logo>
+      <Logo class="mb-5" />
+    </template>
+  </SelectAccountForm>
+
+  <LoginForm v-else @submit="login" :allowSignup="appSchema.app.allow_signup" :loading="submitting" :errors="errors">
+    <template #logo>
+      <Logo class="mb-5" />
+    </template>
+  </LoginForm>
+</template>
+
 <script setup>
 import { LoginForm, SelectAccountForm } from "backstack-vue-assets";
 import appSchema from "@/app-schema.json";
@@ -63,19 +77,5 @@ const selectAccount = async (data) => {
     });
 };
 </script>
-
-<template>
-  <SelectAccountForm v-if="select?.accounts" :values="select" @submit="selectAccount" :loading="submitting" :errors="errors">
-    <template #logo>
-      <Logo class="mb-5" />
-    </template>
-  </SelectAccountForm>
-
-  <LoginForm v-else @submit="login" :allowSignup="appSchema.app.allow_signup" :loading="submitting" :errors="errors">
-    <template #logo>
-      <Logo class="mb-5" />
-    </template>
-  </LoginForm>
-</template>
 
 <style scoped></style>

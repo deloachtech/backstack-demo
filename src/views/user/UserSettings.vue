@@ -1,9 +1,31 @@
+<template>
+  <PageHeading heading="General Settings" as-subheading>
+    <template #text> Basic information about you. </template>
+  </PageHeading>
+
+  <div v-if="fetching">
+    <Spinner class="content-spinner" />
+  </div>
+
+  <div v-else>
+    <DataDisplay :data="data" @action="(item) => handleAction(item)">
+      <template #avatar="{ item }">
+        <span v-html="item.value" class="user-avatar"></span>
+      </template>
+    </DataDisplay>
+
+    <Modal :open="modalOpen" :submitting="submitting"  @submit="submitData" @cancel="closeModal">
+      <FormInput v-if="['name', 'email', 'username'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" />
+      <FormInput v-else-if="item.key === 'password'" v-model="item.value" label="Password" type="password" :error="error" help="Must be 8 or more characters. Cannot be your Username." />
+    </Modal>
+  </div>
+</template>
+
 <script setup>
-import { Spinner, FormInput, DataDisplay, Modal } from "backstack-vue-assets";
+import { Spinner, FormInput, DataDisplay, Modal, PageHeading } from "backstack-vue-assets";
 import { ref } from "vue";
 import axios from "axios";
 
-const modalOpen = ref(false);
 const fetching = ref(false);
 const data = ref({});
 
@@ -13,32 +35,13 @@ const fetchData = async () => {
     .get("https://api.backstack.com/v1/user", { api: "backstack" })
     .then((response) => {
       data.value = [
-        {
-          key: "name",
-          label: "Name",
-          value: response.data.name,
-          action: "Update",
-        },
+        { key: "name", label: "Name", value: response.data.name, action: "Update" },
         { label: "ID", value: response.data.id },
-        {
-          key: "email",
-          label: "Email address",
-          value: response.data.email,
-          action: "Update",
-        },
-        {
-          key: "username",
-          label: "Username",
-          value: response.data.username,
-          action: "Update",
-        },
-        {
-          key: "password",
-          label: "Password",
-          value: "***************",
-          action: "Update",
-          metadata: { username: response.data.username },
-        },
+        { label: "Created", value: new Date(response.data.created * 1000).toDateString() },
+        { key: "email", label: "Email address", value: response.data.email, action: "Update" },
+        { key: "avatar", label: "Avatar", value: response.data.avatar },
+        { key: "username", label: "Username", value: response.data.username, action: "Update" },
+        { key: "password", label: "Password", value: "***************", action: "Update", metadata: { username: response.data.username } },
       ];
     })
     .finally(() => {
@@ -49,20 +52,13 @@ const fetchData = async () => {
 fetchData();
 
 const item = ref({});
-
-const handleAction = (_item) => {
-  // Create a deep copy of the item to avoid modifying the original data.
-  item.value = JSON.parse(JSON.stringify(_item));
-  modalOpen.value = true;
-};
-
 const submitting = ref(false);
 const error = ref(null);
 
 const submitData = async () => {
   error.value = null;
   if (item.value.key === "password") {
-    if (item.value.value.length < 8) {
+    if (!item.value.value || item.value.value.length < 8) {
       error.value = "Password must be at least 8 characters";
       return false;
     }
@@ -93,27 +89,18 @@ const submitData = async () => {
     });
 };
 
+const modalOpen = ref(false);
+
+const handleAction = (_item) => {
+  // Create a deep copy of the item to avoid modifying the original data.
+  item.value = JSON.parse(JSON.stringify(_item));
+  modalOpen.value = true;
+};
+
 const closeModal = () => {
   error.value = null;
   modalOpen.value = false;
 };
 </script>
-
-<template>
-  <div v-if="fetching">
-    <Spinner class="content-spinner" />
-  </div>
-
-  <div v-else>
-    <DataDisplay :data="data" @action="(item) => handleAction(item)"> </DataDisplay>
-
-    <Modal :open="modalOpen" :loading="submitting" :item="item" @submit="submitData" @cancel="closeModal">
-      <template #default>
-        <FormInput v-if="['name', 'email', 'username'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" />
-        <FormInput v-else-if="item.key === 'password'" v-model="item.value" label="Password" type="password" :error="error" help="Must be 8 or more characters. Cannot be your Username." />
-      </template>
-    </Modal>
-  </div>
-</template>
 
 <style scoped></style>

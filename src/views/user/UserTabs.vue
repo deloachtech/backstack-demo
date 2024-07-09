@@ -1,14 +1,3 @@
-<script setup>
-import Settings from "./UserSettings.vue";
-import Merge from "./UserMerge.vue";
-import { PageHeading, Tabs } from "backstack-vue-assets";
-import { useRoute } from "vue-router";
-import { useSession } from "backstack-vue-assets/stores/session.js";
-
-const route = useRoute();
-const session = useSession();
-</script>
-
 <template>
   <PageHeading :heading="session.user.name">
     <template #text> Your settings. </template>
@@ -22,5 +11,16 @@ const session = useSession();
     ]"
   />
 </template>
+
+<script setup>
+import Settings from "./UserSettings.vue";
+import Merge from "./UserMerge.vue";
+import { PageHeading, Tabs } from "backstack-vue-assets";
+import { useRoute } from "vue-router";
+import { useSession } from "backstack-vue-assets/stores/session.js";
+
+const route = useRoute();
+const session = useSession();
+</script>
 
 <style scoped></style>

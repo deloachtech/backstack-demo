@@ -20,3 +20,6 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+// Bootstrap objects requiring javascript will randomly quit working if you don't import bootstrap.js here again.
+import "bootstrap/dist/js/bootstrap.js";

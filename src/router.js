@@ -31,11 +31,10 @@ router.beforeEach(async (to, from, next) => {
   const session = useSession()
 
   /**
-   * Initialize the session store with the app schema and set the hasAccessFunction
-   * to the hasAccess function imported above. 
+   * Initialize the session store with the appSchema and the hasAccessFunction (imported above).
    * @param {object} appSchema - The app schema object.
-   * @param {function} hasAccessFunction - Optional access control function. If empty,
-   * the default hasAccess function from the backstack-vue-assets npm module will be used.
+   * @param {function} hasAccessFunction - Optional access control function. If empty, the default
+   * hasAccess function from the backstack-vue-assets npm module will be used.
    */
   await session.initialize(appSchema, hasAccess)
 

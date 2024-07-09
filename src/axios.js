@@ -59,7 +59,7 @@ export function setupAxios() {
                     // See AxiosError component
 
                 }else{
-                    // Handle errors for other configurations...
+                    // Handle errors for other configurations.
                 }
 
                 // If the error type is 'user' the error.message will be suitable for display.

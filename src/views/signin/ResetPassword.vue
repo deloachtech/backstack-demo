@@ -1,3 +1,13 @@
+<template>
+  <FullScreenSpinner v-if="loading" />
+
+  <ResetPasswordForm v-else @submit="resetPassword" :loading="submitting" :errors="errors" :token="token" :success="success">
+    <template #logo>
+      <Logo class="mb-5" />
+    </template>
+  </ResetPasswordForm>
+</template>
+
 <script setup>
 import { ResetPasswordForm, FullScreenSpinner } from "backstack-vue-assets";
 import Logo from "@/template/Logo.vue";
@@ -76,15 +86,5 @@ const resetPassword = async (data) => {
   }
 };
 </script>
-
-<template>
-  <FullScreenSpinner v-if="loading" />
-
-  <ResetPasswordForm v-else @submit="resetPassword" :loading="submitting" :errors="errors" :token="token" :success="success">
-    <template #logo>
-      <Logo class="mb-5" />
-    </template>
-  </ResetPasswordForm>
-</template>
 
 <style scoped></style>
