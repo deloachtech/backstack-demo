@@ -116,7 +116,7 @@ await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api
 
 ### Errors
 
-The [AxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling  logic elsewhere. You can modify this component to incorporate other services.
+The [src/componentsAxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling  logic elsewhere. You can modify this component to incorporate other services.
 
 ## Routing
 
