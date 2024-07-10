@@ -95,7 +95,11 @@ TODO
 
 ## Sessions
 
+The `session` is provided upon request by the Backstack API. This project requests an updated session before each route change. The logic is implemented in the `src/router.js` file.
+
 TODO
+
+See the [session docs](https://backstack.com/sessions.html) for more information on the Backstack session architecture. 
 
 
 ## Access Control
