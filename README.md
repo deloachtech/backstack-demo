@@ -98,8 +98,30 @@ TODO
 
 ## Access Control
 
-TODO
+Enterprise level access control is enforced using extremely simple logic.
 
+We've provided a structured approach to manage access control within the project. This includes predefined constants and a default `hasAccess()` function to validate access permissions. However, this structure is flexible and can be easily replaced with your own logic if desired.
+
+See the [access control docs](https://backstack.com/access-control.html) for more information on the entire architecture.
+
+### Assignment
+
+The access control schema is defined the [src/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/access-constants.json) file. Use this file and logic to add your own access control specifications.
+
+The constants are imported in the `main.js` as an `$access` global for ease of use.
+
+```javascript
+$access.ACCOUNT_USERS
+
+// Combining constants:
+[$access.FOO, $access.BAR].join(',') // The default delimiter
+```
+
+### Enforcement
+
+By default, the project uses the `hasAccess()` function provided in the `backstack-vue-assets` npm module. It's imported/exported via the projects `assets/js/hasAccess.js` function so you can easily change the entire schema if desired. 
+
+See the [validating access doc](https://backstack.com/access-control.html#validating-access) for details on creating your own hasAccess function.
 
 ## Axios
 

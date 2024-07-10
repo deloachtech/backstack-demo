@@ -13,7 +13,9 @@
       </symbol>
     </svg>
 
-    <div :class="[`row row-cols-sm-1 row-cols-md-${data.versions.length} mb-3 text-center bva-versioning`]">
+    <!-- Display the versions available. -->
+
+    <div :class="`row row-cols-sm-1 row-cols-md-${data.versions.length} mb-3 text-center bva-versioning`">
       <div v-for="version in data.versions" :key="version.id" class="col">
         <div :class="[version.active ? 'border-primary' : '', 'card mb-4 rounded-3 shadow-sm']">
           <div :class="[version.active ? 'text-bg-primary border-primary' : '', 'card-header py-3']">
@@ -21,11 +23,13 @@
           </div>
           <div class="card-body">
             <p v-if="version.description" class="text-secondary">{{ version.description }}</p>
-            <h1 class="card-title pricing-card-title">$0<small class="text-body-secondary fw-light">/mo</small></h1>
+
+            <h1 v-if="version.fee" class="card-title pricing-card-title">${{ version.fee / 100 }}<small class="text-body-secondary fw-light">/mo</small></h1>
+            <h1 v-else class="card-title pricing-card-title">Free</h1>
 
             <!-- 
             The version.metadata provided in the Backstack dashboard is a pipe (|) delimited string.
-            Adjust the logic below for a different delimiter or format. 
+            Adjust the logic below if you use a different delimiter or format. 
             -->
             <ul v-if="version.metadata" class="list-unstyled mt-3 mb-4">
               <li v-for="meta in version.metadata.split('|')">{{ meta }}</li>
@@ -38,87 +42,49 @@
       </div>
     </div>
 
-    <h2 v-if="1 === 2" class="display-6 text-center mb-4">Compare plans</h2>
+    <!-- Display the matrix of features. -->
 
-    <div v-if="1 === 2" class="table-responsive">
-      <table class="table text-center">
-        <thead>
-          <tr>
-            <th style="width: 34%"></th>
-            <th style="width: 22%">Free</th>
-            <th style="width: 22%">Pro</th>
-            <th style="width: 22%">Enterprise</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row" class="text-start">Public</th>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-start">Private</th>
-            <td></td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-        </tbody>
+    <div v-if="data.matrix">
+      <h2 class="display-6 text-center mb-4">Compare features</h2>
 
-        <tbody>
-          <tr>
-            <th scope="row" class="text-start">Permissions</th>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-start">Sharing</th>
-            <td></td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-start">Unlimited members</th>
-            <td></td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-start">Extra security</th>
-            <td></td>
-            <td></td>
-            <td>
-              <svg class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th v-for="(heading, index) in data.matrix.headings" :key="heading" :style="index === 0 ? 'width: 50%;' : `width: ${50 / (data.matrix.headings.length - 1)}%;`">{{ heading }}</th>
+            </tr>
+          </thead>
+
+          <tbody v-for="row in data.matrix.rows" :key="row.id">
+            <tr>
+              <td scope="row" class="text-start fw-bold">
+                {{ row.title }}
+                <div v-if="row.description" class="text-start text-secondary fw-lighter">{{ row.description }}</div>
+              </td>
+              <td v-for="(check, index) in row.versions" :key="index">
+                <svg v-if="check" class="bi" width="24" height="24"><use xlink:href="#check" /></svg>
+                <span v-else>&nbsp;</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <!-- Provide a link to additional modules if they're available. -->
+
+    <div v-if="data.modules_available" class="px-4 py-5 text-center">
+      <div class="py-5">
+        <h1 class="display-6 fw-bold">Need more functionality?</h1>
+        <div class="col-lg-6 mx-auto text-secondary">
+          <p class="fs-5 mb-4">Discover additional modules that can be seamlessly integrated to fulfill your unique requirements.</p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/account/integration" type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3">Explore Modules</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="m-5">&nbsp;</div>
   </div>
 </template>
 
@@ -147,40 +113,12 @@ fetchData();
 </script>
 
 <style scoped>
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
-.b-example-divider {
-  width: 100%;
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1), inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-}
-
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
-}
-
 .bi {
   vertical-align: -0.125em;
   fill: currentColor;
 }
 
+/* 
 .nav-scroller {
   position: relative;
   z-index: 2;
@@ -222,5 +160,5 @@ fetchData();
 
 .bd-mode-toggle .dropdown-menu .active .bi {
   display: block !important;
-}
+} */
 </style>

@@ -16,7 +16,7 @@
 
   <Spinner v-if="fetching" class="content-spinner" />
 
-  <div v-else class="bva-optional-features">
+  <div v-else class="bva-optional-features mb-5">
     <div class="row g-5 row-cols-1 row-cols-lg-3">
       <div v-for="record in data" :key="record.feature_id" class="col d-flex align-items-start">
         <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">

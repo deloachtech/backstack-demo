@@ -1,0 +1,8 @@
+{
+    "ALL": "*",
+    "ACCOUNT_SETTINGS": "*",
+    "ACCOUNT_USERS": "*",
+    "ACCOUNT_BILLING": "*",
+    "ACCOUNT_VERSIONING": "*",
+    "ACCOUNT_INTEGRATION": "*"
+}

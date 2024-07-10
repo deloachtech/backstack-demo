@@ -7,11 +7,11 @@
     :current-tab-id="route.params.tab"
     :tabs="
       [
-        { id: 'settings', label: 'Settings', component: Settings, access: '*' },
-        { id: 'users', label: 'Users', component: Users, access: '*' },
-        { id: 'versioning', label: 'Versioning', component: Versioning, access: '*' },
-        { id: 'integration', label: 'Integration', component: Integration, access: '*' },
-        { id: 'billing', label: 'Billing', component: Billing, access: '*' },
+        { id: 'settings', label: 'Settings', component: Settings, access: $access.ACCOUNT_SETTINGS },
+        { id: 'users', label: 'Users', component: Users, access: $access.ACCOUNT_USERS },
+        { id: 'versioning', label: 'Versioning', component: Versioning, access: $access.ACCOUNT_VERSIONING },
+        { id: 'integration', label: 'Integration', component: Integration, access: $access.ACCOUNT_INTEGRATION },
+        { id: 'billing', label: 'Billing', component: Billing, access: $access.ACCOUNT_BILLING },
       ].filter((item) => session.hasAccess(item.access))
     "
   />
