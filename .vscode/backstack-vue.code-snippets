@@ -16,7 +16,7 @@
   // 	"description": "Log output to console"
   // }
 
-  "fetchData": {
+  "Fetch Data Function": {
     "prefix": "bv.fetchData",
     "body": [
       "const fetching = ref(false);",
@@ -37,6 +37,38 @@
       "",
       "fetchData();",
     ],
-    "description": "backstack-vue fetch data from the API"
+    "description": "backstack-vue fetch data function"
+  },
+  "Submit Data Function": {
+    "prefix": "bv.submitData",
+    "body": [
+      "const submitting = ref(false);",
+      "const errors = ref({});",
+      "",
+      "const submitData = async () => {",
+      "  errors.value = {};",
+      "",
+      "  if (!data.foo.value) {",
+      "    errors.value.foo = \"Required value\";",
+      "    return false;",
+      "  }",
+      "",
+      "  if (Object.keys(errors.value).length === 0) {",
+      "    submitting.value = true;",
+      "    await axios",
+      "      .post(\"https://api.backstack.com/v1/\", data.value, { api: \"backstack\" })",
+      "      .then((response) => {",
+      "        console.log(response.data);",
+      "      })",
+      "      .catch((error) => {",
+      "        errors.value = error.response.data.error?.fields;",
+      "      })",
+      "      .finally(() => {",
+      "        submitting.value = false;",
+      "      });",
+      "  };",
+      "};"
+    ],
+    "description": "backstack-vue submit data function"
   }
 }

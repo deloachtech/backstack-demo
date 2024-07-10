@@ -118,7 +118,7 @@ The constants are imported in the `main.js` as an `$access` global for ease of u
 $access.ACCOUNT_USERS
 
 // Combining constants:
-[$access.FOO, $access.BAR].join(',') // The default delimiter
+[$access.FOO, $access.BAR].join()
 ```
 
 ### Enforcement
