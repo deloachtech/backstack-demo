@@ -104,8 +104,6 @@ See the [session docs](https://backstack.com/sessions.html) for more information
 
 ## Access Control
 
-Enterprise level access control is enforced using extremely simple logic.
-
 We've provided a structured approach to manage access control within the project. This includes predefined constants and a default `hasAccess()` function to validate access permissions. However, this structure is flexible and can be easily replaced with your own logic if desired.
 
 See the [access control docs](https://backstack.com/access-control.html) for more information on the entire architecture.
