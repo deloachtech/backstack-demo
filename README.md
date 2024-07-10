@@ -1,6 +1,8 @@
 # Backstack Vue (ALPHA)
 
-> Please note that this project is not yet ready for production use.
+TODO
+
+> IMPORTANT NOTE! This project is not yet ready for production use.
 
 A starter project using the `Backstack API` for applications created with `Vue`.
 
@@ -110,7 +112,7 @@ The access control schema is defined the [src/access-constants.json](https://git
 
 The constants are imported in the `main.js` as an `$access` global for ease of use.
 
-```javascript
+```js
 $access.ACCOUNT_USERS
 
 // Combining constants:
@@ -121,6 +123,17 @@ $access.ACCOUNT_USERS
 
 By default, the project uses the `hasAccess()` function provided in the `backstack-vue-assets` npm module. It's imported/exported via the projects `assets/js/hasAccess.js` function so you can easily change the entire schema if desired. 
 
+The `session` already knows the users access restrictions, so the function is then provided via the `session.initialize()` method resulting in the simplest logic for enforcement of every aspect of access control. 
+
+```js
+// Anywhere in your code:
+if(session.hasAccess($access.FOO)){
+    // ...
+}
+```
+
+Everything (App versioning, RBAC, optional modules, etc.) is enforced at once using this schema coupled with the `session.access` values provided by the Backstack API.
+
 See the [validating access doc](https://backstack.com/access-control.html#validating-access) for details on creating your own hasAccess function.
 
 ## Axios
@@ -130,7 +143,7 @@ The `axios` installation can be used for any endpoint without additional configu
 | Config key | Description |
 | --- | --- |
 | `api` | An optional api-specific setting for implementing your logic. |
-| `alert` | When using the `backstack api`, you can bypass the alert logic when needed by setting this value to `false`.
+| `alert` | When using the Backstack api, you can bypass the alert logic when needed by setting this value to false in the request.
 
 ```js
 await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api: 'backstack' }) ...

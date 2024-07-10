@@ -3,6 +3,7 @@ import { useSession } from "backstack-vue-assets/stores/session.js";
 import appSchema from "./app-schema.json"
 import Home from './views/Home.vue'
 import Error404 from './views/error/Error404.vue'
+import accessConstants from './access-constants.json'
 import hasAccess from './assets/js/hasAccess';
 
 
@@ -10,13 +11,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
 
-    { path: '/', component: Home, meta: { access: $access.ALL } },
+    { path: '/', component: Home, meta: { access: accessConstants.ALL } },
 
 
 
     // Common
-    { path: '/account/:tab?', meta: { access: [$access.ACCOUNT_SETTINGS, $access.ACCOUNT_BILLING, $access.ACCOUNT_VERSIONING, $access.ACCOUNT_INTEGRATION].join(',') }, component: () => import('@/views/account/AccountTabs.vue') },
-    { path: '/user/:tab?', meta: { access: $access.ALL }, component: () => import('@/views/user/UserTabs.vue') },
+    { path: '/account/:tab?', meta: { access: [accessConstants.ACCOUNT_SETTINGS, accessConstants.ACCOUNT_BILLING, accessConstants.ACCOUNT_VERSIONING, accessConstants.ACCOUNT_INTEGRATION].join(',') }, component: () => import('@/views/account/AccountTabs.vue') },
+    { path: '/user/:tab?', meta: { access: accessConstants.ALL }, component: () => import('@/views/user/UserTabs.vue') },
 
 
 
