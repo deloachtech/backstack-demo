@@ -11,7 +11,8 @@
     <div :class="[data.length === 0 ? 'row-cols-1' : 'row-cols-1 row-cols-lg-3', 'row g-5']">
       <div v-for="record in data" :key="record.feature_id" class="col d-flex align-items-start">
         <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-          <span v-if="optionalModules[record.human_id]?.icon" v-html="optionalModules[record.human_id].icon"></span>
+          <!-- This project stores a bootstrap icon (e.g. <i class="bi bi-exclamation-circle"></i>) string as the feature.image. -->
+          <span v-if="record.image" v-html="record.image"></span>
         </div>
         <div>
           <h3 class="fs-3 text-body-emphasis">{{ record.title }}</h3>
@@ -24,8 +25,9 @@
     </div>
   </div>
 
-  <Modal :open="modal" @cancel="modal = false" @submit="submitData" :submitting="submitting" cancel-label="Close" :submit-label="modalSubmitLabel">
-    <p>Additional information about the module.</p>
+  <Modal :open="modal" @cancel="modal = false" @submit="submitData" :submitting="submitting" cancel-label="Close" :submit-label="modalSubmitLabel" :heading="(record.image ? record.image + ' &nbsp;' : '') + record.title">
+    <div class="text-body-secondary">{{ record.description }}</div>
+    <div class="mt-3 mb-3">Fee: ${{ record?.fee || 0 / 100 }}<small class="text-body-secondary fw-light">/mo</small></div>
   </Modal>
 </template>
 
@@ -33,12 +35,9 @@
 import { ref } from "vue";
 import { PageHeading, Spinner, Modal } from "backstack-vue-assets";
 import axios from "axios";
-import optionalModules from "@/assets/data/optional-modules.json";
 
 const fetching = ref(false);
 const data = ref({});
-const modal = ref(false);
-const modalSubmitLabel = ref("Activate");
 
 const fetchData = async () => {
   fetching.value = true;
@@ -54,9 +53,11 @@ const fetchData = async () => {
 
 fetchData();
 
+const modal = ref(false);
+const record = ref({});
 const submitting = ref(false);
 const errors = ref({});
-const module = ref({});
+const modalSubmitLabel = ref("Activate");
 
 const submitData = async () => {
   errors.value = {};
@@ -64,7 +65,7 @@ const submitData = async () => {
   if (Object.keys(errors.value).length === 0) {
     submitting.value = true;
     await axios
-      .post(`https://api.backstack.com/v1/account/optional-features/${module.id}`, null, { api: "backstack" })
+      .post("https://api.backstack.com/v1/account/optional-features", { id: record.id }, { api: "backstack" })
       .then((response) => {
         console.log(response.data);
       })
@@ -77,11 +78,10 @@ const submitData = async () => {
   }
 };
 
-const handleInfoRequest = (record) => {
-  module.value = record;
+const handleInfoRequest = (_record) => {
+  record.value = _record;
   modal.value = true;
   modalSubmitLabel.value = record.active ? "Deactivate" : "Activate";
-  console.log(module.value);
 };
 </script>
 

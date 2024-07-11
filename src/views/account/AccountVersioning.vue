@@ -13,7 +13,7 @@
       </symbol>
     </svg>
 
-    <!-- Display the versions available. -->
+    <!-- App versions -->
 
     <div :class="`row row-cols-sm-1 row-cols-md-${data.versions.length} mb-3 text-center bva-versioning`">
       <div v-for="version in data.versions" :key="version.id" class="col">
@@ -24,25 +24,25 @@
           <div class="card-body">
             <p v-if="version.description" class="text-secondary">{{ version.description }}</p>
 
-            <h1 v-if="version.fee" class="card-title pricing-card-title">${{ version.fee / 100 }}<small class="text-body-secondary fw-light">/mo</small></h1>
-            <h1 v-else class="card-title pricing-card-title">Free</h1>
+            <h1 v-if="version.fee" class="">${{ version.fee / 100 }}<small class="text-body-secondary fw-light">/mo</small></h1>
+            <h1 v-else class="">Free</h1>
 
             <!-- 
-            The version.metadata provided in the Backstack dashboard is a pipe (|) delimited string.
-            Adjust the logic below if you use a different delimiter or format. 
+            The version.more_info provided in the Backstack dashboard is a pipe (|) delimited string.
+            Adjust the logic below if you use a different delimiter or format.
             -->
-            <ul v-if="version.metadata" class="list-unstyled mt-3 mb-4">
-              <li v-for="meta in version.metadata.split('|')">{{ meta }}</li>
+            <ul v-if="version.more_info" class="list-unstyled mt-3 mb-4">
+              <li v-for="meta in version.more_info.split('|')">{{ meta }}</li>
             </ul>
 
             <button v-if="version.active" type="button" class="w-100 btn btn-lg btn-outline-secondary" disabled>Active</button>
-            <button v-else type="button" class="w-100 btn btn-lg btn-outline-info">Info</button>
+            <button v-else type="button" @click="handleInfoRequest(version)" class="w-100 btn btn-lg btn-outline-info">Info</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Display the matrix of features. -->
+    <!-- Feature matrix -->
 
     <div v-if="data.matrix">
       <h2 class="display-6 text-center mb-4">Compare features</h2>
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <!-- Provide a link to additional modules if they're available. -->
+    <!-- Additional modules -->
 
     <div v-if="data.modules_available" class="px-4 py-5 text-center">
       <div class="py-5">
@@ -86,10 +86,18 @@
     </div>
     <div v-else class="m-5">&nbsp;</div>
   </div>
+
+  <Modal :open="modal" @cancel="modal = false" @submit="submitData" :submitting="submitting" cancel-label="Close" submit-label="Activate" :heading="record.title">
+    <div class="text-body-secondary">{{ record.description }}</div>
+    <ul v-if="record.more_info" class="list-unstyled mt-3 mb-4">
+      <li v-for="meta in record.more_info.split('|')">{{ meta }}</li>
+    </ul>
+    <div class="mt-3 mb-3">Fee: ${{ record?.fee || 0 / 100 }}<small class="text-body-secondary fw-light">/mo</small></div>
+  </Modal>
 </template>
 
 <script setup>
-import { PageHeading, Spinner } from "backstack-vue-assets";
+import { PageHeading, Spinner, Modal } from "backstack-vue-assets";
 import { ref } from "vue";
 import axios from "axios";
 
@@ -101,7 +109,6 @@ const fetchData = async () => {
   await axios
     .get("https://api.backstack.com/v1/account/versions", { api: "backstack" })
     .then((response) => {
-      console.log(response.data);
       data.value = response.data;
     })
     .finally(() => {
@@ -110,6 +117,35 @@ const fetchData = async () => {
 };
 
 fetchData();
+
+const modal = ref(false);
+const record = ref({});
+const submitting = ref(false);
+const errors = ref({});
+
+const submitData = async () => {
+  errors.value = {};
+
+  if (Object.keys(errors.value).length === 0) {
+    submitting.value = true;
+    await axios
+      .post("https://api.backstack.com/v1/account/versions", { id: record.id }, { api: "backstack" })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        errors.value = error.response.data.error?.fields;
+      })
+      .finally(() => {
+        submitting.value = false;
+      });
+  }
+};
+
+const handleInfoRequest = (_record) => {
+  record.value = _record;
+  modal.value = true;
+};
 </script>
 
 <style scoped>
@@ -117,48 +153,4 @@ fetchData();
   vertical-align: -0.125em;
   fill: currentColor;
 }
-
-/* 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
-
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
-
-.btn-bd-primary {
-  --bd-violet-bg: #712cf9;
-  --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-  --bs-btn-font-weight: 600;
-  --bs-btn-color: var(--bs-white);
-  --bs-btn-bg: var(--bd-violet-bg);
-  --bs-btn-border-color: var(--bd-violet-bg);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #6528e0;
-  --bs-btn-hover-border-color: #6528e0;
-  --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-  --bs-btn-active-color: var(--bs-btn-hover-color);
-  --bs-btn-active-bg: #5a23c8;
-  --bs-btn-active-border-color: #5a23c8;
-}
-
-.bd-mode-toggle {
-  z-index: 1500;
-}
-
-.bd-mode-toggle .dropdown-menu .active .bi {
-  display: block !important;
-} */
 </style>
