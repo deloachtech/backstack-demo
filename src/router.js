@@ -3,7 +3,7 @@ import { useSession } from "backstack-vue-assets/stores/session.js";
 import appSchema from "./app-schema.json"
 import Home from './views/Home.vue'
 import Error404 from './views/error/Error404.vue'
-import accessConstants from './access-constants.json'
+import accessConstants from './configs/access-constants.json'
 import hasAccess from './assets/js/hasAccess';
 
 const router = createRouter({

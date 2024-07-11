@@ -110,7 +110,7 @@ See the [access control docs](https://backstack.com/access-control.html) for mor
 
 ### Assignment
 
-The access control schema is defined the [src/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/access-constants.json) file. Use this file and logic to add your own access control specifications.
+The access control schema is defined the [configs/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
 
 The constants are imported in the `main.js` as an `$access` global for ease of use.
 

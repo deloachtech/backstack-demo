@@ -11,7 +11,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router.js'
 import {setupAxios} from './axios.js'
-import accessConstants from './access-constants.json'
+import accessConstants from './configs/access-constants.json'
 
 setupAxios();
 
