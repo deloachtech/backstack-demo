@@ -99,18 +99,18 @@ The `session` is provided upon request by the Backstack API. This project reques
 
 TODO
 
-See the [session docs](https://backstack.com/sessions.html) for more information on the Backstack session architecture. 
+See the [Backstack session docs](https://backstack.com/sessions.html) for more information on the session architecture. 
 
 
 ## Access Control
 
 We've provided a structured approach to manage access control within the project. This includes predefined constants and a default `hasAccess()` function to validate access permissions. However, this structure is flexible and can be easily replaced with your own logic if desired.
 
-See the [access control docs](https://backstack.com/access-control.html) for more information on the entire architecture.
+See the [Backstack access control docs](https://backstack.com/access-control.html) for more information on the entire architecture.
 
 ### Assignment
 
-The access control schema is defined the [configs/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
+The access control schema is defined the [src/configs/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
 
 The constants are imported in the `main.js` as an `$access` global for ease of use.
 
@@ -136,7 +136,7 @@ if(session.hasAccess($access.FOO)){
 
 Everything (App versioning, RBAC, optional modules, etc.) is enforced at once using this schema coupled with the `session.access` values provided by the Backstack API.
 
-See the [validating access doc](https://backstack.com/access-control.html#validating-access) for details on creating your own hasAccess function.
+See the [Backstack validating access doc](https://backstack.com/access-control.html#validating-access) for details on creating your own hasAccess function.
 
 ## Axios
 
