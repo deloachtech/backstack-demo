@@ -1,9 +1,9 @@
 <template>
   <FullScreenSpinner v-if="loading" />
 
-  <ResetPasswordForm v-else @submit="resetPassword" :loading="submitting" :errors="errors" :token="token" :success="success">
+  <ResetPasswordForm v-else @submit="resetPassword" :submitting="submitting" :errors="errors" :token="token" :success="success">
     <template #logo>
-      <Logo class="mb-5" />
+      <Logo class="mb-2" />
     </template>
   </ResetPasswordForm>
 </template>

@@ -1,28 +1,32 @@
 <template>
-  <PageHeading heading="General Settings" as-subheading>
-    <template #text> Basic information about your organization. </template>
-  </PageHeading>
+ 
+    <PageHeading heading="General Settings" as-subheading>
+      <template #text> Basic information about your organization. </template>
+    </PageHeading>
 
-  <div v-if="fetching">
-    <Spinner class="content-spinner" />
+  <div v-if="fetching" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
 
-  <div v-else>
-    <DataDisplay :data="data" @action="(item) => handleAction(item)">
-      <template #country_id="{ item }">{{ item.value }}</template>
-      <template #timezone_id="{ item }">{{ item.value }}</template>
-    </DataDisplay>
+    <div v-else>
+      <DataDisplay :data="data" @action="(item) => handleAction(item)">
+        <template #country_id="{ item }">{{ item.value }}</template>
+        <template #timezone_id="{ item }">{{ item.value }}</template>
+      </DataDisplay>
 
-    <Modal :open="modalOpen" :submitting="submitting" @submit="submitData" @cancel="closeModal">
-      <FormInput v-if="['title', 'address', 'city', 'state', 'zip', 'url', 'contact_name', 'contact_email'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" :help="item.help" />
+      <Modal :open="modalOpen" :submitting="submitting" @submit="submitData" @cancel="closeModal">
+        <FormInput v-if="['title', 'address', 'city', 'state', 'zip', 'url', 'contact_name', 'contact_email'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" :help="item.help" />
 
-      <FormSelect v-else-if="['country_id', 'timezone_id'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" :help="item.help" :options="item.key === 'country_id' ? countriesWithLabels : timezones" />
-    </Modal>
-  </div>
+        <FormSelect v-else-if="['country_id', 'timezone_id'].includes(item.key)" v-model="item.value" :label="item.label" :error="error" :help="item.help" :options="item.key === 'country_id' ? countriesWithLabels : timezones" />
+      </Modal>
+    </div>
+  
 </template>
 
 <script setup>
-import { Spinner, FormInput, DataDisplay, Modal, FormSelect, PageHeading } from "backstack-vue-assets";
+import { FormInput, DataDisplay, Modal, FormSelect, PageHeading } from "backstack-vue-assets";
 import { ref, computed } from "vue";
 import axios from "axios";
 import countries from "backstack-vue-assets/assets/data/countries.json";
@@ -74,7 +78,7 @@ const error = ref(null);
 
 const submitData = async () => {
   error.value = null;
-  if (["title","address","city", "state", "zip","contact_name", "contact_email","country_id","timezone_id"].includes(item.value.key)) {
+  if (["title", "address", "city", "state", "zip", "contact_name", "contact_email", "country_id", "timezone_id"].includes(item.value.key)) {
     if (!item.value.value) {
       error.value = "Required value";
       return false;

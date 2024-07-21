@@ -1,7 +1,7 @@
 <template>
-  <ForgotPasswordForm @submit="lookupPassword" :loading="submitting" :errors="errors" :success="success">
+  <ForgotPasswordForm @submit="lookupPassword" :submitting="submitting" :errors="errors" :success="success">
     <template #logo>
-      <Logo class="mb-5" />
+      <Logo class="mb-2" />
     </template>
   </ForgotPasswordForm>
 </template>

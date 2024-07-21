@@ -1,7 +1,7 @@
 <template>
   <Navbar />
 
-  <main :class="[session.loading ? 'spinner-container' : 'container']">
+  <main :class="[session.loading ? 'spinner-container' : 'container mb-5']">
     <AxiosError />
 
     <Spinner v-if="session.loading" />

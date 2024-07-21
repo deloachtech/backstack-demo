@@ -3,8 +3,10 @@
     <template #text> Basic information about you. </template>
   </PageHeading>
 
-  <div v-if="fetching">
-    <Spinner class="content-spinner" />
+  <div v-if="fetching" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
 
   <div v-else>
@@ -22,7 +24,7 @@
 </template>
 
 <script setup>
-import { Spinner, FormInput, DataDisplay, Modal, PageHeading } from "backstack-vue-assets";
+import { FormInput, DataDisplay, Modal, PageHeading } from "backstack-vue-assets";
 import { ref } from "vue";
 import axios from "axios";
 

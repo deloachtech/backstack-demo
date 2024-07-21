@@ -1,5 +1,4 @@
 import axios from 'axios'
-import appSchema from './app-schema.json'
 
 export function setupAxios() {
 
@@ -12,10 +11,14 @@ export function setupAxios() {
 
             if (config.api === 'backstack') {
 
-                config.withCredentials = true
-                config.headers.Authorization = `Bearer ${appSchema.app.pub_key}`
+                // Note: Secrets stored in .env files are not secret!
+                // Replace this logic with your preferred security schema.
+                const apiKey = import.meta.env.VITE_BACKSTACK_APP_KEY
 
-                // Modify the URL for developing on the local version of the api.
+                config.withCredentials = true
+                config.headers.Authorization = `Bearer ${apiKey}`
+
+                // Modify the URL for developing on a local version of the api.
                 if (process.env.NODE_ENV === 'development') {
 
                     const find = import.meta.env.VITE_BACKSTACK_API_FIND

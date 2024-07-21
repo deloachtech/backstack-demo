@@ -1,18 +1,38 @@
 <template>
-  <SignupForm @submit="(data) => signup(data)" :loading="submitting" :errors="errors" :countries="countries" :domains="appSchema.domains" :success="success">
+  <Spinner v-if="fetching" />
+
+  <SignupForm v-else @submit="(data) => signup(data)" :submitting="submitting" :errors="errors" :countries="countries" :domains="domains" :success="success">
     <template #logo>
-      <Logo class="mb-5" />
+      <Logo class="mb-2" />
     </template>
   </SignupForm>
 </template>
 
 <script setup>
-import { SignupForm } from "backstack-vue-assets";
+import { SignupForm, Spinner } from "backstack-vue-assets";
 import Logo from "@/template/Logo.vue";
 import { ref } from "vue";
 import { validateEmail } from "backstack-vue-assets/assets/js/validateEmail.js";
 import countries from "backstack-vue-assets/assets/data/countries.json";
-import appSchema from "@/app-schema.json";
+import axios from "axios";
+
+const fetching = ref(false);
+const domains = ref({});
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+    .get("https://api.backstack.com/v1/auth/signup/domains", { api: "backstack" })
+    .then((response) => {
+      console.log(response.data);
+      domains.value = response.data;
+    })
+    .finally(() => {
+      fetching.value = false;
+    });
+};
+
+fetchData();
 
 const submitting = ref(false);
 const errors = ref({});

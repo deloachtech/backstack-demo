@@ -1,20 +1,19 @@
 <template>
-  <SelectAccountForm v-if="select?.accounts" :values="select" @submit="selectAccount" :loading="submitting" :errors="errors">
+  <SelectAccountForm v-if="select?.accounts" :values="select" @submit="selectAccount" :submitting="submitting" :errors="errors">
     <template #logo>
-      <Logo class="mb-5" />
+      <Logo class="mb-2" />
     </template>
   </SelectAccountForm>
 
-  <LoginForm v-else @submit="login" :allowSignup="appSchema.app.allow_signup" :loading="submitting" :errors="errors">
+  <LoginForm v-else @submit="login" :allowSignup="session.app.allow_signup" :submitting="submitting" :errors="errors">
     <template #logo>
-      <Logo class="mb-5" />
+      <Logo class="mb-2" />
     </template>
   </LoginForm>
 </template>
 
 <script setup>
 import { LoginForm, SelectAccountForm } from "backstack-vue-assets";
-import appSchema from "@/app-schema.json";
 import Logo from "@/template/Logo.vue";
 import { ref } from "vue";
 import { useSession } from "backstack-vue-assets/stores/session";

@@ -13,7 +13,6 @@
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0 mx-3 gap-3">
-
           <router-link class="nav-link" aria-current="page" to="/">Home</router-link>
 
           <li class="nav-item dropdown">
@@ -44,7 +43,7 @@
           <ul class="dropdown-menu dropdown-menu-start dropdown-menu-md-end">
             <li><router-link class="dropdown-item" to="/user">Your settings</router-link></li>
 
-            <li v-if="session.hasAccess('*')"><router-link class="dropdown-item" to="/account">Account settings</router-link></li>
+            <li v-if="session.hasAccess([$access.ACCOUNT_SETTINGS, $access.ACCOUNT_USERS, $access.ACCOUNT_VERSIONING, $access.ACCOUNT_INTEGRATION, $access.ACCOUNT_INVOICES, $access.ACCOUNT_PAYMENT_METHODS].join())"><router-link class="dropdown-item" to="/account">Account settings</router-link></li>
 
             <li>
               <hr class="dropdown-divider" />

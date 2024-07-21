@@ -16,6 +16,9 @@ body {
     padding-top: 4.5rem; // Compensate for floating navbar
 }
 
+.signup-container {
+    height: calc(100vh - 4.5rem); // navbar height
+}
 
 .spinner-container {
     display: flex;
@@ -63,7 +66,20 @@ body {
     }
 }
 
+.tabs {
+    margin-top: map-get($spacers, 3); // mt-3
+}
 
+// <Transition name="modal">...</Transition>
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
 
 // Styles for backstack-view-assets in this project.
 // =================================================
@@ -86,10 +102,11 @@ body {
     margin-top: map-get($spacers, 3); // mt-3
 }
 
-.bva-page-subheading{
+.bva-page-subheading {
     margin-top: map-get($spacers, 3); // mt-3
     margin-bottom: map-get($spacers, 5); // mb-3
 }
+
 // .bva-select-extended{}
 // .bva-signup-form{}
 // .bva-spinner{}
