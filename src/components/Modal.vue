@@ -4,26 +4,42 @@ The Bootstrap modal is horrible to work with. This component replaces the Bootst
 -->
 <template>
   <Transition name="_modal">
-    <div v-if="open" class="modal-container">
+    <div v-if="open" class="modal-container modal-component">
       <div class="modal-backdrop"></div>
       <div class="modal show" tabindex="-1" aria-labelledby="modalLabel" style="display: block">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="modalLabel">{{ heading }}</h1>
+            <div class="modal-header d-flex align-items-start">
+              <div>
+                <div class="modal-title fs-5" id="modalLabel" v-html="heading"></div>
+                <div v-if="subtext" class="text-secondary small">{{ subtext }}</div>
+              </div>
+
               <button type="button" class="btn-close" @click="emit('cancel')" aria-label="Close"></button>
+
             </div>
             <div class="modal-body">
               <div :class="[loading ? 'spinner-container' : 'mb-3']">
-                <Spinner v-if="loading" />
+                <div v-if="loading" class="d-flex justify-content-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
                 <slot v-else></slot>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" @click="emit('cancel')" class="btn btn-secondary">{{ cancelButtonText }}</button>
-              <button v-if="submitting" type="button" disabled class="btn btn-primary"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span> {{ submitButtonText }}</button>
-              <button v-else-if="loading" type="button" disabled class="btn btn-primary">{{ submitButtonText }}</button>
-              <button v-else type="button" @click="emit('submit')" class="btn btn-primary">{{ submitButtonText }}</button>
+
+              <div v-if="!hideSubmitButton">
+                <button v-if="submitting" type="button" disabled class="btn btn-primary"><span
+                    class="spinner-border spinner-border-sm" aria-hidden="true"></span> {{ submitButtonText
+                  }}</button>
+                <button v-else-if="loading" type="button" disabled class="btn btn-primary">{{ submitButtonText
+                  }}</button>
+                <button v-else type="button" @click="emit('submit')" class="btn btn-primary">{{ submitButtonText
+                  }}</button>
+              </div>
             </div>
           </div>
         </div>
@@ -34,15 +50,16 @@ The Bootstrap modal is horrible to work with. This component replaces the Bootst
 
 <script setup>
 import { onMounted, onUnmounted, watch } from "vue";
-import { Spinner } from "@/components";
 
 const props = defineProps({
   open: { type: Boolean, default: false },
   submitting: { type: Boolean, required: false, default: false },
   loading: { type: Boolean, required: false, default: false },
   heading: { type: String, default: "heading" },
+  subtext: String,
   cancelButtonText: { type: String, default: "Cancel" },
   submitButtonText: { type: String, default: "Submit" },
+  hideSubmitButton: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["cancel", "submit"]);
@@ -69,6 +86,7 @@ onUnmounted(() => {
 });
 </script>
 
+
 <style scoped>
 ._modal-enter-active,
 ._modal-leave-active {
@@ -84,7 +102,8 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh; /* 1/4 of the screen height */
+  height: 25vh;
+  /* 1/4 of the screen height */
 }
 
 .modal-container {
@@ -105,18 +124,23 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Transparent dark background */
-  z-index: 1040; /* Ensure it covers the entire screen */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Transparent dark background */
+  z-index: 1040;
+  /* Ensure it covers the entire screen */
 }
 
 .modal {
-  z-index: 1050; /* Ensure it is above the backdrop */
-  position: relative; /* Ensure it is positioned correctly within the container */
+  z-index: 1050;
+  /* Ensure it is above the backdrop */
+  position: relative;
+  /* Ensure it is positioned correctly within the container */
 }
 </style>
 
 <style>
 .modal-open {
-  overflow: hidden; /* Prevent body scrolling */
+  overflow: hidden;
+  /* Prevent body scrolling */
 }
 </style>

@@ -1,0 +1,19 @@
+{
+    "account-payments": "crud",
+    "account-payment-settings": "crud",
+    "account-profile": "crud",
+    "account-urls": "crud",
+    "account-users": "crud",
+    "app-versions": "crud",
+    "app-modules": "crud",
+    "account-network": "crud",
+    "account-network-invitations": "crud",
+    "account-network-fees": "crud",
+    "account-invoices": "crud",
+    "account-payment-methods": "crud",
+    "backstack-apps": "crud",
+    "backstack-features": "crud",
+    "backstack-roles": "crud",
+    "backstack-app-modules": "crud",
+    "backstack-counters": "crud"
+}

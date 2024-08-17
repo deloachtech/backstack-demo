@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import AxiosError from "@/components/AxiosError.vue";
+import { AxiosError } from "@/components";
 </script>
 
 <style scoped>

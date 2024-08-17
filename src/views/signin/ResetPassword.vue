@@ -1,26 +1,57 @@
 <template>
-  <FullScreenSpinner v-if="loading" />
+  <Spinner v-if="loading" />
 
-  <ResetPasswordForm v-else @submit="resetPassword" :submitting="submitting" :errors="errors" :token="token" :success="success">
-    <template #logo>
+  <form novalidate @submit.prevent="submit" class="signin-form bva-signin-form">
+    <div class="text-center">
       <Logo class="mb-2" />
-    </template>
-  </ResetPasswordForm>
+    </div>
+
+    <h2 class="h4 mb-3 fw-normal text-center">{{ success ? "Success!" : "Reset password" }}</h2>
+
+    <div v-if="!data.token" class="text-center">
+      <p>Invalid or expired reset password link. Please <a href="/forgot-password">request a new one</a>.</p>
+    </div>
+    <div v-else>
+      <div v-if="success" class="text-center">
+        <p>Your can <a href="/login">log in</a> with your new password.</p>
+      </div>
+
+      <div v-else>
+        <FormInput label="New Password" v-model="data.password" :error="errors.password" type="password" />
+
+        <FormInput label="Confirm new password" v-model="data.confirm_password" :error="errors.confirm_password" type="password"
+          class="mt-3 mb-3" />
+
+        <SubmitButton :submitting="submitting" text="Reset Password" />
+
+        <div class="mt-3 mb-3 text-body-secondary text-center">
+          <div class="mt-2"><a href="/login">Remembered password?</a></div>
+        </div>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script setup>
-import { ResetPasswordForm, FullScreenSpinner } from "backstack-vue-assets";
 import Logo from "@/template/Logo.vue";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import { Spinner, FormInput } from "@/components";
+import SubmitButton from "./components/SubmitButton.vue";
 
 const loading = ref(false);
 const submitting = ref(false);
 const errors = ref({});
 const route = useRoute();
 const success = ref(false);
-const token = ref(null);
+
+const data = ref({
+  password: "",
+  confirm_password: "",
+  token: "",
+});
+
 
 /**
  * Validate the token if it's provided in the URL.
@@ -31,60 +62,43 @@ const validateToken = async () => {
   if (!route.query.token) return;
   loading.value = true;
   await axios
-    .get(`https://api.backstack.com/v1/auth/reset-password/${route.query.token}`, {
+    .get(`https://api.backstack.com/v1/app/reset-password/${route.query.token}`, {
       api: "backstack",
       // Suppress the alert message if the token is invalid so the ResetPassword component can handle it.
       alert: false,
     })
-    .then((response) => {
-      token.value = response.data.token;
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+    .then((response) => data.value.token = response.data.token)
+    .catch((error)=>errors.value = error.fields)
+    .finally(() => loading.value = false);
 };
 
 onMounted(() => {
   validateToken();
 });
 
-/**
- * Reset the password using the form data.
- * @see https://backstack.com/reset-passwords#reset-password
- * @param data Form data
- */
-const resetPassword = async (data) => {
+const submit = async () => {
   errors.value = {};
 
   // Do some basic validation. The API does more and will return an error if the data is invalid.
 
-  if (!data.password) {
+  if (!data.value.password) {
     errors.value.password = "Password required";
   }
-  if (!data.confirm) {
-    errors.value.confirm = "Password confirmation required";
+  if (!data.value.confirm_password) {
+    errors.value.confirm_password = "Password confirmation required";
   }
-  if (data.password && data.confirm && data.password !== data.confirm) {
-    errors.value.confirm = "Passwords do not match";
+  if (data.value.password && data.value.confirm_confirm && data.value.password !== data.value.confirm_password) {
+    errors.value.confirm_password = "Passwords do not match";
   }
 
   if (Object.keys(errors.value).length === 0) {
     submitting.value = true;
 
     await axios
-      .post("https://api.backstack.com/v1/auth/reset-password", data, { api: "backstack" })
-      .then((response) => {
-        success.value = true;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        errors.value = error.response.data.error?.fields;
-      })
-      .finally(() => {
-        submitting.value = false;
-      });
+      .post("https://api.backstack.com/v1/app/reset-password", data, { api: "backstack" })
+      .then(() => success.value = true)
+      .catch((error) => errors.value = error.fields)
+      .finally(() => submitting.value = false);
   }
 };
 </script>
-
-<style scoped></style>

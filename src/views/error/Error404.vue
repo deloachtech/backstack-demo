@@ -1,12 +1,8 @@
 <template>
-
-    <Error404/>
-
+  <Error404 />
 </template>
 
 <script setup>
-import { Error404 } from 'backstack-vue-assets';
+import { Error404 } from "@/components";
 </script>
 
-
-<style scoped></style>

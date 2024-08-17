@@ -1,0 +1,107 @@
+// https://getbootstrap.com/docs/5.3/customize/sass
+
+// Variable overrides for Bootstrap
+// $primary: #900;
+// $enable-shadows: true;
+// $prefix: "mo-";
+@import "bootstrap/scss/bootstrap";
+
+
+body {
+    /* min-height: 75rem; */
+    padding-top: 4.5rem; // Compensate for floating navbar
+}
+
+.tip-component {
+    background-color: #c673f6;
+    border-color: #591c7d;
+    border-style: solid;
+    color: #ffffff;
+}
+
+.tip-icon {
+    color: #591c7d;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.tip-component .action-dropdown-component-icon {
+    color: #591c7d;
+}
+
+.toast-component {
+    margin-top: 4.5rem; // navbar height
+}
+
+.invalid-feedback-text {
+    color: var(--bs-form-invalid-border-color);
+}
+
+.signup-container {
+    height: calc(100vh - 4.5rem); // navbar height
+}
+
+// Default Spinner component styles to be overridden by consumers if needed.
+.spinner-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: calc(100vh + 4.5rem); // navbar height
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.page-heading-component {
+    margin-top: map-get($spacers, 5); // mt-5
+    margin-bottom: map-get($spacers, 5); // mb-5
+}
+
+.axios-error-component,
+.tip-component {
+    margin-top: map-get($spacers, 3); // mt-3
+    margin-bottom: map-get($spacers, 3); // mb-3    
+}
+
+.dropdown-icon {
+    padding: 0;
+}
+
+.dropdown-icon.dropdown-toggle::after {
+    display: none;
+}
+
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-block;
+}
+
+
+.truncate-on-small {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+
+    @media (max-width: 600px) {
+        display: block; // Ensure block on small screens
+    }
+}
+
+// .tabs {
+//     margin-top: map-get($spacers, 3); // mt-3
+// }
+
+// <Transition name="modal">...</Transition>
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}

@@ -1,11 +1,5 @@
-import ForgotPassword from "./ForgotPassword.vue"
-import Login from "./Login.vue"
-import ResetPassword from "./ResetPassword.vue"
-import Signup from "./Signup.vue"
+export { default as ForgotPassword } from "./ForgotPassword.vue"
+export { default as Login } from "./Login.vue"
+export { default as ResetPassword } from "./ResetPassword.vue"
+export { default as Signup } from "./Signup.vue"
 
-export {
-    ForgotPassword, 
-    Login, 
-    ResetPassword, 
-    Signup
-}

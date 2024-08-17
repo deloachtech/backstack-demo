@@ -1,50 +1,169 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <div class="mx-2">
+      <div class="ml-2">
         <router-link class="navbar-brand" to="/">
-          <Logo style="width: 2rem" />
+
+          <Logo style="width: 2.35rem" />
+          <div v-if="session.demo" class="badge rounded-pill text-bg-warning logo-badge">Demo</div>
+
         </router-link>
       </div>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
+        <!-- Application navbar options -->
+
         <ul class="navbar-nav me-auto mb-2 mb-md-0 mx-3 gap-3">
           <router-link class="nav-link" aria-current="page" to="/">Home</router-link>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Example </a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Backstack </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/table-using-component">Table using component</a></li>
-              <li><a class="dropdown-item" href="/table-using-html">Table using html</a></li>
+              <li v-if="session.hasAccess('backstack-apps:*')"><a class="dropdown-item" href="/backstack-apps">Apps</a>
+              </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-              <li><a class="dropdown-item" href="/error404">Error 404</a></li>
-              <li><a class="dropdown-item" href="/error500">Error 500</a></li>
+              <li v-if="session.hasAccess('backstack-features:*')"><a class="dropdown-item"
+                  href="/backstack-features">Features</a></li>
+              <li v-if="session.hasAccess('backstack-roles:*')"><a class="dropdown-item"
+                  href="/backstack-roles">Roles</a></li>
+              <li v-if="session.hasAccess('backstack-counters:*')"><a class="dropdown-item"
+                  href="/backstack-counters">Counters</a></li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-              <li><a class="dropdown-item" href="/login">Log in</a></li>
+              <li v-if="session.hasAccess('backstack-app-modules:*')"><a class="dropdown-item"
+                  href="/backstack-app-modules">App Modules</a></li>
             </ul>
           </li>
         </ul>
 
-        <div class="btn-group mx-2">
-          <i v-if="1 === 2" class="bi bi-gear dropdown-toggle text-secondary no-arrow" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"></i>
+        <!-- Common navbar options -->
 
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-gear"></i>
+        <div id="alerts" class="btn-group mx-2">
+
+
+          <a class="nav-link dropdown-toggle dropdown-icon" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+
+            <div v-if="session.alerts.length > 0">
+              <span :class="[priorityAlerts ? 'bg-danger' : 'bg-secondary', 'badge rounded-pill alert-bell-badge']">
+                {{ session.alerts.length }}
+                <span class="visually-hidden">alerts</span>
+              </span>
+              <i class="bi bi-bell alert-bell"></i>
+            </div>
+
+
+            <i v-else class="bi bi-bell-slash"></i>
+
           </a>
 
           <ul class="dropdown-menu dropdown-menu-start dropdown-menu-md-end">
-            <li><router-link class="dropdown-item" to="/user">Your settings</router-link></li>
 
-            <li v-if="session.hasAccess([$access.ACCOUNT_SETTINGS, $access.ACCOUNT_USERS, $access.ACCOUNT_VERSIONING, $access.ACCOUNT_INTEGRATION, $access.ACCOUNT_INVOICES, $access.ACCOUNT_PAYMENT_METHODS].join())"><router-link class="dropdown-item" to="/account">Account settings</router-link></li>
+            <li>
+              <h6 class="dropdown-header">Alerts</h6>
+            </li>
 
+            <li v-if="session.alerts.length > 0">
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li v-for="alert in session.alerts" :key="alert.id">
+              <router-link :class="['dropdown-item', {'text-danger' : alert.priority === 1}]" :to="alert.href">{{
+                alert.title }}</router-link>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <router-link class="dropdown-item" to="/alerts">
+                View all
+                <span class="badge bg-secondary ms-2 view-all-alert-badge">{{ session.alerts.length }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group mx-2">
+          <a class="nav-link dropdown-toggle dropdown-icon" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i v-if="session.user.account_user > 1" class="bi bi-houses"></i>
+            <i v-else class="bi bi-house"></i>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-start dropdown-menu-md-end">
+            <li>
+              <h6 class="dropdown-header">{{ session.account.title }}</h6>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li v-if="session.hasAccess('account-payments:*')"><router-link class="dropdown-item"
+                to="/account-payments">Payments</router-link></li>
+
+            <li v-if="session.hasAccess('account-network:*')"><router-link class="dropdown-item"
+                to="/account-network">Network</router-link></li>
+
+            <li v-if="session.hasAccess('account-invoices:*')"><router-link class="dropdown-item"
+                to="/account-invoices">Invoices</router-link></li>
+
+            <li v-if="session.hasAccess('account-users:*')"><router-link class="dropdown-item"
+                to="/account-users">Users</router-link></li>
+
+            <li v-if="session.hasAccess('account-profile:*')"><router-link class="dropdown-item"
+                to="/account-profile">Profile</router-link></li>
+
+            <li v-if="session.hasAccess('app-versions:*,app-modules:*')">
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li v-if="session.hasAccess('app-versions:*')"><router-link class="dropdown-item" to="/app-versions">App
+                versions</router-link></li>
+
+            <li v-if="session.hasAccess('app-modules:*')"><router-link class="dropdown-item" to="/app-modules">App
+                modules</router-link></li>
+
+            <li
+              v-if="session.hasAccess('account-payments:*,account-network:*,account-invoices:*,account-users:*,account-profile:*,app-versions:*,app-modules:*,app-modules:*')">
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li><router-link class="dropdown-item" to="/change-account">Change account</router-link></li>
+          </ul>
+        </div>
+
+        <div class="btn-group mx-2">
+          <i v-if="1 === 2" class="bi bi-gear dropdown-toggle text-secondary dropdown-icon" data-bs-toggle="dropdown"
+            data-bs-display="static" aria-expanded="false"></i>
+
+          <a class="nav-link dropdown-toggle dropdown-icon" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span v-html="session.user.avatar" class="user-avatar"></span>
+            <!-- <i class="bi bi-person-gear"></i> -->
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-start dropdown-menu-md-end">
+            <li>
+              <h6 class="dropdown-header">{{ session.user.name }}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><router-link class="dropdown-item" to="/user-profile">Profile</router-link></li>
+            <li><router-link class="dropdown-item" to="/change-password">Change password</router-link></li>
+            <li><router-link class="dropdown-item" to="/merge-users">Merge users</router-link></li>
+            <li><router-link class="dropdown-item" to="/merge-users">Manage notifications</router-link></li>
+            <li><router-link class="dropdown-item" to="/reset-tips">Reset hidden tips</router-link></li>
             <li>
               <hr class="dropdown-divider" />
             </li>
@@ -57,22 +176,52 @@
 </template>
 
 <script setup>
-import { useSession } from "backstack-vue-assets/stores/session";
+import { ref } from "vue";
+import { useSession } from "@/session";
 import Logo from "./Logo.vue";
 
 const session = useSession();
+
+const priorityAlerts = ref(session.alerts.some(alert => alert.priority === 1));
 </script>
 
 <style scoped>
+.logo-badge {
+  position: relative;
+  top: -12px;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.3rem;
+  margin-left: -12px;
+}
+
+.alert-bell {
+  position: relative;
+}
+
+.alert-bell-badge {
+  position: relative;
+  top: -12px;
+  right: -12px;
+  font-size: 0.55rem;
+  padding: 0.2rem 0.3rem;
+  z-index: 1;
+}
+
 .navbar.bg-dark {
   background-color: #000000 !important;
 }
 
-.bi.bi-gear {
+.bi {
   font-size: 1.5em;
 }
 
-.no-arrow.dropdown-toggle::after {
-  display: none;
+.user-avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-block;
+}
+
+.view-all-alert-badge {
+  float: right;
 }
 </style>

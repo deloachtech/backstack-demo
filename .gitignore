@@ -12,9 +12,8 @@ dist
 dist-ssr
 coverage
 *.env
-
-/cypress/videos/
-/cypress/screenshots/
+.prettierrc.json
+.eslintrc.json
 
 .vscode/settings.json
 !.vscode/extensions.json
@@ -27,3 +26,6 @@ coverage
 
 *.tsbuildinfo
 .env.local
+.env.development.local
+
+src/views/backstack

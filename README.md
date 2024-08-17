@@ -54,7 +54,7 @@ You can change everything used in this package to make it unique.
 
 ## Theme
 
-The project uses [Vite](https://vitejs.dev/) to compile the `src/assets/css/styles.scss` and the `src/assets/css/theme.css`. Modify either of these files to meet your project requirements.
+The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.scss` and the `src/template/theme.css`. Modify either of these files to meet your project requirements.
 
 ## Components
 
@@ -110,26 +110,25 @@ See the [Backstack access control docs](https://backstack.com/access-control.htm
 
 ### Assignment
 
-The access control schema is defined the [src/configs/access-constants.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
+The access control schema is defined the [src/configs/access-control.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
 
-The constants are imported in the `main.js` as an `$access` global for ease of use.
 
 ```js
-$access.ACCOUNT_USERS
+accessControl.users.access
 
 // Combining constants:
-[$access.FOO, $access.BAR].join()
+[accessControl.foo, accessControl.bar].join()
 ```
 
 ### Enforcement
 
-By default, the project uses the `hasAccess()` function provided in the `backstack-vue-assets` npm module. It's imported/exported via the projects `assets/js/hasAccess.js` function so you can easily change the entire schema if desired. 
+By default, the project uses the `hasAccess()` function provided in the `backstack-vue-assets` npm module. It's imported/exported via the projects `src/utils/hasAccess.js` function so you can easily change the entire schema if desired. 
 
 The `session` already knows the users access restrictions, so the function is then provided via the `session.initialize()` method resulting in the simplest logic for enforcement of every aspect of access control. 
 
 ```js
 // Anywhere in your code:
-if(session.hasAccess($access.FOO)){
+if(session.hasAccess(accessControl.foo)){
     // ...
 }
 ```
@@ -148,7 +147,7 @@ The `axios` installation can be used for any endpoint without additional configu
 | `alert` | When using the Backstack api, you can bypass the alert logic when needed by setting this value to false in the request.
 
 ```js
-await axios.post('https://api.backstack.com/v1/auth/reset-password', data, { api: 'backstack' }) ...
+await axios.post('https://api.backstack.com/v1/app/reset-password', data, { api: 'backstack' }) ...
 ```
 
 ### Errors

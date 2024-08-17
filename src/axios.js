@@ -1,3 +1,11 @@
+/** 
+ * This function sets up the interceptors for the Axios library. The interceptors are used to
+ * modify the request and response objects before they are sent or received. This is useful for
+ * adding headers to requests, handling errors, and other tasks. The setupAxios function is 
+ * called in main.js before the Vue app is created to ensure that the Axios library is properly
+ * configured before any requests are made. 
+ */
+
 import axios from 'axios'
 
 export function setupAxios() {
@@ -11,20 +19,46 @@ export function setupAxios() {
 
             if (config.api === 'backstack') {
 
-                // Note: Secrets stored in .env files are not secret!
+                // Secrets stored in .env files are not secret!
                 // Replace this logic with your preferred security schema.
-                const apiKey = import.meta.env.VITE_BACKSTACK_APP_KEY
+
+                const appKey = import.meta.env.VITE_BACKSTACK_APP_KEY
 
                 config.withCredentials = true
-                config.headers.Authorization = `Bearer ${apiKey}`
+                config.headers.Authorization = `Bearer ${appKey}`
 
-                // Modify the URL for developing on a local version of the api.
+
+                // This header is used by the provider of the package and does not 
+                // affect the performance of the application in any way.
+                // Please leave this value so the provider can be properly acknowledged.
+                config.headers['X-Provider-ID'] = 'your-provider-id';
+
+                // DO NOT ADD ADDITIONAL HEADERS!!
+                // Doing so will cause the request to fail the CORS policy.
+
+                // We'll be releasing a development version of the API that can be used on the localhost.
+                // Modify the URL for using the development version without changing the codebase.
+
                 if (process.env.NODE_ENV === 'development') {
 
+                    /* 
+                       Example:
+
+                       Given the URI https://api.backstack.com/v1/app/session. The following
+                       .env.local configuration:
+
+                       VITE_BACKSTACK_API_FIND=https://api.backstack.com/
+                       VITE_BACKSTACK_API_REPLACE=http://localhost/backstack/api/
+
+                       Will produce http://localhost/backstack/api/v1/app/session for Axios requests
+                       without changing live URIs in the codebase.
+                    */
+
                     const find = import.meta.env.VITE_BACKSTACK_API_FIND
+
                     const replace = import.meta.env.VITE_BACKSTACK_API_REPLACE
 
-                    if (find && replace) {
+                    if (find.length > 0 && replace.length > 0) {
                         config.url = config.url.replace(find, replace)
                     }
                 }
@@ -54,63 +88,65 @@ export function setupAxios() {
                 return response;
             }
         },
-        (error) => {
-            
-            if (error.response) {
+        // (error) => {
 
-                if(error.response.config.api === 'backstack'){
-                    // See AxiosError component
+        //     if (error.response) {
 
-                }else{
-                    // Handle errors for other configurations.
-                }
+        //         if (error.response.config.api === 'backstack') {
+        //             // See @/components/AxiosError.vue
 
-                // If the error type is 'user' the error.message will be suitable for display.
+        //         } else {
+        //             // Handle errors for other configurations.
+        //         }
 
-                if (error.response.data.error.type === 'user') {
+        //         if (1 === 2) {
+        //             // If the error type is 'user' the error.message will be suitable for display.
 
-                    if (error.response.config.method.toLowerCase() === 'delete') {
+        //             if (error.response.data.error.type === 'user') {
 
-                        // The ConfirmDeleteDialog displays user deletion errors.
+        //                 if (error.response.config.method.toLowerCase() === 'delete') {
 
-                    } else {
+        //                     // The ConfirmDeleteDialog displays user deletion errors.
 
-                        if (error.response.data.error.fields.length === 0) {
+        //                 } else {
 
-                            if (error.response.config.alert !== false) {
-                                // replaced with AxiosError component
-                                //alert(error.response.data.error?.message || 'An error occurred. Please try again later.')
-                            }
-                        }
-                    }
+        //                     if (error.response.data.error.fields.length === 0) {
 
-                } else {
+        //                         if (error.response.config.alert !== false) {
+        //                             // replaced with AxiosError component
+        //                             //alert(error.response.data.error?.message || 'An error occurred. Please try again later.')
+        //                         }
+        //                     }
+        //                 }
+
+        //             } else {
 
 
-                    if (process.env.NODE_ENV === 'development') {
-                        // replaced with AxiosError component
-                        //console.log(error)
-                    }
+        //                 if (process.env.NODE_ENV === 'development') {
+        //                     // replaced with AxiosError component
+        //                     //console.log(error)
+        //                 }
 
-                    if (error.response.status === 401) {
-                        // Redirect to login page
-                        //router.push('/login')
+        //                 if (error.response.status === 401) {
+        //                     // Redirect to login page
+        //                     //router.push('/login')
 
-                    } else if (error.response.status === 404) {
+        //                 } else if (error.response.status === 404) {
 
-                        //router.push(error.response.config.route404)
-                        // replaced with AxiosError component
-                        //alert('An error occurred. Please try again later.')
+        //                     //router.push(error.response.config.route404)
+        //                     // replaced with AxiosError component
+        //                     //alert('An error occurred. Please try again later.')
 
-                    } else {
+        //                 } else {
 
-                        // replaced with AxiosError component
-                        //alert('An error occurred. Please try again later.')
-                    }
-                }
+        //                     // replaced with AxiosError component
+        //                     //alert('An error occurred. Please try again later.')
+        //                 }
+        //             }
+        //         }
 
-            }
-            return Promise.reject(error)
-        },
+        //     }
+        //     return Promise.reject(error)
+        // },
     )
 }

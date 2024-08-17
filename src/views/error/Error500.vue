@@ -1,12 +1,8 @@
 <template>
-
-    <Error500/>
-
+  <Error500 />
 </template>
 
 <script setup>
-import { Error500 } from 'backstack-vue-assets';
+import { Error500 } from "@/components";
 </script>
 
-
-<style scoped></style>
