@@ -11,7 +11,11 @@ node_modules
 dist
 dist-ssr
 coverage
-*.env
+.env.*
+
+# Include the env.local file in the build for developer use
+!.env.local
+
 .prettierrc.json
 .eslintrc.json
 
@@ -24,8 +28,5 @@ coverage
 *.sln
 *.sw?
 
-*.tsbuildinfo
-.env.local
-.env.development.local
 
 src/views/backstack

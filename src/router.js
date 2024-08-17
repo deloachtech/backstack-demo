@@ -3,7 +3,7 @@ import { useSession } from "./session.js";
 import Home from './views/Home.vue'
 import Error404 from './views/error/Error404.vue'
 
-import devAccess from '../src/demo.access.json';
+//import assignAccess from '../src/assign-access.json';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,12 +52,12 @@ router.beforeEach(async (to, from, next) => {
 
   const session = useSession()
 
-  var addAccess = {};
-  if (process.env.NODE_ENV === 'development') {
-    addAccess = devAccess;
-  }
+  var _assignAccess = {};
+  // if (process.env.NODE_ENV === 'development') {
+  //   _assignAccess = assignAccess;
+  // }
 
-  await session.initialize(addAccess);
+  await session.initialize(_assignAccess);
 
   if (to.path === '/logout') {
     await session.logout()

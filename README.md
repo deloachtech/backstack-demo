@@ -1,34 +1,44 @@
 # Backstack Vue (ALPHA)
 
-TODO
-
 > IMPORTANT NOTE! This project is not yet ready for production use.
 
-A starter project using the `Backstack API` for applications created with `Vue`.
+A starter project for using the `Backstack API` created with `Vue`.
 
 Built with:
 
-* Vite 5
-* Vue 3
-* Vue Router 4
-* Pinia 2
-* Axios 2
-* Bootstrap 5
+- Vite 5
+- Vue 3
+- Vue Router 4
+- Pinia 2
+- Axios 2
+- Bootstrap 5
+
+## API Access
+
+The project accesses the `api.backstack.com` endpoints using `demo` as the Backstack application key. The demo is interactive, allowing you to submit changes and observe the effects on the associated pages. It resets to the default state with each new login. 
+
+Log in with `demo` as the username and password. 
+
+When you're ready to go live. All you have to do is update your app key and you're good to go.
+
 
 ## Features
 
-Includes common functionality. Add your app-specific views using the built-in components (e.g., tables, settings, file uploads) or your own.
+Includes common functionality. Add your app-specific views using the project components (e.g., tables, settings, file uploads) or your own.
 
-* Log-in
-* Reset password
-* Sign-up
-* Feature-based access control (RBAC)
-* User settings
-* Account settings
-* Application versioning (e.g., Basic, Advanced, Premium)
-* In-app module purchases (e.g., additional users, more widgets)
-* Account networking with fee sharing
-
+- Log-in
+- Reset password
+- Sign-up
+- Account invoicing with Stripe integration
+- Feature-based access control (RBAC)
+- User settings
+- Account settings
+- App versioning (e.g., Basic, Advanced, Premium)
+- In-app module purchases (e.g., additional users, more widgets)
+- Account networking with fee sharing
+- App UI tips with hide/un-hide functionality
+- App system alerts
+- User configurable notification preferences (e.g. email, text, app)
 
 ## Installation
 
@@ -41,120 +51,71 @@ npm run dev
 
 Modify the files as needed for your project.
 
-
 ## Updates
 
-This project does not offer typical updating schemas as it's intended to be a starter package that's fully managed by the user. However, it does incorporate assets from the `backstack-vue-assets` npm package, which can be updated independently.
-
-The [source code for the npm package](https://github.com/deloachtech/backstack-vue-assets) is open source and available for reference.
+This project does not offer typical updating schemas as it's intended to be a starter project that's fully managed by the user.
 
 # Customization
 
-You can change everything used in this package to make it unique.
-
-## Theme
-
-The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.scss` and the `src/template/theme.css`. Modify either of these files to meet your project requirements.
-
-## Components
+The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.scss` and the `src/template/theme.css`. Modify either of these files to meet your project theming requirements.
 
 You can directly edit the components included in the `src/components` directory.
 
-Other components are abstracted into the `backstack-vue-assets` npm package. You can find the [actual components](https://github.com/deloachtech/backstack-vue-assets/tree/main/src/components) in the repo of the same name.
-
-To edit a component provided in the npm package, simply copy the repo component into your project and change the import statement.
-
-```js
-// include { FooComponent } from "backstack-vue-assets"
-include FooComponent from "@/components/FooComponent.vue"
-```
-
-### Child Components
-
-You may have to change an import path in a parent if it uses other npm package components.
-
-```js
-//include ChildComponent from "@/component"
-include ChildComponent from "backstack-vue-assets"
-```
-
-If the component you're modifying is itself a child component in the npm package this won't work.
-
-> We're eliminating the use of imports for child components in the npm package, so this won't be an issue in the near future.
-
-
-## Templates
 
 Everything controlling the structure of the project (e.g. layout, navigation) is located in `src/template` for your convenience.
 
-
 # Usage
 
-TODO
-
+We'll be creating a documentation site for this project. Until then, here are some key usage topics.
 
 ## Sessions
 
 The `session` is provided upon request by the Backstack API. This project requests an updated session before each route change. The logic is implemented in the `src/router.js` file.
 
-TODO
-
-See the [Backstack session docs](https://backstack.com/sessions.html) for more information on the session architecture. 
-
+See the [Backstack session docs](https://backstack.com/sessions.html) for more information on the session architecture.
 
 ## Access Control
 
-We've provided a structured approach to manage access control within the project. This includes predefined constants and a default `hasAccess()` function to validate access permissions. However, this structure is flexible and can be easily replaced with your own logic if desired.
 
-See the [Backstack access control docs](https://backstack.com/access-control.html) for more information on the entire architecture.
+Unfortunately, feature access control is hard-coded throughout the project. 
 
-### Assignment
-
-The access control schema is defined the [src/configs/access-control.json](https://github.com/deloachtech/backstack-vue/blob/main/src/configs/access-constants.json) file. Use this file and logic to add your own access control specifications.
-
-
-```js
-accessControl.users.access
-
-// Combining constants:
-[accessControl.foo, accessControl.bar].join()
+```html
+<button v-if="session.hasAccess('account-users:c')" ... >Add User</button>
 ```
 
-### Enforcement
+We should create constants for these (e.g. "ACCESS_ACCOUNT_USERS" : "your-label"), but the added layer complicates an otherwise simplified implementation. Features are defined using the Backstack dashboard in whatever format desired. You could create a mapping function if you decide on a different labeling schema. (Or search and replace the hard-coded values.)
 
-By default, the project uses the `hasAccess()` function provided in the `backstack-vue-assets` npm module. It's imported/exported via the projects `src/utils/hasAccess.js` function so you can easily change the entire schema if desired. 
-
-The `session` already knows the users access restrictions, so the function is then provided via the `session.initialize()` method resulting in the simplest logic for enforcement of every aspect of access control. 
+By default, the project uses the `hasAccess()` function provided in `src/utils/hasAccess.js` so you can easily change the entire logic if desired. This function is for the `session.hasAccess()` method used to enforce of every aspect of access control.
 
 ```js
-// Anywhere in your code:
-if(session.hasAccess(accessControl.foo)){
-    // ...
+// Anywhere in your codebase:
+const session = useSession();
+
+if (session.hasAccess('some-feature:*,another-feature:r')) {
+  // ...
+}else{
+  // ...
 }
 ```
 
-Everything (App versioning, RBAC, optional modules, etc.) is enforced at once using this schema coupled with the `session.access` values provided by the Backstack API.
 
-See the [Backstack validating access doc](https://backstack.com/access-control.html#validating-access) for details on creating your own hasAccess function.
+See the [Backstack access control docs](https://backstack.com/access-control.html) for 
+more information on the entire architecture.
+
+> Demo mode uses an independent schema for access control while developing. See `.env.local` for the assignment and `src/session.js` for the implementation.
 
 ## Axios
 
 The `axios` installation can be used for any endpoint without additional configuration. A few`axios.config` settings have been added for using the Backstack features related to this project.
 
-| Config key | Description |
-| --- | --- |
-| `api` | An optional api-specific setting for implementing your logic. |
-| `alert` | When using the Backstack api, you can bypass the alert logic when needed by setting this value to false in the request.
+| Config key | Description                                                                                                             |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `api`      | An optional api-specific setting for implementing your logic.                                                           |
+| `alert`    | When using the Backstack api, you can bypass the alert logic when needed by setting this value to false in the request. |
 
 ```js
 await axios.post('https://api.backstack.com/v1/app/reset-password', data, { api: 'backstack' }) ...
 ```
 
-### Errors
-
-The [src/components/AxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling  logic elsewhere. You can modify this component to incorporate other services if desired.
-
-## Routing
-
-TODO
+The [src/components/AxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling logic elsewhere. You can modify this component to incorporate other services if desired.
 

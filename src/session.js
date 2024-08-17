@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
-import { hasAccess as _hasAccess } from "@/utils/hasAccess";
-import { h } from 'vue';
+import { hasAccess as _hasAccess, parseAccessString } from "@/utils";
 
 
 export const useSession = defineStore('sessionStore', {
@@ -36,7 +35,7 @@ export const useSession = defineStore('sessionStore', {
         getAccess() {
             return this.access
         },
-        async initialize(addAccess = {}) {
+        async initialize(assignAccess = {}) {
 
             this.loading = true
 
@@ -50,10 +49,11 @@ export const useSession = defineStore('sessionStore', {
                     this.app = response.data.app;
                     this.auth = response.data.auth;
 
-                    const combinedAccess = Object.assign({}, response.data.access, addAccess);
-
+                    const combinedAccess = Object.assign({}, response.data.access, assignAccess);
                     this.access = combinedAccess;
+
                     this.access_signature = response.data.access_signature;
+
                     //this.alerts = response.data.alerts;
                     this.alerts = response.data.alerts?.filter(alert => this.hasAccess(alert.access));
 
@@ -116,8 +116,16 @@ export const useSession = defineStore('sessionStore', {
     getters: {
 
         hasAccess: (state) => {
+
             if (state.demo === true) {
-                return (requiredAccess) => true
+
+                const demoAccess = import.meta.env.VITE_DEMO_ACCESS ?? '*';
+                if (demoAccess === '*') {
+                    return (requiredAccess) => true
+                } else {
+                    state.access = parseAccessString(demoAccess);
+                    return (requiredAccess) => _hasAccess(requiredAccess, state.access)
+                }
             }
             return (requiredAccess) => _hasAccess(requiredAccess, state.access)
         },
