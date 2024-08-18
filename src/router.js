@@ -34,14 +34,6 @@ const router = createRouter({
     { path: '/app-modules', meta: { access: 'app-modules:*' }, component: () => import('@/views/app/modules/Index.vue') },
     { path: '/alerts', meta: { access: '*' }, component: () => import('@/views/app/alerts/AppAlerts.vue') },
 
-    // Backstack
-    { path: '/backstack-apps', meta: { access: 'backstack-apps:*' }, component: () => import('@/views/backstack/apps/Apps.vue') },
-    { path: '/backstack-counters', meta: { access: 'backstack-counters:*' }, component: () => import('@/views/backstack/counters/Counters.vue') },
-    { path: '/backstack-roles', meta: { access: 'backstack-roles:*' }, component: () => import('@/views/backstack/roles/Roles.vue') },
-    { path: '/backstack-features', meta: { access: 'backstack-features:*' }, component: () => import('@/views/backstack/features/Features.vue') },
-    { path: '/backstack-app-modules', meta: { access: 'backstack-app-modules:*' }, component: () => import('@/views/backstack/app-modules/AppModules.vue') },
-
-
     // Catch all
     { path: '/:pathMatch(.*)*', component: Error404 }
   ]
