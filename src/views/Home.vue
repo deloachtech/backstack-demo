@@ -53,7 +53,7 @@
       <ExternalLink href="https://pinia.vuejs.org" text="Pinia store" /> located at <code>src/session.js</code>.
     </p>
 
-   
+    <pre class="opacity-50">{{ safeStringify(session, 2) }}</pre>
   </div>
 </template>
 
@@ -64,4 +64,17 @@ import { useSession } from "@/session";
 
 const route = useRoute();
 const session = useSession();
+
+function safeStringify(obj, space) {
+  const seen = new WeakSet();
+  return JSON.stringify(obj, function (key, value) {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return "[Circular]";
+      }
+      seen.add(value);
+    }
+    return value;
+  }, space);
+}
 </script>
