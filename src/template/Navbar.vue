@@ -23,24 +23,33 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Backstack </a>
+              Quick Links </a>
             <ul class="dropdown-menu">
-              <li v-if="session.hasAccess('backstack-apps:*')"><a class="dropdown-item" href="/backstack-apps">Apps</a>
-              </li>
+              <li><a class="dropdown-item" href="/user-profile">User profile</a></li>
+              <li><a class="dropdown-item" href="/change-password">Change user password</a></li>
+              <li><a class="dropdown-item" href="/merge-users">Merge users</a></li>
+              <li><a class="dropdown-item" href="/manage-notifications">Manage user notifications</a></li>
+              <li><a class="dropdown-item" href="/reset-tips">Reset user hidden tips</a></li>
+              <li><a class="dropdown-item" href="/logout">Log user out</a></li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
-              <li v-if="session.hasAccess('backstack-features:*')"><a class="dropdown-item"
-                  href="/backstack-features">Features</a></li>
-              <li v-if="session.hasAccess('backstack-roles:*')"><a class="dropdown-item"
-                  href="/backstack-roles">Roles</a></li>
-              <li v-if="session.hasAccess('backstack-counters:*')"><a class="dropdown-item"
-                  href="/backstack-counters">Counters</a></li>
+              <li><a class="dropdown-item" href="/account-payments">Account Payments</a></li>
+              <li><a class="dropdown-item" href="/account-invoices">Account Invoices</a></li>
+              <li><a class="dropdown-item" href="/account-users">Account Users</a></li>
+              <li><a class="dropdown-item" href="/account-profile">Account Profile</a></li>
+              <li><a class="dropdown-item" href="/change-account">Change account</a></li>
+              <li><a class="dropdown-item" href="/account-network">Account Network</a></li>
+
               <li>
                 <hr class="dropdown-divider" />
               </li>
-              <li v-if="session.hasAccess('backstack-app-modules:*')"><a class="dropdown-item"
-                  href="/backstack-app-modules">App Modules</a></li>
+
+              <li><a class="dropdown-item" href="/app-versions">App versions</a></li>
+              <li><a class="dropdown-item" href="/app-modules">App modules</a></li>
+              <li><a class="dropdown-item" href="/app-alerts">App alerts</a></li>
+
+             
             </ul>
           </li>
         </ul>
@@ -84,7 +93,7 @@
               <hr class="dropdown-divider" />
             </li>
             <li>
-              <router-link class="dropdown-item" to="/alerts">
+              <router-link class="dropdown-item" to="/app-alerts">
                 View all
                 <span class="badge bg-secondary ms-2 view-all-alert-badge">{{ session.alerts.length }}</span>
               </router-link>

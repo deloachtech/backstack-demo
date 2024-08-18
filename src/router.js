@@ -32,7 +32,7 @@ const router = createRouter({
     // App
     { path: '/app-versions', meta: { access: 'app-versions:*' }, component: () => import('@/views/app/versions/Index.vue') },
     { path: '/app-modules', meta: { access: 'app-modules:*' }, component: () => import('@/views/app/modules/Index.vue') },
-    { path: '/alerts', meta: { access: '*' }, component: () => import('@/views/app/alerts/AppAlerts.vue') },
+    { path: '/app-alerts', meta: { access: '*' }, component: () => import('@/views/app/alerts/AppAlerts.vue') },
 
     // Catch all
     { path: '/:pathMatch(.*)*', component: Error404 }
