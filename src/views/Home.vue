@@ -47,13 +47,13 @@
 
 
     <h4 class="mt-5">Current Session</h4>
-    
+
     <p>This data is dynamically provided by the Backstack API upon each page request in
       <code>src/router.js</code>. The session is a
       <ExternalLink href="https://pinia.vuejs.org" text="Pinia store" /> located at <code>src/session.js</code>.
     </p>
 
-    <pre class="opacity-50">{{ session }}</pre>
+    <pre class="opacity-50">{{ JSON.stringify(session, null, 2) }}</pre>
   </div>
 </template>
 
