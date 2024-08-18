@@ -5,7 +5,7 @@
         <router-link class="navbar-brand" to="/">
 
           <Logo style="width: 2.35rem" />
-          <div v-if="session.demo" class="badge rounded-pill text-bg-warning logo-badge">Demo</div>
+          <div v-if="session.demo" class="badge rounded-pill text-bg-warning logo-badge">Sample</div>
 
         </router-link>
       </div>
@@ -16,10 +16,13 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
+
         <!-- Application navbar options -->
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0 mx-3 gap-3">
           <router-link class="nav-link" aria-current="page" to="/">Home</router-link>
+
+
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,9 +52,13 @@
               <li><a class="dropdown-item" href="/app-modules">App modules</a></li>
               <li><a class="dropdown-item" href="/app-alerts">App alerts</a></li>
 
-             
+
             </ul>
           </li>
+
+          <router-link class="nav-link" to="/api-result">API Results</router-link>
+        
+
         </ul>
 
         <!-- Common navbar options -->
@@ -171,7 +178,7 @@
             <li><router-link class="dropdown-item" to="/user-profile">Profile</router-link></li>
             <li><router-link class="dropdown-item" to="/change-password">Change password</router-link></li>
             <li><router-link class="dropdown-item" to="/merge-users">Merge users</router-link></li>
-            <li><router-link class="dropdown-item" to="/merge-users">Manage notifications</router-link></li>
+            <li><router-link class="dropdown-item" to="/manage-notifications">Manage notifications</router-link></li>
             <li><router-link class="dropdown-item" to="/reset-tips">Reset hidden tips</router-link></li>
             <li>
               <hr class="dropdown-divider" />

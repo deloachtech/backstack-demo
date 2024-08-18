@@ -1,11 +1,12 @@
 <template>
-  <div :class="[asSubheading ? 'page-subheading' : 'page-heading', 'd-md-flex justify-content-between page-heading-component']">
+  <div
+    :class="[asSubheading ? 'page-subheading' : 'page-heading', 'd-md-flex justify-content-between page-heading-component']">
     <div class="text-start">
       <div :class="[asSubheading ? 'fs-3 fw-semibold' : 'fs-2 fw-bold']">{{ props.heading }}</div>
 
-      <div v-if="hasSlot('text')" class="text-secondary">
+      <p v-if="hasSlot('text')" :class="['lead', { 'subheading-lead': asSubheading }]">
         <slot name="text"></slot>
-      </div>
+      </p>
     </div>
 
     <div v-if="hasSlot('actions')" class="text-sm-start text-md-end mt-2 mt-md-0">
@@ -30,3 +31,9 @@ const hasSlot = (name) => {
 };
 </script>
 
+
+<style scoped>  
+.subheading-lead {
+  font-size: 1.13rem;
+}
+</style>

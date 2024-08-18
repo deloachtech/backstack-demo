@@ -126,8 +126,8 @@ const versions = ref([]);
 const fetchData = async () => {
   fetching.value = true;
   await Promise.all([
-    axios.get("https://api.backstack.com/v1/account/versions", { api: "backstack" }),
-    axios.get("https://api.backstack.com/v1/account/versions/feature-matrix", { api: "backstack" })
+    axios.get("https://api.backstack.com/v1/app/versions", { api: "backstack" }),
+    axios.get("https://api.backstack.com/v1/app/versions/feature-matrix", { api: "backstack" })
   ])
     .then((response) => {
       versions.value = response[0].data;

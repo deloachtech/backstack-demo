@@ -11,6 +11,7 @@ const router = createRouter({
 
     { path: '/', name: 'home', component: Home, meta: { access: '*' } },
 
+    { path: '/api-result', meta: { access: '*' }, component: () => import('@/views/api-result/ApiResult.vue') },
 
     // User
     { path: '/user-profile', meta: { access: '*' }, component: () => import('@/views/user/UserProfile.vue') },
