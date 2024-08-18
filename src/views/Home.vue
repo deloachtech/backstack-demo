@@ -53,7 +53,7 @@
       <ExternalLink href="https://pinia.vuejs.org" text="Pinia store" /> located at <code>src/session.js</code>.
     </p>
 
-    <pre class="opacity-50">{{ JSON.stringify(session, null, 2) }}</pre>
+   
   </div>
 </template>
 
