@@ -2,7 +2,7 @@
 
 > IMPORTANT NOTE! This project is not yet ready for production use.
 
-A starter project for using the `Backstack API` created with `Vue`.
+This sample project contains comprehensive examples demonstrating how to effectively implement the Backstack API into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
 
 Built with:
 
@@ -12,6 +12,8 @@ Built with:
 - Pinia 2
 - Axios 2
 - Bootstrap 5
+
+> A [live version](https://main.d39dm9d7yu1652.amplifyapp.com/) of this repository is also available. Log in using `demo` as the username and password.
 
 ## API Access
 
