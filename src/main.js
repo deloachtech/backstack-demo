@@ -1,16 +1,17 @@
 
-import './template/styles.scss'
+
 import './template/theme.css'
+import './template/styles.css'
 
 // Import all of Bootstrap's JS
-import * as bootstrap from 'bootstrap'
+//import * as bootstrap from 'bootstrap'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router.js'
-import {setupAxios} from './axios.js'
+import { setupAxios } from './axios.js'
 
 setupAxios();
 

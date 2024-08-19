@@ -11,22 +11,18 @@
       <strong>Holy guacamole!</strong> You should hide this tip because it's not important.
     </Tip>
 
-    <h4>Welcome to Backstack!</h4>
+    <h4>Sample Codebase</h4>
 
     <p>
-      <ExternalLink href="https://backstack.com" text="Backstack" /> is a backend-as-a-service (BaaS) providing a
-      complete set of APIs for managing your application codebase.
-      This sample application includes custom components and views
-      that interact with the Backstack API to achieve some innovative results. It's available on
+      This sample application is a great starting point for your Vue 3 application using the
+      <ExternalLink href="https://backstack.com" text="Backstack" /> API. It's available on
       <ExternalLink href="https://github.com/deloachtech/backstack-vue" text="GitHub" /> completely free for any usage
       under the MIT license.
     </p>
 
     <div v-if="session.demo">
 
-      <p>You're accessing the API using <code>demo</code> as your app key. The
-        demo is interactive, allowing you to submit changes and observe the effects on the associated pages. It
-        resets to the default state with each new login. (Log in with <code>demo</code> as the username and password.)
+      <p>You're accessing the API using <code>demo</code> as your app key. The demo resets to the default state with each new login. (Log in with <code>demo</code> as the username and password.)
         Head over to
         <ExternalLink href="https://dash.backstack.com" text="dash.backstack.com" />
         when you're ready to go live. All you have to do is update your app key and you're good to go.

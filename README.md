@@ -2,7 +2,7 @@
 
 > IMPORTANT NOTE! This project is not yet ready for production use.
 
-This sample project contains comprehensive examples demonstrating how to effectively implement the Backstack API into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
+This sample project contains comprehensive examples demonstrating how to effectively implement the [Backstack API](https://backstack.com) into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
 
 Built with:
 
@@ -59,7 +59,7 @@ This project does not offer typical updating schemas as it's intended to be a st
 
 # Customization
 
-The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.scss` and the `src/template/theme.css`. Modify either of these files to meet your project theming requirements.
+The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.css` and the `src/template/theme.css`. Modify either of these files to meet your project theming requirements.
 
 You can directly edit the components included in the `src/components` directory.
 

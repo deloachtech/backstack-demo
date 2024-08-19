@@ -33,8 +33,9 @@
         <td>{{ uri }}</td>
       </tr>
     </table>
+    <pre class="opacity-50">{{ JSON.stringify(result,'', 2) }}</pre>
 
-    <pre class="opacity-50">{{ safeStringify(result, 2) }}</pre>
+
   </div>
 
   <div v-else>
@@ -46,8 +47,6 @@
 import { ref } from "vue";
 import axios from "axios";
 import { PageHeading, Spinner } from "@/components";
-import { safeStringify } from "@/utils";
-import { v3 } from "uuid";
 
 const fetching = ref(false);
 const uri = ref(null)

@@ -11,13 +11,15 @@ import SelectAccountForm from "./components/SelectAccountForm.vue";
 import { ref } from "vue";
 import { useSession } from "@/session";
 import axios from "axios";
-import router from "@/router";
+import { useRouter } from "vue-router";
 
 const session = useSession();
 const submitting = ref(false);
 const errors = ref({});
 const accounts = ref([]);
 const lastLogin = ref(null);
+
+const router = useRouter();
 
 const login = async (_data) => {
   errors.value = {};

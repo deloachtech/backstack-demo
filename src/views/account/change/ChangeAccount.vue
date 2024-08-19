@@ -28,7 +28,7 @@ import { ref } from "vue";
 import { Spinner, PageHeading } from "@/components";
 import axios from "axios";
 import { useSession } from "@/session";
-import router from "@/router";
+import { useRouter } from "vue-router";
 
 const fetching = ref(false);
 const submitting = ref(false);
@@ -36,6 +36,7 @@ const data = ref([]);
 const session = useSession();
 const accountId = ref(session.account.id);
 const errors = ref({});
+const router = useRouter();
 
 const fetch = async () => {
   fetching.value = true;
