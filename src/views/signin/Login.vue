@@ -53,6 +53,7 @@ const selectAccount = async (_data) => {
     .post("https://api.backstack.com/v1/app/login-account", _data, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
+      alert("Account selected");
       router.push("/");
     })
     .finally(() => submitting.value = false);
