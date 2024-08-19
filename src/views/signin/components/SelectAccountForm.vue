@@ -8,6 +8,7 @@
 
     <div v-if="accounts?.length > 0">
       <p class="text-secondary">You're a member of multiple accounts. Please choose the one you want to activate.</p>
+
       <FormSelect v-model="data.account_id" :options="accounts" />
 
       <SubmitButton :submitting="submitting" text="Activate" />
@@ -20,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import SubmitButton from "./SubmitButton.vue";
 import { FormSelect } from "@/components";
 import Logo from "@/template/Logo.vue";
@@ -45,7 +46,11 @@ const props = defineProps({
 //const accounts = props.accounts ? Object.entries(props.accounts).map(([k, v]) => ({ id: k, title: v })) : [];
 
 const data = ref({
-  account_id: props.lastLogin || (accounts.length ? accounts[0].id : ""),
+  account_id: "",
+});
+
+onMounted(() => {
+  data.value.account_id = props.lastLogin || (props.accounts.length ? props.accounts[0].id : "");
 });
 </script>
 
