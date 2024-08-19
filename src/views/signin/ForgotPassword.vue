@@ -41,9 +41,9 @@ const data = ref({
 const submit = async () => {
   errors.value = {};
 
-  if (!data.email) {
+  if (!data.value.email) {
     errors.value.email = "Email required";
-  } else if (!validateEmail(data.email)) {
+  } else if (!validateEmail(data.value.email)) {
     errors.value.email = "Invalid email address";
   }
 
@@ -51,7 +51,7 @@ const submit = async () => {
     submitting.value = true;
 
     await axios
-      .post("https://api.backstack.com/v1/app/forgot-password", data, { api: "backstack" })
+      .post("https://api.backstack.com/v1/app/forgot-password", data.value, { api: "backstack" })
       .then((response) => success.value = true)
       .catch((error) => errors.value = error.fields)
       .finally(() => submitting.value = false);

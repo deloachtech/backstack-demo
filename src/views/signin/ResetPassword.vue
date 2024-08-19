@@ -95,7 +95,7 @@ const submit = async () => {
     submitting.value = true;
 
     await axios
-      .post("https://api.backstack.com/v1/app/reset-password", data, { api: "backstack" })
+      .post("https://api.backstack.com/v1/app/reset-password", data.value, { api: "backstack" })
       .then(() => success.value = true)
       .catch((error) => errors.value = error.fields)
       .finally(() => submitting.value = false);

@@ -67,6 +67,7 @@ const uris = {
   "Account invoices": "https://api.backstack.com/v1/account/invoices",
   "Account payment methods": "https://api.backstack.com/v1/account/payment-methods",
   "Account network": "https://api.backstack.com/v1/account/network-accounts",
+  "Account version history": "https://api.backstack.com/v1/account/version-history",
   "Account module history": "https://api.backstack.com/v1/account/optional-features-history",
 };
 
