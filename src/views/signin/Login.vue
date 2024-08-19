@@ -35,7 +35,6 @@ const login = async (_data) => {
       .then((response) => {
 
         if (response.data?.select_account) {
-          // https://backstack.com/login.html#selecting-accounts
           accounts.value = response.data.select_account.accounts;
           lastLogin.value = response.data.select_account.last_login;
         } else {
@@ -48,10 +47,10 @@ const login = async (_data) => {
   }
 };
 
-const selectAccount = async (data) => {
+const selectAccount = async (_data) => {
   submitting.value = true;
   await axios
-    .post("https://api.backstack.com/v1/app/login-account", data, { api: "backstack" })
+    .post("https://api.backstack.com/v1/app/login-account", _data, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
       router.push("/");
