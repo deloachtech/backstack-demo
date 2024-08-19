@@ -2,7 +2,7 @@
   <PageHeading heading="API Results">
 
     <template #text>
-      Select a request from the dropdown to see the API result.
+      These API results are displayed here for easy access and to showcase the data returned from the API.
     </template>
 
     <template #actions>
@@ -39,8 +39,10 @@
   </div>
 
   <div v-else>
-    <p>Select a request to see the results.</p>
+    <p>Select a request from the dropdown to see the API result.</p>
   </div>
+
+ 
 </template>
 
 <script setup>

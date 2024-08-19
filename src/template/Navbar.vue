@@ -26,38 +26,21 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Quick Links </a>
+              Examples </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/user-profile">User profile</a></li>
-              <li><a class="dropdown-item" href="/change-password">Change user password</a></li>
-              <li><a class="dropdown-item" href="/merge-users">Merge users</a></li>
-              <li><a class="dropdown-item" href="/manage-notifications">Manage user notifications</a></li>
-              <li><a class="dropdown-item" href="/reset-tips">Reset user hidden tips</a></li>
-              <li><a class="dropdown-item" href="/logout">Log user out</a></li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li><a class="dropdown-item" href="/account-payments">Account Payments</a></li>
-              <li><a class="dropdown-item" href="/account-invoices">Account Invoices</a></li>
-              <li><a class="dropdown-item" href="/account-users">Account Users</a></li>
-              <li><a class="dropdown-item" href="/account-profile">Account Profile</a></li>
-              <li><a class="dropdown-item" href="/change-account">Change account</a></li>
-              <li><a class="dropdown-item" href="/account-network">Account Network</a></li>
 
+              <li><router-link class="dropdown-item" to="/example-tip">Tip</router-link></li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
 
-              <li><a class="dropdown-item" href="/app-versions">App versions</a></li>
-              <li><a class="dropdown-item" href="/app-modules">App modules</a></li>
-              <li><a class="dropdown-item" href="/app-alerts">App alerts</a></li>
-
+              <li><router-link class="dropdown-item" to="/example-api-results">API Results</router-link></li>
 
             </ul>
           </li>
 
-          <router-link class="nav-link" to="/api-result">API Results</router-link>
-        
+
+
 
         </ul>
 
@@ -93,7 +76,7 @@
             </li>
 
             <li v-for="alert in session.alerts" :key="alert.id">
-              <router-link :class="['dropdown-item', {'text-danger' : alert.priority === 1}]" :to="alert.href">{{
+              <router-link :class="['dropdown-item', { 'text-danger': alert.priority === 1 }]" :to="alert.href">{{
                 alert.title }}</router-link>
             </li>
             <li>
