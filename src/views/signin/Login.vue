@@ -39,7 +39,7 @@ const login = async (_data) => {
           lastLogin.value = response.data.select_account.last_login;
         } else {
           session.update(response.data);
-          router.push("/");
+          router.push({ name: 'home' });
         }
       })
       .catch((error) => errors.value = error.fields)
@@ -53,8 +53,7 @@ const selectAccount = async (_data) => {
     .post("https://api.backstack.com/v1/app/login-account", _data, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
-      alert("Account selected");
-      router.push("/");
+      router.push({ name: 'home' });
     })
     .finally(() => submitting.value = false);
 };
