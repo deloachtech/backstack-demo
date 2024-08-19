@@ -2,7 +2,7 @@
   <PageHeading heading="API Results">
 
     <template #text>
-      This page displays the results of an API request. Select a request from the dropdown to see the results.
+      Select a request from the dropdown to see the API result.
     </template>
 
     <template #actions>

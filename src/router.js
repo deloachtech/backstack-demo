@@ -50,7 +50,8 @@ router.beforeEach(async (to, from, next) => {
   //   _assignAccess = assignAccess;
   // }
 
-  await session.initialize(_assignAccess);
+  // an await here causes the previous page to briefly flash before the next page loads.
+  session.initialize(_assignAccess);
 
   if (to.path === '/logout') {
     await session.logout()

@@ -1,7 +1,7 @@
 <template>
 
 
-  <p class="text-muted small">Statistical data is sourced from transactions performed by this application. For the most accurate information, please refer to your Stripe dashboard, as some transactions may not have been captured by this application.</p>
+  <p>Statistical data is sourced from transactions performed by this application. For the most accurate information, please refer to your Stripe dashboard, as some transactions may not have been captured by this application.</p>
 
 
   <Spinner v-if="fetching" />

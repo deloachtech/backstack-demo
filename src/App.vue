@@ -3,6 +3,7 @@
 
     <!-- Spinner here keeps the template elements visible -->
     <Spinner v-if="session.loading" />
+    
     <router-view v-else />
   </AppTemplate>
 
