@@ -44,21 +44,21 @@ export const useSession = defineStore('sessionStore', {
 
                     //console.log('session.init', response.data);
 
-                    this.demo = response.data.demo;
-                    this.provider_id = response.data.provider_id;
-                    this.app = response.data.app;
-                    this.auth = response.data.auth;
+                    this.demo = response.data?.demo;
+                    this.provider_id = response.data?.provider_id;
+                    this.app = response.data?.app;
+                    this.auth = response.data?.auth;
 
-                    const combinedAccess = Object.assign({}, response.data.access, assignAccess);
+                    const combinedAccess = Object.assign({}, response.data?.access, assignAccess);
                     this.access = combinedAccess;
 
-                    this.access_signature = response.data.access_signature;
+                    this.access_signature = response.data?.access_signature;
 
                     //this.alerts = response.data.alerts;
-                    this.alerts = response.data.alerts?.filter(alert => this.hasAccess(alert.access));
+                    this.alerts = response.data?.alerts?.filter(alert => this.hasAccess(alert.access));
 
-                    this.user = response.data.user;
-                    this.account = response.data.account;
+                    this.user = response.data?.user;
+                    this.account = response.data?.account;
                 })
                 .finally(() => {
                     this.loading = false

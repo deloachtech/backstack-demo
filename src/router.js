@@ -56,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
   session.initialize(_assignAccess);
 
   if (to.path === '/logout') {
-    session.logout()
+    await session.logout()
       .then(() => {
         next('/login')
       })

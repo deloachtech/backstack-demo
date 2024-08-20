@@ -67,6 +67,7 @@ const submitting = ref(false);
 const errors = ref({});
 const accounts = ref([]);
 const router = useRouter();
+const allowRememberMe = false;
 
 const loginData = ref({
   username: session.demo ? "demo" : "",
@@ -91,6 +92,8 @@ const login = async () => {
       .then((response) => {
 
         if (response.data?.select_account) {
+
+          console.log(response.data);
 
           //  data.value.account_id = props.lastLogin || (props.accounts.length ? props.accounts[0].id : "");
           const _accounts = response.data.select_account.accounts;
