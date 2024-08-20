@@ -10,7 +10,9 @@
     <div v-if="accounts?.length > 0">
       <p class="text-secondary">You're a member of multiple accounts. Please choose the one you want to activate.</p>
 
-      <FormSelect v-model="selectAccountData.account_id" :options="accounts" />
+      <select v-model="selectedAccountId" class="form-select" aria-label="Select account">
+        <option v-for="account in accounts" :key="account.id" :value="account.id">{{ account.title }}</option>
+      </select>
 
       <SubmitButton :submitting="submitting" text="Activate" />
     </div>
@@ -55,7 +57,7 @@ import { ref } from "vue";
 import { useSession } from "@/session";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import { FormInput, FormSelect } from "@/components";
+import { FormInput } from "@/components";
 import SubmitButton from "./components/SubmitButton.vue";
 import Logo from "@/template/Logo.vue";
 
@@ -72,9 +74,8 @@ const loginData = ref({
   rememberMe: false,
 });
 
-const selectAccountData = ref({
-  account_id: "",
-});
+
+const selectedAccountId = ref("");
 
 const login = async () => {
   errors.value = {};
@@ -95,7 +96,7 @@ const login = async () => {
           const _accounts = response.data.select_account.accounts;
           accounts.value = _accounts;
           const lastLogin = response.data.select_account.last_login;
-          selectAccountData.value.account_id = lastLogin || (_accounts.length ? _accounts[0].id : "");
+          selectedAccountId.value = lastLogin || (_accounts.length ? _accounts[0].id : "");
         } else {
           session.update(response.data);
           router.push({ name: 'home' });
@@ -109,7 +110,7 @@ const login = async () => {
 const selectAccount = async () => {
   submitting.value = true;
   await axios
-    .post("https://api.backstack.com/v1/app/login-account", selectAccountData.value, { api: "backstack" })
+    .post(`https://api.backstack.com/v1/app/login/account/${selectedAccountId.value}`, null, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
       alert(response.data.account.id)
