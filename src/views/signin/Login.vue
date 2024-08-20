@@ -115,10 +115,14 @@ const selectAccount = async () => {
   await axios
     .post(`https://api.backstack.com/v1/app/login/account/acc_1234567891`, null, { api: "backstack" })
     .then((response) => {
+
+      console.log(response.data);
+
       session.update(response.data);
       alert(response.data.account.id)
       router.push({ name: 'home' });
     })
+    .catch((error) => alert(error.message))
     .finally(() => submitting.value = false);
 };
 </script>
