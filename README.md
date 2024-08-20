@@ -13,7 +13,13 @@ Built with:
 - Axios 2
 - Bootstrap 5
 
-> A [live version](https://main.d39dm9d7yu1652.amplifyapp.com/) of this repository is also available. Log in using `demo` as the username and password.
+## Live version
+
+A live version of this repository is also available at [https://main.d39dm9d7yu1652.amplifyapp.com/](https://main.d39dm9d7yu1652.amplifyapp.com/). Log in using `demo` as the username and password.
+
+## Docs
+
+Project documentation can be found at [backstack.com/sample](https://backstack.com/sample).
 
 ## API Access
 
