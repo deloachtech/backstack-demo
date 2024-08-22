@@ -90,17 +90,13 @@ const login = async () => {
     await axios
       .post("https://api.backstack.com/v1/app/login", loginData.value, { api: "backstack" })
       .then((response) => {
-
-        if (response.data?.select_account) {
-
-         //  data.value.account_id = props.lastLogin || (props.accounts.length ? props.accounts[0].id : "");
-          const _accounts = response.data.select_account.accounts;
-          accounts.value = _accounts;
-          const lastLogin = response.data.select_account.last_login;
-          selectedAccountId.value = lastLogin || (_accounts.length ? _accounts[0].id : "");
+        if (response.data.auth?.select_account) {
+          accounts.value = response.data.auth.select_account.accounts;
+          const lastLogin = response.data.auth.select_account.last_login;
+          selectedAccountId.value = lastLogin || (accounts.length ? accounts[0].id : "");
         } else {
           session.update(response.data);
-          router.push({ name: 'home' });
+          router.push('/');
         }
       })
       .catch((error) => errors.value = error.fields)
@@ -114,7 +110,7 @@ const selectAccount = async () => {
     .post(`https://api.backstack.com/v1/app/login/account/${selectedAccountId.value}`, null, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
-      router.push({ name: 'home' });
+      router.push('/');
     })
     .finally(() => submitting.value = false);
 };
