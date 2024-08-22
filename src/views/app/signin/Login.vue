@@ -90,12 +90,12 @@ const login = async () => {
     await axios
       .post("https://api.backstack.com/v1/app/login", loginData.value, { api: "backstack" })
       .then((response) => {
+        session.update(response.data);
         if (response.data.auth?.select_account) {
           accounts.value = response.data.auth.select_account.accounts;
           const lastLogin = response.data.auth.select_account.last_login;
           selectedAccountId.value = lastLogin || (accounts.length ? accounts[0].id : "");
         } else {
-          session.update(response.data);
           router.push('/');
         }
       })
