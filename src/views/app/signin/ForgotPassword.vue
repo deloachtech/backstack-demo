@@ -1,5 +1,5 @@
 <template>
-  <form novalidate @submit.prevent="submit" class="signin-form bva-signin-form">
+  <form novalidate @submit.prevent="submit" class="signin-form">
     <div class="text-center">
       <Logo class="mb-2" />
     </div>

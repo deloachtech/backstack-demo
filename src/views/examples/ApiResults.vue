@@ -2,7 +2,8 @@
   <PageHeading heading="API Results">
 
     <template #text>
-      These API results are displayed here for easy access and to showcase the data returned from the API.
+      These API results are available here for easy access and to show the data returned. There are many more API
+      endpoints available in the <ExternalLink href="https://backstack.com" text="Backstack API documentation" />.
     </template>
 
     <template #actions>
@@ -48,7 +49,7 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import { PageHeading, Spinner } from "@/components";
+import { PageHeading, Spinner, ExternalLink } from "@/components";
 
 const fetching = ref(false);
 const uri = ref(null)

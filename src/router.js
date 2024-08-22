@@ -36,6 +36,7 @@ const router = createRouter({
     { path: '/app-versions', meta: { access: 'app-versions:*' }, component: () => import('@/views/app/versions/Index.vue') },
     { path: '/app-modules', meta: { access: 'app-modules:*' }, component: () => import('@/views/app/modules/Index.vue') },
     { path: '/app-alerts', meta: { access: '*' }, component: () => import('@/views/app/alerts/AppAlerts.vue') },
+    { path: '/logout', meta: { access: '*' }, component: () => import('@/views/app/logout/Logout.vue') },
 
     // Catch all
     { path: '/:pathMatch(.*)*', component: Error404 }
@@ -55,12 +56,12 @@ router.beforeEach(async (to, from, next) => {
   // an await here causes the previous page to briefly flash before the next page loads.
   session.initialize(_assignAccess);
 
-  if (to.path === '/logout') {
-    await session.logout()
-      .then(() => {
-        next('/login')
-      })
-  } else {
+  // if (to.path === '/logout') {
+  //   await session.logout()
+  //     .then(() => {
+  //       next('/login')
+  //     })
+  // } else {
     if (session.auth === true) {
       if (session.hasAccess(to.meta.access)) {
         next()
@@ -70,7 +71,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       next()
     }
-  }
+  // }
 });
 
 

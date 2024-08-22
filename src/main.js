@@ -13,12 +13,13 @@ import App from './App.vue'
 import router from './router.js'
 import { setupAxios } from './axios.js'
 
-setupAxios();
-
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+
+// Axios needs the session (Pinia)
+setupAxios();
 
 app.mount('#app')
 

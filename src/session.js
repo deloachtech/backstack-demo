@@ -19,6 +19,7 @@ export const useSession = defineStore('sessionStore', {
             access_signature: "",
             alerts: [],
             hidingTip: false,
+            jwt: null
         }
     },
 
@@ -44,6 +45,9 @@ export const useSession = defineStore('sessionStore', {
 
                     //console.log('session.init', response.data);
 
+                    this.jwt = response.data?.jwt;
+                    sessionStorage.setItem('jwt', response.data?.jwt);
+
                     this.demo = response.data?.demo;
                     this.provider_id = response.data?.provider_id;
                     this.app = response.data?.app;
@@ -68,6 +72,9 @@ export const useSession = defineStore('sessionStore', {
 
             //console.log('session.update', data);
 
+            this.jwt = data.jwt;
+            sessionStorage.setItem('jwt',data?.jwt);
+
             this.demo = data.demo;
             this.provider_id = data.provider_id;
             this.auth = data.auth;
@@ -77,24 +84,6 @@ export const useSession = defineStore('sessionStore', {
             this.alerts = data.alerts?.filter(alert => this.hasAccess(alert.access));
             this.user = data.user;
             this.account = data.account;
-        },
-
-        async logout() {
-            this.loading = true
-            await axios.get('https://api.backstack.com/v1/app/logout', { api: 'backstack' })
-                .then((response) => {
-                    this.demo = response.data.demo;
-                    this.auth = response.data.auth;
-                    this.app = response.data.app;
-                    this.access = response.data.access;
-                    this.access_signature = response.data.access_signature;
-                    this.alerts = response.data.alerts;
-                    this.user = response.data.user;
-                    this.account = response.data.account;
-                })
-                .finally(() => {
-                    this.loading = false
-                })
         },
 
         async hideTip(tipId) {

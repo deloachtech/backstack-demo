@@ -119,10 +119,9 @@ const selectAccount = async () => {
       console.log(response.data);
 
       session.update(response.data);
-      alert(response.data.account.id)
+      alert('account id = ' +response.data.account.id)
       router.push({ name: 'home' });
     })
-    .catch((error) => alert(error.message))
     .finally(() => submitting.value = false);
 };
 </script>

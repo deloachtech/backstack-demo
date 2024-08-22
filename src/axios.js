@@ -7,9 +7,12 @@
  */
 
 import axios from 'axios'
+import { useSession } from "./session.js";
+
 
 export function setupAxios() {
 
+    const session = useSession()
 
     axios.interceptors.request.use(
         (config) => {
@@ -22,7 +25,7 @@ export function setupAxios() {
                 // Secrets stored in .env files are not secret!
                 // Replace this logic with your preferred security schema.
 
-                const appKey = import.meta.env.VITE_BACKSTACK_APP_KEY
+                const appKey = sessionStorage.getItem('jwt') ?? import.meta.env.VITE_BACKSTACK_APP_KEY
 
                 config.withCredentials = true
                 config.headers.Authorization = `Bearer ${appKey}`
