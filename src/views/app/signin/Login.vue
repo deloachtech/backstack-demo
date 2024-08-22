@@ -93,9 +93,7 @@ const login = async () => {
 
         if (response.data?.select_account) {
 
-          console.log(response.data);
-
-          //  data.value.account_id = props.lastLogin || (props.accounts.length ? props.accounts[0].id : "");
+         //  data.value.account_id = props.lastLogin || (props.accounts.length ? props.accounts[0].id : "");
           const _accounts = response.data.select_account.accounts;
           accounts.value = _accounts;
           const lastLogin = response.data.select_account.last_login;
@@ -113,13 +111,9 @@ const login = async () => {
 const selectAccount = async () => {
   submitting.value = true;
   await axios
-    .post(`https://api.backstack.com/v1/app/login/account/acc_1234567891`, null, { api: "backstack" })
+    .post(`https://api.backstack.com/v1/app/login/account/${selectedAccountId.value}`, null, { api: "backstack" })
     .then((response) => {
-
-      console.log(response.data);
-
       session.update(response.data);
-      alert('account id = ' +response.data.account.id)
       router.push({ name: 'home' });
     })
     .finally(() => submitting.value = false);
