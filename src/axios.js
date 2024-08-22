@@ -58,10 +58,9 @@ export function setupAxios() {
                     */
 
                     const find = import.meta.env.VITE_BACKSTACK_API_FIND
-
                     const replace = import.meta.env.VITE_BACKSTACK_API_REPLACE
 
-                    if (find.length > 0 && replace.length > 0) {
+                    if (find?.length > 0 && replace?.length > 0) {
                         config.url = config.url.replace(find, replace)
                     }
                 }
