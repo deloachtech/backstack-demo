@@ -67,10 +67,10 @@ This project does not offer typical updating schemas as it's intended to be a st
 
 The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.css` and the `src/template/theme.css`. Modify either of these files to meet your project theming requirements.
 
+Everything controlling the structure of the project (e.g. layout, navigation) is located in `src/template` for your convenience.
+
 You can directly edit the components included in the `src/components` directory.
 
-
-Everything controlling the structure of the project (e.g. layout, navigation) is located in `src/template` for your convenience.
 
 # Usage
 
