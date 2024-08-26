@@ -3,7 +3,7 @@
     <template #text>
       Resetting the application hidden tips will restore all previously hidden tips back to their default visible
       state. This can be useful if you want to revisit the tips and guidance provided by the application.
-      Once reset, tips will appear again in their respective sections until they are manually hidden again.
+      
     </template>
     <template #actions>
       <Button class="btn-outline-primary" :disabled="session.user.hidden_tips.length === 0" :submitting="submitting"

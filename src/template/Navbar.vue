@@ -5,7 +5,7 @@
         <router-link class="navbar-brand" to="/">
 
           <Logo style="width: 2.35rem" />
-          <div v-if="session.demo" class="badge rounded-pill text-bg-warning logo-badge">Sample</div>
+          <div v-if="1===2 && session.demo" class="badge rounded-pill text-bg-warning logo-badge">Demo</div>
 
         </router-link>
       </div>

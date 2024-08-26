@@ -4,8 +4,7 @@
 
     <template #text>
       You can add, update, and delete your payment methods here. You can also make a payment method the default
-      method for your account. The default payment method is used for all invoices unless you specify a different
-      method.
+      method for your account. The default method is used for all invoice payments.
     </template>
 
     <template #actions>
@@ -39,17 +38,17 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" :aria-labelledby="card.id">
                   <li><a class="dropdown-item" href="javascript:void(0)"
-                      @click="handleOptionClick({ key: 'update', id: card.id })">Update</a></li>
+                      @click="optionClicked({ key: 'update', id: card.id })">Update</a></li>
                   <li v-if="card.default">
                     <a class="dropdown-item disabled" aria-disabled="true"><i class="bi bi-check-lg"></i> Default</a>
                   </li>
                   <li v-else><a class="dropdown-item" href="javascript:void(0)"
-                      @click="handleOptionClick({ key: 'make-default', id: card.id })">Make default</a></li>
+                      @click="optionClicked({ key: 'make-default', id: card.id })">Make default</a></li>
                   <li>
                     <hr class="dropdown-divider" />
                   </li>
                   <li><a class="dropdown-item" href="javascript:void(0)"
-                      @click="handleOptionClick({ key: 'delete', id: card.id })">Delete</a></li>
+                      @click="optionClicked({ key: 'delete', id: card.id })">Delete</a></li>
                 </ul>
               </div>
             </div>
@@ -65,11 +64,12 @@
     </div>
   </div>
 
-  <AddPaymentMethod :open="addCard" @cancel="addCard = false" @success="handleAddCardSuccess" />
+  <AddPaymentMethod :open="addCard" @cancel="addCard = false" @success="cardAdded" />
+
   <DeletePaymentMethod :open="confirmDelete" :cardId="confirmDeleteCardId" @cancel="confirmDelete = false"
-    @success="handleDeleteCardSuccess" />
-  <UpdatePaymentMethod :open="updateCard" :card="updateCardCard" @cancel="updateCard = false"
-    @success="handleUpdateCardSuccess" />
+    @success="cardDeleted" />
+
+  <UpdatePaymentMethod :open="updateCard" :card="updateCardCard" @cancel="updateCard = false" @success="cardUpdated" />
 </template>
 
 <script setup>
@@ -107,23 +107,23 @@ const fetchCards = async () => {
 
 fetchCards();
 
-const handleAddCardSuccess = (resp) => {
+const cardAdded = (resp) => {
   addCard.value = false;
   cards.value = resp;
 };
 
-const handleDeleteCardSuccess = (resp) => {
+const cardDeleted = (resp) => {
   confirmDelete.value = false;
   cards.value = resp;
 };
 
-const handleUpdateCardSuccess = (resp) => {
+const cardUpdated = (resp) => {
   updateCard.value = false;
   updateCardCard.value = {};
   cards.value = resp;
 };
 
-const handleOptionClick = (option) => {
+const optionClicked = (option) => {
   if (option.key === "delete") {
     confirmDelete.value = true;
     confirmDeleteCardId.value = option.id;

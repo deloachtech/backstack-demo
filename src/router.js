@@ -9,7 +9,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
 
-    { path: '/', name: 'home', component: Home, meta: { access: '*' } },
+    { path: '/', component: Home, meta: { access: '*' } },
 
     // Examples
     { path: '/example-tip', meta: { access: '*' }, component: () => import('@/views/examples/ExampleTip.vue') },
@@ -27,7 +27,7 @@ const router = createRouter({
     { path: '/account-network', meta: { access: 'account-network:*' }, component: () => import('@/views/account/network/Index.vue') },
     { path: '/account-profile', meta: { access: 'account-profile:*,account-urls:*' }, component: () => import('@/views/account/profile/AccountProfile.vue') },
     { path: '/account-invoices', meta: { access: 'account-invoices:*' }, component: () => import('@/views/account/invoices/Index.vue') },
-    // The name value is used in the component
+    // The 'name' value is used in the component
     { path: '/account-payment-methods', name: 'accountPaymentMethods', meta: { access: 'account-payment-methods:*' }, component: () => import('@/views/account/payment-methods/PaymentMethods.vue') },
     { path: '/account-users', meta: { access: 'account-users:*' }, component: () => import('@/views/account/users/AccountUsers.vue') },
     { path: '/change-account', meta: { access: '*' }, component: () => import('@/views/account/change/ChangeAccount.vue') },

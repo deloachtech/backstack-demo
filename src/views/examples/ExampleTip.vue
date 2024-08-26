@@ -11,8 +11,7 @@
   </Tip>
 
   <p>Set a tip on a page using <code>src/components/Tip.vue</code>. Hidden <router-link
-      to="/reset-tips">tips can be reset</router-link> via a user
-    option using <code>src/views/user/ResetTips.vue</code>.</p>
+      to="/reset-tips">tips can be reset</router-link> by the user (see <code>src/views/user/ResetTips.vue</code>).</p>
 
 
 </template>

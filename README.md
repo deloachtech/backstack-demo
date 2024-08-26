@@ -1,8 +1,8 @@
-# Backstack Vue (ALPHA)
+# Backstack Demo (ALPHA)
 
 > IMPORTANT NOTE! This project is not yet ready for production use.
 
-This sample project contains comprehensive examples demonstrating how to effectively implement the [Backstack API](https://backstack.com) into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
+This project contains comprehensive examples demonstrating how to effectively implement the [Backstack API](https://backstack.com) into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
 
 Built with:
 
@@ -15,11 +15,11 @@ Built with:
 
 ## Live version
 
-A live version of this repository is also available at [https://main.d39dm9d7yu1652.amplifyapp.com/](https://main.d39dm9d7yu1652.amplifyapp.com/). Log in using `demo` as the username and password.
+A live version of this repository is available at [https://demo.backstack.com/](https://demo.backstack.com). Log in using `demo` as the username and password.
 
 ## Docs
 
-Project documentation can be found at [backstack.com/sample](https://backstack.com/sample).
+Project documentation can be found at [backstack.com/demo](https://backstack.com/demo).
 
 ## API Access
 
@@ -80,7 +80,7 @@ We'll be creating a documentation site for this project. Until then, here are so
 
 The `session` is provided upon request by the Backstack API. This project requests an updated session before each route change. The logic is implemented in the `src/router.js` file.
 
-See the [Backstack session docs](https://backstack.com/sessions.html) for more information on the session architecture.
+See the [Backstack session docs](https://backstack.com/guide/sessions.html) for more information on the session architecture.
 
 ## Access Control
 
@@ -107,7 +107,7 @@ if (session.hasAccess('some-feature:*,another-feature:r')) {
 ```
 
 
-See the [Backstack access control docs](https://backstack.com/access-control.html) for 
+See the [Backstack access control docs](https://backstack.com/guide/access-control.html) for 
 more information on the entire architecture.
 
 > Demo mode uses an independent schema for access control while developing. See `.env.local` for the assignment and `src/session.js` for the implementation.
@@ -125,5 +125,5 @@ The `axios` installation can be used for any endpoint without additional configu
 await axios.post('https://api.backstack.com/v1/app/reset-password', data, { api: 'backstack' }) ...
 ```
 
-The [src/components/AxiosError.vue](https://github.com/deloachtech/backstack-vue/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling logic elsewhere. You can modify this component to incorporate other services if desired.
+The [src/components/AxiosError.vue](https://github.com/deloachtech/backstack-demo/blob/main/src/components/AxiosError.vue) component handles Backstack errors using Axios `interceptors`. It eliminates a significant amount of error handling logic elsewhere. You can modify this component to incorporate other services if desired.
 

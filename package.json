@@ -1,6 +1,6 @@
 {
-  "name": "backstack-vue",
-  "description": "Starter project for Vue applications using the Backstack API.",
+  "name": "backstack-demo",
+  "description": "Demo project for using the Backstack API.",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
