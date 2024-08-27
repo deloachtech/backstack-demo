@@ -43,7 +43,7 @@ export const useSession = defineStore('sessionStore', {
             await axios.get('https://api.backstack.com/v1/app/session', { api: 'backstack' })
                 .then((response) => {
 
-                    //console.log('session.init', response.data);
+                    console.log('session.init', response.data);
 
                     this.jwt = response.data?.jwt;
                     sessionStorage.setItem('jwt', response.data?.jwt);
