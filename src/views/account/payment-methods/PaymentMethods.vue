@@ -107,20 +107,25 @@ const fetchCards = async () => {
 
 fetchCards();
 
-const cardAdded = (resp) => {
+
+const cardAdded = (card) => {
   addCard.value = false;
-  cards.value = resp;
+  if (card["default"]) {
+    cards.value.forEach((c) => c["default"] = false);
+  }
+  cards.value.unshift(card);
 };
 
-const cardDeleted = (resp) => {
+const cardDeleted = ($id) => {
   confirmDelete.value = false;
-  cards.value = resp;
+  confirmDeleteCardId.value = null;
+  cards.value = cards.value.filter(card => card.id !== $id);
 };
 
-const cardUpdated = (resp) => {
+const cardUpdated = (card) => {
   updateCard.value = false;
-  updateCardCard.value = {};
-  cards.value = resp;
+  const index = cards.value.findIndex((c) => c.id === card.id);
+  cards.value[index] = card;
 };
 
 const optionClicked = (option) => {
@@ -135,11 +140,14 @@ const optionClicked = (option) => {
   }
 };
 
+
 const makeDefault = async (option) => {
   showSpinnerForCard.value = option.id;
   await axios
     .post(`https://api.backstack.com/v1/account/payment-methods/${option.id}/make-default`, null, { api: "backstack" })
-    .then((response) => cards.value = response.data)
+    .then((response) => {
+      cards.value.forEach((card) => card.default = card.id === option.id);
+    })
     .finally(() => showSpinnerForCard.value = null);
 };
 </script>

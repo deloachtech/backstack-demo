@@ -12,6 +12,10 @@ body {
     /* Compensate for floating navbar */
 }
 
+.navbar.bg-dark {
+    background-color: #000000 !important;
+}
+
 .tip-component {
     background-color: #c673f6;
     border-color: #591c7d;

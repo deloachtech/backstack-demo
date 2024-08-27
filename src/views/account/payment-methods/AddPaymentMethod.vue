@@ -5,25 +5,25 @@
     <div class="row gy-4">
       <div class="col-12">
 
-        <FormInput label="Card number" v-model="data.cardNumber" :error="errors.cardNumber" />
+        <FormInput label="Card number" v-model="data.card_number" :error="errors.card_number" />
 
       </div>
       <div class="col-4">
 
-        <FormSelect label="Exp Month" v-model="data.cardExpireMonth" :error="errors.cardExpireMonth"
+        <FormSelect label="Exp Month" v-model="data.exp_month" :error="errors.exp_month"
           :options="creditCardExpireMonths()" />
 
       </div>
 
       <div class="col-4">
 
-        <FormSelect label="Exp Year" v-model="data.cardExpireYear" :error="errors.cardExpireYear"
+        <FormSelect label="Exp Year" v-model="data.exp_year" :error="errors.exp_year"
           :options="creditCardExpireYears()" />
       </div>
 
       <div class="col-4">
 
-        <FormInput label="CVC" v-model="data.cardCvc" :error="errors.cardCvc" />
+        <FormInput label="CVC" v-model="data.cvc" :error="errors.cvc" />
 
       </div>
     </div>
@@ -54,10 +54,10 @@ const loading = ref(false);
 
 const errors = ref({});
 const data = ref({
-  cardNumber: "",
-  cardExpireMonth: "",
-  cardExpireYear: "",
-  cardCvc: "",
+  card_number: "",
+  exp_month: "",
+  exp_year: "",
+  cvc: "",
   default: false,
 });
 
@@ -65,21 +65,23 @@ const data = ref({
 
 const submit = async () => {
 
-  if (data.value.cardNumber) {
-    if (!validateCreditCardLuhn(data.value.cardNumber)) errors.value.cardNumber = "Invalid number";
-  } else { errors.value.cardNumber = "Required value"; }
+  errors.value = {};
+
+  if (data.value.card_number) {
+    if (!validateCreditCardLuhn(data.value.card_number)) errors.value.card_number = "Invalid number";
+  } else { errors.value.card_number = "Required value"; }
 
 
-  if (!data.value.cardExpireMonth) errors.value.cardExpireMonth = "Required value";
-  if (!data.value.cardExpireYear) errors.value.cardExpireYear = "Required value";
+  if (!data.value.exp_month) errors.value.exp_month = "Required value";
+  if (!data.value.exp_year) errors.value.exp_year = "Required value";
 
-  if (data.value.cardExpireMonth && data.value.cardExpireYear) {
-    if (!validateCreditCardExpiration(data.value.cardExpireMonth, data.value.cardExpireYear)) errors.value.cardExpireYear = "Card expired";
+  if (data.value.exp_month && data.value.exp_year) {
+    if (!validateCreditCardExpiration(data.value.exp_month, data.value.exp_year)) errors.value.exp_year = "Card expired";
   }
 
-  if (data.value.cardCvc) {
-    if (!validateCreditCardCvc(data.value.cardCvc)) errors.value.cardCvc = "Invalid CVC";
-  } else { errors.value.cardCvc = "Required value"; }
+  if (data.value.cvc) {
+    if (!validateCreditCardCvc(data.value.cvc)) errors.value.cvc = "Invalid CVC";
+  } else { errors.value.cvc = "Required value"; }
 
   if (Object.keys(errors.value).length > 0) {
     return;
@@ -96,10 +98,10 @@ const submit = async () => {
 
 const cancel = () => {
   errors.value = {};
-  data.value.cardCvc = "";
-  data.value.cardExpireMonth = "";
-  data.value.cardExpireYear = "";
-  data.value.cardNumber = "";
+  data.value.cvc = "";
+  data.value.exp_month = "";
+  data.value.exp_year = "";
+  data.value.card_number = "";
   data.value.default = false;
   data.value.token = "";
   emit("cancel");
