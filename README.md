@@ -2,7 +2,7 @@
 
 > IMPORTANT NOTE! This project is not yet ready for production use.
 
-This project contains comprehensive examples demonstrating how to effectively implement the [Backstack API](https://backstack.com) into your codebase. It's available under the MIT license for your use. This project can also be used as a starter app to kickstart your development.
+This project contains comprehensive examples demonstrating how to effectively implement the [Backstack API](https://backstack.com) into your codebase. It's available under the MIT license for your use. Use this codebase to kickstart your app development.
 
 Built with:
 
@@ -15,15 +15,15 @@ Built with:
 
 ## Live version
 
-A live version of this repository is available at [https://demo.backstack.com/](https://demo.backstack.com). Log in using `demo` as the username and password.
+A live version of the repository is available at [https://demo.backstack.com/](https://demo.backstack.com). Log in using `demo` as the username and password.
 
 ## Docs
 
-Project documentation can be found at [backstack.com/demo](https://backstack.com/demo).
+Project documentation can be found at [backstack.com/demo](https://backstack.com/docs/demo).
 
 ## API Access
 
-The project accesses the `api.backstack.com` endpoints using `demo` as the Backstack application key. The demo is interactive, allowing you to submit changes and observe the effects on the associated pages. It resets to the default state with each new login. 
+The project accesses the `api.backstack.com` endpoints using `demo` as the application key. The demo is interactive, allowing you to submit changes and observe the effects on the associated pages. It resets to the default state with each new login. 
 
 Log in with `demo` as the username and password. 
 
@@ -32,7 +32,7 @@ When you're ready to go live. All you have to do is update your app key and you'
 
 ## Features
 
-Includes common functionality. Add your app-specific views using the project components (e.g., tables, settings, file uploads) or your own.
+Includes common functionality.
 
 - Log-in
 - Reset password
@@ -48,6 +48,8 @@ Includes common functionality. Add your app-specific views using the project com
 - App system alerts
 - User configurable notification preferences (e.g. email, text, app)
 
+ Add your app-specific views using the project components (e.g., tables, settings, file uploads) or your own.
+
 ## Installation
 
 Download and unpack the contents of the zip file into your project directory. From there, install the `package.json` assets and run the development server.
@@ -57,7 +59,7 @@ npm install
 npm run dev
 ```
 
-Modify the files as needed for your project.
+Modify the project files as needed for your application.
 
 ## Updates
 
@@ -65,16 +67,16 @@ This project does not offer typical updating schemas as it's intended to be a st
 
 # Customization
 
-The project uses [Vite](https://vitejs.dev/) to compile the `src/template/styles.css` and the `src/template/theme.css`. Modify either of these files to meet your project theming requirements.
+[Vite](https://vitejs.dev/) is used to compile the `src/template/styles.css` and the `src/template/theme.css`. Modify either of these files to meet your application theming requirements.
 
-Everything controlling the structure of the project (e.g. layout, navigation) is located in `src/template` for your convenience.
+Everything controlling the structure (e.g. layout, navigation) is located in `src/template` for your convenience.
 
 You can directly edit the components included in the `src/components` directory.
 
 
 # Usage
 
-We'll be creating a documentation site for this project. Until then, here are some key usage topics.
+We'll be creating a documentation site in the near future. Until then, here are some key usage topics.
 
 ## Sessions
 
