@@ -46,9 +46,9 @@ axios.interceptors.response.use(
         } else {
           // It's a codebase or system error.
 
-          if (process.env.NODE_ENV === "development") {
+         // if (process.env.NODE_ENV === "development") {
             console.log(error.response.data.error);
-          }
+          //}
 
           if (error.response.data.error?.demo === true) {
             alertMessage.value = error.response.data.error?.message || "An error occurred. Please try again later.";
