@@ -40,7 +40,7 @@ export const useSession = defineStore('sessionStore', {
 
             this.loading = true
 
-            await axios.get('http://174.129.162.72/v1/app/session', { api: 'backstack' })
+            await axios.get('https://174.129.162.72/v1/app/session', { api: 'backstack' })
                 .then((response) => {
 
                     //console.log('session.init', response.data);
