@@ -18,7 +18,8 @@ export function setupAxios() {
         (config) => {
 
             config.metadata = { startTime: new Date() };
-            config.timeout = 60000
+            config.timeout = 60000;
+            config.withCredentials = false;
 
             if (config.api === 'backstack') {
 
