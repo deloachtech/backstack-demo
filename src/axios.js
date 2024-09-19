@@ -28,7 +28,7 @@ export function setupAxios() {
                 const appKey = sessionStorage.getItem('jwt') ?? import.meta.env.VITE_BACKSTACK_APP_KEY
 
                 //config.withCredentials = true
-                config.headers.Authorization = `Bearer ${appKey}`
+                config.headers.Authorization = appKey
 
 
                 // This header is used by the provider of the package and does not 
