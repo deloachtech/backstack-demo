@@ -65,7 +65,7 @@ const session = useSession();
 const fetchList = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/network-accounts", { api: "backstack" })
+    .get("https://api.backstack.com/account/network-accounts", { api: "backstack" })
     .then((response) => list.value = response.data.list)
     .finally(() => fetching.value = false);
 };

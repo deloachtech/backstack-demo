@@ -17,7 +17,7 @@ const loading = ref(false)
 
 const logout = async () => {
   loading.value = true;
-  await axios.get('https://api.backstack.com/v1/app/logout', { api: 'backstack' })
+  await axios.get('https://api.backstack.com/app/logout', { api: 'backstack' })
     .then((response) => {
       session.update(response.data);
     })

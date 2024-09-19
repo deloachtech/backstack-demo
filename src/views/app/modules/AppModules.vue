@@ -79,7 +79,7 @@ const view = ref("modules");
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/app/optional-features", { api: "backstack" })
+    .get("https://api.backstack.com/app/optional-features", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };
@@ -95,7 +95,7 @@ const activateModuleId = ref(null);
 const toggleActivation = async () => {
   submitting.value = true;
   await axios
-    .post(`https://api.backstack.com/v1/app/optional-features/${activateModuleId.value}`, null, { api: "backstack" })
+    .post(`https://api.backstack.com/app/optional-features/${activateModuleId.value}`, null, { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => {
       submitting.value = false;

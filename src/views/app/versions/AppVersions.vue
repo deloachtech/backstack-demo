@@ -126,8 +126,8 @@ const versions = ref([]);
 const fetchData = async () => {
   fetching.value = true;
   await Promise.all([
-    axios.get("https://api.backstack.com/v1/app/versions", { api: "backstack" }),
-    axios.get("https://api.backstack.com/v1/app/versions/feature-matrix", { api: "backstack" })
+    axios.get("https://api.backstack.com/app/versions", { api: "backstack" }),
+    axios.get("https://api.backstack.com/app/versions/feature-matrix", { api: "backstack" })
   ])
     .then((response) => {
       versions.value = response[0].data;
@@ -146,7 +146,7 @@ const submitting = ref(false);
 const activateVersion = async () => {
   submitting.value = true;
   await axios
-    .post(`https://api.backstack.com/v1/account/versions/${record.value.id}`, null, { api: "backstack" })
+    .post(`https://api.backstack.com/account/versions/${record.value.id}`, null, { api: "backstack" })
     .then((response) => versions.value = response.data)
     .finally(() => {
       submitting.value = false;

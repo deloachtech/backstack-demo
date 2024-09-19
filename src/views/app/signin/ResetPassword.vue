@@ -62,7 +62,7 @@ const validateToken = async () => {
   if (!route.query.token) return;
   loading.value = true;
   await axios
-    .get(`https://api.backstack.com/v1/app/reset-password/${route.query.token}`, {
+    .get(`https://api.backstack.com/app/reset-password/${route.query.token}`, {
       api: "backstack",
       // Suppress the alert message if the token is invalid so the ResetPassword component can handle it.
       alert: false,
@@ -95,7 +95,7 @@ const submit = async () => {
     submitting.value = true;
 
     await axios
-      .post("https://api.backstack.com/v1/app/reset-password", data.value, { api: "backstack" })
+      .post("https://api.backstack.com/app/reset-password", data.value, { api: "backstack" })
       .then(() => success.value = true)
       .catch((error) => errors.value = error.fields)
       .finally(() => submitting.value = false);

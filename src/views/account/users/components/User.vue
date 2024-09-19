@@ -75,7 +75,7 @@ const submit = () => {
 const fetchRoles = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/app/roles", { api: "backstack" })
+    .get("https://api.backstack.com/app/roles", { api: "backstack" })
     .then((response) => roles.value = response.data)
     .finally(() => fetching.value = false);
 };

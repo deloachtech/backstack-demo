@@ -26,7 +26,7 @@ const submitting = ref(false);
 const resetTips = async () => {
   submitting.value = true;
   await axios
-    .post("https://api.backstack.com/v1/user/unhide-tips", { hidden_tips: [] }, { api: "backstack" })
+    .post("https://api.backstack.com/user/unhide-tips", { hidden_tips: [] }, { api: "backstack" })
     .then((result) => session.user.hidden_tips = [])
     .finally(() => submitting.value = false);
 };

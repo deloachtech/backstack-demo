@@ -67,7 +67,7 @@ const currentSetting = ref(null);
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/user", { api: "backstack" })
+    .get("https://api.backstack.com/user", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };
@@ -100,7 +100,7 @@ const submitData = async () => {
 
   submitting.value = true;
   await axios
-    .post("https://api.backstack.com/v1/user", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+    .post("https://api.backstack.com/user", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
     .then((response) => {
       data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
 

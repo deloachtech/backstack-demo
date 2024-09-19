@@ -42,18 +42,18 @@ export function setupAxios() {
                 // We'll be releasing a development version of the API that can be used on the localhost.
                 // Modify the URL for using the development version without changing the codebase.
 
-                if (process.env.NODE_ENV === 'development') {
+                if (1=== 2 && process.env.NODE_ENV === 'development') {
 
                     /* 
                        Example:
 
-                       Given the URI https://api.backstack.com/v1/app/session. The following
+                       Given the URI https://api.backstack.com/app/session. The following
                        .env.local configuration:
 
                        VITE_BACKSTACK_API_FIND=https://api.backstack.com/
                        VITE_BACKSTACK_API_REPLACE=http://localhost/backstack/api/
 
-                       Will produce http://localhost/backstack/api/v1/app/session for Axios requests
+                       Will produce http://localhost/backstack/api/app/session for Axios requests
                        without changing live URIs in the codebase.
                     */
 

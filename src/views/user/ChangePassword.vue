@@ -68,7 +68,7 @@ const changePassword = async () => {
   submitting.value = true;
 
   await axios
-    .post("https://api.backstack.com/v1/user/change-password", data.value, { api: "backstack" })
+    .post("https://api.backstack.com/user/change-password", data.value, { api: "backstack" })
     .catch((error) => errors.value = error.fields)
     .then((response) => {
       showToast.value = true;

@@ -40,7 +40,7 @@ export const useSession = defineStore('sessionStore', {
 
             this.loading = true
 
-            await axios.get('https://api.backstack.com/v1/app/session', { api: 'backstack' })
+            await axios.get('https://api.backstack.com/app/session', { api: 'backstack' })
                 .then((response) => {
 
                     //console.log('session.init', response.data);
@@ -88,7 +88,7 @@ export const useSession = defineStore('sessionStore', {
 
         async hideTip(tipId) {
             this.hidingTip = true
-            await axios.post(`https://api.backstack.com/v1/user/hide-tips/${tipId}`, null, { api: 'backstack' })
+            await axios.post(`https://api.backstack.com/user/hide-tips/${tipId}`, null, { api: 'backstack' })
                 .then((response) => {
                     this.user.hidden_tips = response.data;
                 })

@@ -84,7 +84,7 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .post(`https://api.backstack.com/v1/account/payment-methods/${props.card.id}`, data.value, { api: "backstack" })
+    .post(`https://api.backstack.com/account/payment-methods/${props.card.id}`, data.value, { api: "backstack" })
     .then((response) => emit("success", response.data))
     .catch((error) => error.value = true)
     .finally(() => submitting.value = false);

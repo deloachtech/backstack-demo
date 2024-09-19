@@ -63,7 +63,7 @@ const data = ref({});
 const fetch = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/stripe/settings", { api: "backstack" })
+    .get("https://api.backstack.com/account/stripe/settings", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };
@@ -98,7 +98,7 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .post("https://api.backstack.com/v1/account/stripe/settings", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+    .post("https://api.backstack.com/account/stripe/settings", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
     .then(() => {
       data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
       closeModal();

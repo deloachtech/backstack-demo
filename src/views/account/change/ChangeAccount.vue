@@ -41,7 +41,7 @@ const router = useRouter();
 const fetch = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/user/change-account", { api: "backstack" })
+    .get("https://api.backstack.com/user/change-account", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };
@@ -56,7 +56,7 @@ const submit = async () => {
 
   submitting.value = true;
   try {
-    const response = await axios.post("https://api.backstack.com/v1/user/change-account", { account_id: accountId.value }, { api: "backstack" });
+    const response = await axios.post("https://api.backstack.com/user/change-account", { account_id: accountId.value }, { api: "backstack" });
     session.update(response.data);
     await router.push("/");
   } catch (error) {

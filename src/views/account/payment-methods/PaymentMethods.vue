@@ -100,7 +100,7 @@ const appCanProcessPaymentMethods = (session.app.stripe_pub_key.length > 0 && se
 const fetchCards = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/payment-methods", { api: "backstack" })
+    .get("https://api.backstack.com/account/payment-methods", { api: "backstack" })
     .then((response) => cards.value = response.data)
     .finally(() => fetching.value = false);
 };
@@ -144,7 +144,7 @@ const optionClicked = (option) => {
 const makeDefault = async (option) => {
   showSpinnerForCard.value = option.id;
   await axios
-    .post(`https://api.backstack.com/v1/account/payment-methods/${option.id}/make-default`, null, { api: "backstack" })
+    .post(`https://api.backstack.com/account/payment-methods/${option.id}/make-default`, null, { api: "backstack" })
     .then((response) => {
       cards.value.forEach((card) => card.default = card.id === option.id);
     })

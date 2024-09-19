@@ -33,7 +33,7 @@ const data = ref({});
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/version-history", { api: "backstack" })
+    .get("https://api.backstack.com/account/version-history", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };

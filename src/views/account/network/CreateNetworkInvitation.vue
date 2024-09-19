@@ -67,7 +67,7 @@ const domains = ref([]);
 
 const fetchDomains = async () => {
   await axios
-    .get("https://api.backstack.com/v1/account/network-domains", { api: "backstack" })
+    .get("https://api.backstack.com/account/network-domains", { api: "backstack" })
     .then((response) => domains.value = response.data);
 };
 
@@ -103,7 +103,7 @@ const submit = async () => {
   submitting.value = true;
   
   await axios
-    .post("https://api.backstack.com/v1/account/network-invitations", data.value, { api: "backstack" })
+    .post("https://api.backstack.com/account/network-invitations", data.value, { api: "backstack" })
     .then((response) => emit("success", response.data))
     .catch((error) => errors.value = error.fields)
     .finally(() => submitting.value = false);

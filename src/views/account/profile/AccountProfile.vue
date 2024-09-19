@@ -92,8 +92,8 @@ const fetchData = async () => {
   fetching.value = true;
 
   await Promise.all([
-    axios.get("https://api.backstack.com/v1/static/timezones", { api: "backstack" }),
-    axios.get("https://api.backstack.com/v1/account", { api: "backstack" })
+    axios.get("https://api.backstack.com/static/timezones", { api: "backstack" }),
+    axios.get("https://api.backstack.com/account", { api: "backstack" })
   ])
     .then((response) => {
       timezones.value = response[0].data;
@@ -127,7 +127,7 @@ const submitData = async () => {
 
   submitting.value = true;
   await axios
-    .post("https://api.backstack.com/v1/account", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+    .post("https://api.backstack.com/account", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
     .then((response) => {
       data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
       // Update session values that are used in the active UI (e.g. nav dropdown).

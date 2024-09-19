@@ -66,7 +66,7 @@ const add = () => {
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/users", { api: "backstack" })
+    .get("https://api.backstack.com/account/users", { api: "backstack" })
     .then((response) => {
       list.value = response.data.list;
       filters.value = response.data.filters;

@@ -23,7 +23,7 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .delete(`https://api.backstack.com/v1/account/payment-methods/${props.cardId}`, { api: "backstack" })
+    .delete(`https://api.backstack.com/account/payment-methods/${props.cardId}`, { api: "backstack" })
     .then((response) => emit("success", response.data))
     .finally(() => submitting.value = false);
 };

@@ -104,7 +104,7 @@ const fetchSettings = async () => {
   fetchingSettings.value = true;
 
   await axios
-    .get("https://api.backstack.com/v1/user/notification-settings", { api: "backstack" })
+    .get("https://api.backstack.com/user/notification-settings", { api: "backstack" })
     .then((response) =>settings.value = response.data)
     .finally(() => fetchingSettings.value = false);
 };
@@ -129,7 +129,7 @@ const updateUser = async () => {
   updatingUser.value = true;
   
   await axios
-    .post("https://api.backstack.com/v1/user", user.value, { api: "backstack" })
+    .post("https://api.backstack.com/user", user.value, { api: "backstack" })
     .then((response) => {
       session.user.email = user.value.email;
       session.user.mobile_number = user.value.mobile_number;
@@ -143,7 +143,7 @@ const updateSettings = async () => {
   updatingSettings.value = true;
 
   await axios
-    .post("https://api.backstack.com/v1/user/notification-settings", {
+    .post("https://api.backstack.com/user/notification-settings", {
 
       // Filter settings to include only id, app, email, and text keys
       settings: settings.value.map(setting => ({

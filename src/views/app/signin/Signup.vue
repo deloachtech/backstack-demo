@@ -77,7 +77,7 @@ const _domains = ref({});
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/app/signup/domains", { api: "backstack" })
+    .get("https://api.backstack.com/app/signup/domains", { api: "backstack" })
     .then((response) => _domains.value = response.data)
     .finally(() => fetching.value = false);
 };

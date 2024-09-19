@@ -67,7 +67,7 @@ const activeRecord = ref({});
 const fetchList = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/network-invitations", { api: "backstack" })
+    .get("https://api.backstack.com/account/network-invitations", { api: "backstack" })
     .then((response) => list.value = response.data.list)
     .finally(() => fetching.value = false);
 };

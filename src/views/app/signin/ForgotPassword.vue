@@ -51,7 +51,7 @@ const submit = async () => {
     submitting.value = true;
 
     await axios
-      .post("https://api.backstack.com/v1/app/forgot-password", data.value, { api: "backstack" })
+      .post("https://api.backstack.com/app/forgot-password", data.value, { api: "backstack" })
       .then((response) => success.value = true)
       .catch((error) => errors.value = error.fields)
       .finally(() => submitting.value = false);

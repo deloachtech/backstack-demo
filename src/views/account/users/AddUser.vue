@@ -45,7 +45,7 @@ const submit = async (data) => {
   submitting.value = true;
 
   await axios
-    .post("https://api.backstack.com/v1/account/users", data.value, { api: "backstack" })
+    .post("https://api.backstack.com/account/users", data.value, { api: "backstack" })
     .then((response) => emit("success", response.data))
     .catch((error) => errors.value = error.fields)
     .finally(() => submitting.value = false);

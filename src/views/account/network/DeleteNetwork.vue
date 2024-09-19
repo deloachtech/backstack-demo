@@ -22,7 +22,7 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .delete(`https://api.backstack.com/v1/account/network-accounts/${props.record.account_id}`, { api: "backstack" })
+    .delete(`https://api.backstack.com/account/network-accounts/${props.record.account_id}`, { api: "backstack" })
     .then((response) => emit("success", response.account_id))
     .finally(() => submitting.value = false);
 };

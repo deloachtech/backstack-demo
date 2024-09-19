@@ -53,7 +53,7 @@ const list = ref([]);
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/invoices", { api: "backstack" })
+    .get("https://api.backstack.com/account/invoices", { api: "backstack" })
     .then((response) => list.value = response.data.list)
     .finally(() => fetching.value = false);
 };

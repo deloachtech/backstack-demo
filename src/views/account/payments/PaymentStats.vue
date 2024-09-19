@@ -31,7 +31,7 @@ const fetching = ref(false);
 const fetch = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/v1/account/stripe/stats", { api: "backstack" })
+    .get("https://api.backstack.com/account/stripe/stats", { api: "backstack" })
     .then((response) => {
       customers.value = response.data.customers || [];
       revenue.value = response.data.revenue || [];
