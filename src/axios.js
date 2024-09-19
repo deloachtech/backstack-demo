@@ -23,6 +23,8 @@ export function setupAxios() {
 
             if (config.api === 'backstack') {
 
+                config.headers['Content-Type'] = 'application/json';
+
                 // Secrets stored in .env files are not secret!
                 // Replace this logic with your preferred security schema.
 
