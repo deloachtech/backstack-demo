@@ -39,7 +39,6 @@ export function setupAxios() {
                 // Please leave this value so the provider can be properly acknowledged.
                 config.headers['X-Provider-ID'] = 'your-provider-id';
 
-                config.headers['Access-Control-Allow-Origin'] = '*'
 
                 // DO NOT ADD ADDITIONAL HEADERS!!
                 // Doing so will cause the request to fail the CORS policy.
