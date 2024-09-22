@@ -43,7 +43,7 @@ export const useSession = defineStore('sessionStore', {
             await axios.get('https://api.backstack.com/app/session', { api: 'backstack' })
                 .then((response) => {
 
-                    //console.log('session.init', response.data);
+                    console.log('session.init', response.data);
 
                     this.jwt = response.data?.jwt;
                     sessionStorage.setItem('jwt', response.data?.jwt);
@@ -53,8 +53,7 @@ export const useSession = defineStore('sessionStore', {
                     this.app = response.data?.app;
                     this.auth = response.data?.auth;
 
-                    const combinedAccess = Object.assign({}, response.data?.access, assignAccess);
-                    this.access = combinedAccess;
+                    this.access = Object.assign({}, response.data?.access, assignAccess);
 
                     this.access_signature = response.data?.access_signature;
 
