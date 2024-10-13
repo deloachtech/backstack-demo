@@ -20,7 +20,7 @@ const router = createRouter({
     { path: '/reset-tips', meta: { access: '*' }, component: () => import('@/views/user/ResetTips.vue') },
     { path: '/change-password', meta: { access: '*' }, component: () => import('@/views/user/ChangePassword.vue') },
     { path: '/merge-users', meta: { access: '*' }, component: () => import('@/views/user/MergeUsers.vue') },
-    { path: '/manage-notifications', meta: { access: '*' }, component: () => import('@/views/user/ManageNotifications.vue') },
+    { path: '/notification-settings', meta: { access: '*' }, component: () => import('@/views/user/notification-settings/UserNotificationSettings.vue') },
 
     // Account
     { path: '/account-payments', meta: { access: 'account-payments:*,account-stripe-settings' }, component: () => import('@/views/account/payments/Index.vue') },
