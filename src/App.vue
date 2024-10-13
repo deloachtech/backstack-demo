@@ -22,7 +22,8 @@ import { useRoute } from "vue-router";
 import AppTemplate from "@/template/AppTemplate.vue";
 import SigninTemplate from "@/template/SigninTemplate.vue";
 import { useSession } from "@/session";
-import { ForgotPassword, Login, ResetPassword, Signup } from "@/views/app/signin";
+import { ForgotPassword, Login, ResetPassword } from "@/views/app/login";
+import Signup from "@/views/app/signup/Signup.vue";
 import { Spinner, Error404 } from "@/components";
 
 const route = useRoute();

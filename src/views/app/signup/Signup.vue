@@ -68,7 +68,7 @@ import { validateEmail } from "@/utils";
 import countries from "@/data/countries.json";
 import axios from "axios";
 import SelectDomain from "./components/SelectDomain.vue";
-import SubmitButton from "./components/SubmitButton.vue";
+import SubmitButton from "@/views/app/login/components/SubmitButton.vue";
 import { FormInput, FormSelect } from "@/components";
 
 const fetching = ref(false);

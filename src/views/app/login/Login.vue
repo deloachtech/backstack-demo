@@ -107,7 +107,7 @@ const login = async () => {
 const selectAccount = async () => {
   submitting.value = true;
   await axios
-    .post(`https://api.backstack.com/app/login/account/${selectedAccountId.value}`, null, { api: "backstack" })
+    .post(`https://api.backstack.com/app/login-account/${selectedAccountId.value}`, null, { api: "backstack" })
     .then((response) => {
       session.update(response.data);
       router.push('/');
