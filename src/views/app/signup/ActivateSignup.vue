@@ -1,5 +1,8 @@
+
+<!-- Placeholder file for future functionality. -->
+
+
 <template>
-  Placeholder for future content.
 </template>
 
 <script setup>
