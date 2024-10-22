@@ -6,7 +6,7 @@
       <thead>
         <tr>
           <th scope="col">Date</th>
-          <th scope="col">Module</th>
+          <th scope="col">Feature</th>
           <th scope="col">Status</th>
         </tr>
       </thead>
@@ -33,7 +33,7 @@ const data = ref({});
 const fetchData = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/account/optional-features-history", { api: "backstack" })
+    .get("https://api.backstack.com/account/optional-features", { api: "backstack" })
     .then((response) => data.value = response.data)
     .finally(() => fetching.value = false);
 };

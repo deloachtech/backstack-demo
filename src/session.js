@@ -105,7 +105,7 @@ export const useSession = defineStore('sessionStore', {
 
         hasAccess: (state) => {
 
-            if (state.demo === true) {
+            if (state?.demo === true) {
 
                 const demoAccess = import.meta.env.VITE_DEMO_ACCESS ?? '*';
                 if (demoAccess === '*') {
@@ -119,7 +119,7 @@ export const useSession = defineStore('sessionStore', {
         },
 
         tipHidden: (state) => {
-            return (tipId) => state.user.hidden_tips?.includes(tipId)
+            return (tipId) => state?.user.hidden_tips?.includes(tipId)
         },
     }
 })

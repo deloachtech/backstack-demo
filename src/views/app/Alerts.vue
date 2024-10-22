@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { PageHeading, Spinner } from "@/components";
+import { PageHeading } from "@/components";
 import { useSession } from "@/session";
 
 const session = useSession();

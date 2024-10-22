@@ -6,16 +6,16 @@
     </template>
   </PageHeading>
 
-  <AppModules v-if="view === 'modules'" />
+  <OptionalFeatures v-if="view === 'modules'" />
   <AccountModuleHistory v-else />
 </template>
 
 <script setup>
-import AppModules from "./AppModules.vue";
-import AccountModuleHistory from "@/views/account/module-history/AccountModuleHistory.vue";
+import AccountModuleHistory from "@/views/account/module-history/OptionalFeatureHistory.vue";
 import { ref } from "vue";
 import { RadioButtonGroup, PageHeading } from "@/components";
 import { useSession } from "@/session";
+import OptionalFeatures from "@/views/app/OptionalFeatures.vue";
 
 const session = useSession();
 const view = ref("modules");

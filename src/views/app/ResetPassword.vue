@@ -38,7 +38,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { Spinner, FormInput } from "@/components";
-import SubmitButton from "./components/SubmitButton.vue";
+import SubmitButton from "@/views/app/components/LoginSubmitButton.vue";
 
 const loading = ref(false);
 const submitting = ref(false);

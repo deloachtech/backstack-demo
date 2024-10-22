@@ -5,7 +5,7 @@
   <Spinner v-if="fetching" />
 
   <div v-else class="table-responsive mt-5">
-    <TableToolbar @add="creating = true" :hide-add="!session.hasAccess('account-network-invitations:c')" />
+    <TableToolbar @add="creating = true" :hide-add="!session.hasAccess('account-networks:c')" />
     <table class="table table-hover table-borderless">
       <thead>
         <tr>
@@ -67,7 +67,7 @@ const activeRecord = ref({});
 const fetchList = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/account/network-invitations", { api: "backstack" })
+    .get("https://api.backstack.com/account/networks/invitations", { api: "backstack" })
     .then((response) => list.value = response.data.list)
     .finally(() => fetching.value = false);
 };

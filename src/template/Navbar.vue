@@ -171,8 +171,8 @@ const userOptions = [
   { title: "Profile", route: "/user-profile" },
   { title: "Change password", route: "/change-password" },
   { title: "Merge users", route: "/merge-users" },
-  { title: "Manage notifications", route: "/manage-notifications" },
-  { title: "Reset hidden tips", route: "/reset-tips" },
+  { title: "Manage notifications", route: "/notification-settings" },
+  { title: "Hidden tips", route: "/hidden-tips" },
   { title: "_divider1", route: "" },
   { title: "Log out", route: "/logout" }
 ];

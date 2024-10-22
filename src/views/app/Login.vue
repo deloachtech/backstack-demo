@@ -44,8 +44,8 @@
     <SubmitButton :submitting="submitting" text="Log In" />
 
     <div class="mt-3 mb-3 text-body-secondary text-center">
-      <div><a href="/forgot-password">Forgot your password?</a></div>
-      <div v-if="session.app?.allow_signup" class="mt-2"><a href="/signup">Need an account?</a></div>
+      <div><a href="/app/forgot-password">Forgot your password?</a></div>
+      <div v-if="session.app?.allow_signup" class="mt-2"><a href="/app/signup">Need an account?</a></div>
     </div>
   </form>
 
@@ -58,7 +58,7 @@ import { useSession } from "@/session";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { FormInput } from "@/components";
-import SubmitButton from "./components/SubmitButton.vue";
+import SubmitButton from "@/views/app/components/LoginSubmitButton.vue";
 import Logo from "@/template/Logo.vue";
 
 

@@ -2,7 +2,7 @@
   <Spinner v-if="fetching" />
 
   <div v-else class="table-responsive mt-5">
-    <TableToolbar @add="creating = true" :hide-add="!session.hasAccess('account-network:c')" />
+    <TableToolbar @add="creating = true" :hide-add="!session.hasAccess('account-networks:c')" />
     <table class="table table-hover table-borderless">
       <thead>
         <tr>
@@ -65,7 +65,7 @@ const session = useSession();
 const fetchList = async () => {
   fetching.value = true;
   await axios
-    .get("https://api.backstack.com/account/network-accounts", { api: "backstack" })
+    .get("https://api.backstack.com/account/networks", { api: "backstack" })
     .then((response) => list.value = response.data.list)
     .finally(() => fetching.value = false);
 };
@@ -83,7 +83,7 @@ const handleAction = (action, record) => {
 
 const deleteSuccess = () => {
   deleting.value = false;
-  list.value = list.value.filter((item) => item.account_id !== activeRecord.value.account_id);
+  list.value = list.value.filter((item) => item?.account_id !== activeRecord.value.account_id);
   activeRecord.value = {};
 };
 

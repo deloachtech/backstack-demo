@@ -3,7 +3,7 @@
  * modify the request and response objects before they are sent or received. This is useful for
  * adding headers to requests, handling errors, and other tasks. The setupAxios function is 
  * called in main.js before the Vue app is created to ensure that the Axios library is properly
- * configured before any requests are made. 
+ * configured before any requests.
  */
 
 import axios from 'axios'

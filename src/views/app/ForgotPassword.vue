@@ -17,7 +17,7 @@
       <SubmitButton :submitting="submitting" text="Send Email" />
 
       <div class="mt-3 mb-3 text-body-secondary text-center">
-        <div><a href="/login">Remembered?</a></div>
+        <div><a href="/app/login">Remembered?</a></div>
       </div>
     </div>
   </form>
@@ -29,7 +29,7 @@ import { ref } from "vue";
 import { validateEmail } from "@/utils";
 import axios from "axios";
 import { FormInput } from "@/components";
-import SubmitButton from "./components/SubmitButton.vue";
+import SubmitButton from "@/views/app/login/components/SubmitButton.vue";
 
 const submitting = ref(false);
 const errors = ref({});

@@ -15,7 +15,7 @@
 import { ref } from "vue";
 import { RadioButtonGroup, PageHeading, Error404 } from "@/components";
 import { useSession } from "@/session";
-import AccountNetwork from "./AccountNetwork.vue";
+import AccountNetwork from "./Networks.vue";
 import NetworkInvitations from "./NetworkInvitations.vue";
 
 const view = ref("network");

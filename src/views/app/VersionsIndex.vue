@@ -12,7 +12,7 @@
 
 <script setup>
 import AppVersions from "./AppVersions.vue";
-import AccountVersionHistory from "@/views/account/version-history/AccountVersionHistory.vue";
+import AccountVersionHistory from "@/views/account/version-history/VersionHistory.vue";
 import { ref } from "vue";
 import { RadioButtonGroup, PageHeading } from "@/components";
 
