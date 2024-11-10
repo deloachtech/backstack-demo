@@ -1,3 +1,11 @@
+<script setup>
+import { PageHeading, ExternalLink, Tip } from "@/components";
+import { useSession } from "@/session";
+
+const session = useSession();
+
+</script>
+
 <template>
 
   <PageHeading heading="Backstack Demo">
@@ -19,10 +27,3 @@
 
 </template>
 
-<script setup>
-import { PageHeading, ExternalLink, Tip } from "@/components";
-import { useSession } from "@/session";
-
-const session = useSession();
-
-</script>

@@ -1,18 +1,6 @@
-<template>
-  <PageHeading heading="Application Versioning">
-    <template #text> Versions provide functionality to meet the needs of your organization. </template>
-    <template #actions>
-      <RadioButtonGroup :options="views" v-model="view" />
-    </template>
-  </PageHeading>
-
-  <AppVersions v-if="view === 'versions'" />
-  <AccountVersionHistory v-else />
-</template>
-
 <script setup>
-import AppVersions from "./AppVersions.vue";
-import AccountVersionHistory from "@/views/account/version-history/VersionHistory.vue";
+import Versions from "./Versions.vue";
+import AccountVersionHistory from "@/views/account/Versions.vue";
 import { ref } from "vue";
 import { RadioButtonGroup, PageHeading } from "@/components";
 
@@ -23,4 +11,16 @@ const views = [
   { id: "history", label: "History" },
 ];
 </script>
+
+<template>
+  <PageHeading heading="Application Versioning">
+    <template #text> Versions provide functionality to meet the needs of your organization. </template>
+    <template #actions>
+      <RadioButtonGroup :options="views" v-model="view" />
+    </template>
+  </PageHeading>
+
+  <Versions v-if="view === 'versions'" />
+  <AccountVersionHistory v-else />
+</template>
 

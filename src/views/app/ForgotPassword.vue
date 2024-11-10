@@ -1,3 +1,40 @@
+<script setup>
+import Logo from "@/template/Logo.vue";
+import { ref } from "vue";
+import { validateEmail } from "@/utils";
+import axios from "axios";
+import { FormInput } from "@/components";
+import SubmitButton from "@/views/app/components/LoginSubmitButton.vue";
+
+const submitting = ref(false);
+const errors = ref({});
+const success = ref(false);
+const data = ref({
+  email: "",
+});
+
+const submit = async () => {
+  errors.value = {};
+
+  if (!data.value.email) {
+    errors.value.email = "Email required";
+  } else if (!validateEmail(data.value.email)) {
+    errors.value.email = "Invalid email address";
+  }
+
+  if (Object.keys(errors.value).length === 0) {
+    submitting.value = true;
+
+    await axios
+        .post("https://api.backstack.com/app/forgot-password", data.value, { api: "backstack" })
+        .then((response) => success.value = true)
+        .catch((error) => errors.value = error.fields)
+        .finally(() => submitting.value = false);
+  }
+};
+</script>
+
+
 <template>
   <form novalidate @submit.prevent="submit" class="signin-form">
     <div class="text-center">
@@ -22,39 +59,3 @@
     </div>
   </form>
 </template>
-
-<script setup>
-import Logo from "@/template/Logo.vue";
-import { ref } from "vue";
-import { validateEmail } from "@/utils";
-import axios from "axios";
-import { FormInput } from "@/components";
-import SubmitButton from "@/views/app/login/components/SubmitButton.vue";
-
-const submitting = ref(false);
-const errors = ref({});
-const success = ref(false);
-const data = ref({
-  email: "",
-});
-
-const submit = async () => {
-  errors.value = {};
-
-  if (!data.value.email) {
-    errors.value.email = "Email required";
-  } else if (!validateEmail(data.value.email)) {
-    errors.value.email = "Invalid email address";
-  }
-
-  if (Object.keys(errors.value).length === 0) {
-    submitting.value = true;
-
-    await axios
-      .post("https://api.backstack.com/app/forgot-password", data.value, { api: "backstack" })
-      .then((response) => success.value = true)
-      .catch((error) => errors.value = error.fields)
-      .finally(() => submitting.value = false);
-  }
-};
-</script>

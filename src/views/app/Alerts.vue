@@ -1,3 +1,18 @@
+<script setup>
+import { PageHeading } from "@/components";
+import { useSession } from "@/session";
+
+const session = useSession();
+
+function getTimestampAge(timestamp) {
+  const now = new Date();
+  const alertDate = new Date(timestamp * 1000);
+  const diffTime = Math.abs(now - alertDate);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays < 1 ? 'now' : `${diffDays}d`;
+}
+</script>
+
 <template>
   <PageHeading heading="Alerts">
     <template #text> Application alerts. </template>
@@ -30,17 +45,3 @@
   </div>
 </template>
 
-<script setup>
-import { PageHeading } from "@/components";
-import { useSession } from "@/session";
-
-const session = useSession();
-
-function getTimestampAge(timestamp) {
-  const now = new Date();
-  const alertDate = new Date(timestamp * 1000);
-  const diffTime = Math.abs(now - alertDate);
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays < 1 ? 'now' : `${diffDays}d`;
-}
-</script>

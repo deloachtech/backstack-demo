@@ -1,3 +1,8 @@
+<script setup>
+import { PageHeading, Tip } from "@/components";
+
+</script>
+
 <template>
 
   <PageHeading heading="Example Tip">
@@ -15,8 +20,3 @@
 
 
 </template>
-
-<script setup>
-import { PageHeading, Tip } from "@/components";
-
-</script>

@@ -1,9 +1,3 @@
-<template>
-
-  <Spinner v-if="loading" />
-
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useSession } from "@/session";
@@ -18,13 +12,13 @@ const loading = ref(false)
 const logout = async () => {
   loading.value = true;
   await axios.get('https://api.backstack.com/app/logout', { api: 'backstack' })
-    .then((response) => {
-      session.update(response.data);
-    })
-    .finally(() => {
-      loading.value = false;
-      router.push('/login')
-    })
+      .then((response) => {
+        session.update(response.data);
+      })
+      .finally(() => {
+        loading.value = false;
+        router.push('/login')
+      })
 }
 
 onMounted(() => {
@@ -32,3 +26,9 @@ onMounted(() => {
 });
 
 </script>
+
+<template>
+
+  <Spinner v-if="loading" />
+
+</template>

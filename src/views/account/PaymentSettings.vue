@@ -1,3 +1,63 @@
+<script setup>
+import { ref } from "vue";
+import { useSession } from "@/session";
+import axios from "axios";
+import { Spinner, Setting, Modal, FormInput, SettingButton } from "@/components";
+
+
+const session = useSession();
+const fetching = ref(false);
+const data = ref({});
+
+const fetch = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/stripe/settings", { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetch();
+
+const currentSetting = ref(null);
+
+const setCurrentSetting = (label, key, value) => {
+  currentSetting.value = { label: label, key: key, value: value };
+  modalOpen.value = true;
+}
+
+const canUpdate = session.hasAccess("account-stripe-settings:u");
+const submitting = ref(false);
+const error = ref(null);
+
+const modalOpen = ref(false);
+
+const closeModal = () => {
+  error.value = null;
+  modalOpen.value = false;
+};
+
+
+const submit = async () => {
+
+  // The API server does not require these values as this is a third-party feature.
+  // If the user wants to remove the keys, they can do so.
+
+  error.value = null;
+  submitting.value = true;
+
+  await axios
+      .post("https://api.backstack.com/account/stripe/settings", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+      .then(() => {
+        data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
+        closeModal();
+      })
+      // There might be some Stripe errors with the keys.
+      .catch((error) => error.value = error.fields[currentSetting.value.key])
+      .finally(() => submitting.value = false);
+};
+</script>
+
 <template>
 
   <p>The following information is necessary to handle your payment activities within this application.</p>
@@ -49,62 +109,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useSession } from "@/session";
-import axios from "axios";
-import { Spinner, Setting, Modal, FormInput, SettingButton } from "@/components";
 
-
-const session = useSession();
-const fetching = ref(false);
-const data = ref({});
-
-const fetch = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/stripe/settings", { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetch();
-
-const currentSetting = ref(null);
-
-const setCurrentSetting = (label, key, value) => {
-  currentSetting.value = { label: label, key: key, value: value };
-  modalOpen.value = true;
-}
-
-const canUpdate = session.hasAccess("account-stripe-settings:u");
-const submitting = ref(false);
-const error = ref(null);
-
-const modalOpen = ref(false);
-
-const closeModal = () => {
-  error.value = null;
-  modalOpen.value = false;
-};
-
-
-const submit = async () => {
-
-  // The API server does not require these values as this is a third-party feature.
-  // If the user wants to remove the keys, they can do so.
-
-  error.value = null;
-  submitting.value = true;
-
-  await axios
-    .post("https://api.backstack.com/account/stripe/settings", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
-    .then(() => {
-      data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
-      closeModal();
-    })
-    // There might be some Stripe errors with the keys.
-    .catch((error) => error.value = error.fields[currentSetting.value.key])
-    .finally(() => submitting.value = false);
-};
-</script>

@@ -1,38 +1,3 @@
-<template>
-  <Modal :open="open" heading="Add Credit Card" :loading="loading" :submitting="submitting" @submit="submit"
-    @cancel="cancel">
-
-    <div class="row gy-4">
-      <div class="col-12">
-
-        <FormInput label="Card number" v-model="data.card_number" :error="errors.card_number" />
-
-      </div>
-      <div class="col-4">
-
-        <FormSelect label="Exp Month" v-model="data.exp_month" :error="errors.exp_month"
-          :options="creditCardExpireMonths()" />
-
-      </div>
-
-      <div class="col-4">
-
-        <FormSelect label="Exp Year" v-model="data.exp_year" :error="errors.exp_year"
-          :options="creditCardExpireYears()" />
-      </div>
-
-      <div class="col-4">
-
-        <FormInput label="CVC" v-model="data.cvc" :error="errors.cvc" />
-
-      </div>
-    </div>
-    <div class="form-check mt-4">
-      <input v-model="data.default" class="form-check-input" type="checkbox" id="default" />
-      <label class="form-check-label" for="default"> This is my default payment method. </label>
-    </div>
-  </Modal>
-</template>
 
 <script setup>
 import { ref } from "vue";
@@ -90,10 +55,10 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .post("https://api.backstack.com/account/payment-methods/create", data.value, { api: "backstack" })
-    .then((response) => emit("success", response.data))
-    .catch((error) => console.error(error))
-    .finally(() => submitting.value = false);
+      .post("https://api.backstack.com/account/payment-methods/create", data.value, { api: "backstack" })
+      .then((response) => emit("success", response.data))
+      .catch((error) => console.error(error))
+      .finally(() => submitting.value = false);
 };
 
 const cancel = () => {
@@ -107,3 +72,39 @@ const cancel = () => {
   emit("cancel");
 };
 </script>
+
+<template>
+  <Modal :open="open" heading="Add Credit Card" :loading="loading" :submitting="submitting" @submit="submit"
+    @cancel="cancel">
+
+    <div class="row gy-4">
+      <div class="col-12">
+
+        <FormInput label="Card number" v-model="data.card_number" :error="errors.card_number" />
+
+      </div>
+      <div class="col-4">
+
+        <FormSelect label="Exp Month" v-model="data.exp_month" :error="errors.exp_month"
+          :options="creditCardExpireMonths()" />
+
+      </div>
+
+      <div class="col-4">
+
+        <FormSelect label="Exp Year" v-model="data.exp_year" :error="errors.exp_year"
+          :options="creditCardExpireYears()" />
+      </div>
+
+      <div class="col-4">
+
+        <FormInput label="CVC" v-model="data.cvc" :error="errors.cvc" />
+
+      </div>
+    </div>
+    <div class="form-check mt-4">
+      <input v-model="data.default" class="form-check-input" type="checkbox" id="default" />
+      <label class="form-check-label" for="default"> This is my default payment method. </label>
+    </div>
+  </Modal>
+</template>

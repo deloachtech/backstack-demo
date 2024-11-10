@@ -1,3 +1,78 @@
+<script setup>
+import { Modal, FormInput, FormSelect } from "@/components";
+import { ref } from "vue";
+import axios from "axios";
+import { validateEmail } from "@/utils";
+import { useSession } from "@/session";
+
+
+const session = useSession();
+
+const domainChanged = (id) => {
+  document.getElementById("domainHelp").innerHTML = domains.value.find((d) => d.id === id).description || "There is no additional information provided for this type of account.";
+};
+
+const emit = defineEmits(["cancel", "success"]);
+
+const props = defineProps({
+  open: { type: Boolean, required: true, default: false },
+});
+
+const submitting = ref(false);
+const errors = ref({});
+const data = ref({
+  email: "",
+  domain_id: "",
+  fee_proposed: "",
+});
+
+const domains = ref([]);
+
+const fetchDomains = async () => {
+  await axios
+      .get("https://api.backstack.com/account/network-domains", { api: "backstack" })
+      .then((response) => domains.value = response.data);
+};
+
+fetchDomains();
+
+const cancel = () => {
+  data.value = {
+    email: "",
+    domain_id: "",
+    fee_proposed: "",
+  };
+  errors.value = {};
+  emit("cancel");
+};
+
+const submit = async () => {
+  errors.value = {};
+
+  if (!data.value.email) {
+    errors.value.email = "Email required";
+  } else if (!validateEmail(data.value.email)) {
+    errors.value.email = "Invalid email address";
+  }
+
+  if (!data.value.domain_id) {
+    errors.value.domain_id = "Domain required";
+  }
+
+  if (Object.keys(errors.value).length > 0) {
+    return;
+  }
+
+  submitting.value = true;
+
+  await axios
+      .post("https://api.backstack.com/account/network-invitations", data.value, { api: "backstack" })
+      .then((response) => emit("success", response.data))
+      .catch((error) => errors.value = error.fields)
+      .finally(() => submitting.value = false);
+};
+</script>
+
 <template>
   <Modal heading="Send Invitation"
     subtext="An email with activation instructions will be sent to the address provided. You'll be able to view the account once it's activated."
@@ -35,77 +110,4 @@
   </Modal>
 </template>
 
-<script setup>
-import { Modal, FormInput, FormSelect } from "@/components";
-import { ref } from "vue";
-import axios from "axios";
-import { validateEmail } from "@/utils";
-import { useSession } from "@/session";
 
-
-const session = useSession();
-
-const domainChanged = (id) => {
-  document.getElementById("domainHelp").innerHTML = domains.value.find((d) => d.id === id).description || "There is no additional information provided for this type of account.";
-};
-
-const emit = defineEmits(["cancel", "success"]);
-
-const props = defineProps({
-  open: { type: Boolean, required: true, default: false },
-});
-
-const submitting = ref(false);
-const errors = ref({});
-const data = ref({
-  email: "",
-  domain_id: "",
-  fee_proposed: "",
-});
-
-const domains = ref([]);
-
-const fetchDomains = async () => {
-  await axios
-    .get("https://api.backstack.com/account/network-domains", { api: "backstack" })
-    .then((response) => domains.value = response.data);
-};
-
-fetchDomains();
-
-const cancel = () => {
-  data.value = {
-    email: "",
-    domain_id: "",
-    fee_proposed: "",
-  };
-  errors.value = {};
-  emit("cancel");
-};
-
-const submit = async () => {
-  errors.value = {};
-
-  if (!data.value.email) {
-    errors.value.email = "Email required";
-  } else if (!validateEmail(data.value.email)) {
-    errors.value.email = "Invalid email address";
-  }
-
-  if (!data.value.domain_id) {
-    errors.value.domain_id = "Domain required";
-  }
-
-  if (Object.keys(errors.value).length > 0) {
-    return;
-  }
-
-  submitting.value = true;
-  
-  await axios
-    .post("https://api.backstack.com/account/network-invitations", data.value, { api: "backstack" })
-    .then((response) => emit("success", response.data))
-    .catch((error) => errors.value = error.fields)
-    .finally(() => submitting.value = false);
-};
-</script>

@@ -1,5 +1,35 @@
-<template>
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { Spinner, LineChart, BarChart } from "@/components";
 
+const customers = ref([]);
+
+const revenue = ref([]);
+
+const fetching = ref(false);
+
+const fetch = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/stripe/stats", { api: "backstack" })
+      .then((response) => {
+        customers.value = response.data.customers || [];
+        revenue.value = response.data.revenue || [];
+      })
+      .finally(() => fetching.value = false);
+};
+
+
+
+//fetch();
+onMounted(async () => {
+  await fetch();
+  //initializeChart();
+});
+</script>
+
+<template>
 
   <p>Statistical data is sourced from transactions performed by this application. For the most accurate information, please refer to your Stripe dashboard, as some transactions may not have been captured by this application.</p>
 
@@ -16,37 +46,6 @@
   </div>
 
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import { Spinner, LineChart, BarChart } from "@/components";
-
-const customers = ref([]);
-
-const revenue = ref([]);
-
-const fetching = ref(false);
-
-const fetch = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/stripe/stats", { api: "backstack" })
-    .then((response) => {
-      customers.value = response.data.customers || [];
-      revenue.value = response.data.revenue || [];
-    })
-    .finally(() => fetching.value = false);
-};
-
-
-
-//fetch();
-onMounted(async () => {
-  await fetch();
-  //initializeChart();
-});
-</script>
 
 <style scoped>
 .chart-container {

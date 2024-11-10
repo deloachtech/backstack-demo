@@ -1,3 +1,48 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import AddUser from "./AddUser.vue";
+import { useSession } from "@/session";
+import { TableToolbar, Spinner, PageHeading } from "@/components";
+
+const session = useSession();
+
+const addUser = ref(false);
+
+const fetching = ref(false);
+const list = ref([]);
+const filters = ref({});
+
+const filter = (key) => {
+  console.log(key);
+};
+
+const search = (query) => {
+  console.log(query);
+};
+
+const add = () => {
+  addUser.value = true;
+};
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/users", { api: "backstack" })
+      .then((response) => {
+        list.value = response.data.list;
+        filters.value = response.data.filters;
+      })
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+const addSuccess = (data) => {
+  list.value.unshift(data);
+};
+</script>
+
 <template>
   <PageHeading heading="Users">
     <template #text> Current account users. </template>
@@ -36,47 +81,3 @@
   <AddUser :open="addUser" @cancel="addUser = false" @success="addSuccess" />
 </template>
 
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import AddUser from "./AddUser.vue";
-import { useSession } from "@/session";
-import { TableToolbar, Spinner, PageHeading } from "@/components";
-
-const session = useSession();
-
-const addUser = ref(false);
-
-const fetching = ref(false);
-const list = ref([]);
-const filters = ref({});
-
-const filter = (key) => {
-  console.log(key);
-};
-
-const search = (query) => {
-  console.log(query);
-};
-
-const add = () => {
-  addUser.value = true;
-};
-
-const fetchData = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/users", { api: "backstack" })
-    .then((response) => {
-      list.value = response.data.list;
-      filters.value = response.data.filters;
-    })
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-const addSuccess = (data) => {
-  list.value.unshift(data);
-};
-</script>

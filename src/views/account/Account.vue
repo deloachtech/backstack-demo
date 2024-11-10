@@ -1,3 +1,80 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import countries from "@/data/countries.json";
+import { useSession } from "@/session";
+import { Modal, Setting, Spinner, SettingButton, FormInput, FormSelect, PageHeading } from "@/components";
+import { validateEmail } from "@/utils";
+
+const session = useSession();
+const fetching = ref(false);
+const data = ref({});
+const submitting = ref(false);
+const timezones = ref([]);
+const error = ref(null);
+const currentSetting = ref(null);
+const canUpdate = session.hasAccess("account-profile:u");
+const modalOpen = ref(false);
+
+const fetchData = async () => {
+  fetching.value = true;
+
+  await Promise.all([
+    axios.get("https://api.backstack.com/static/timezones", { api: "backstack" }),
+    axios.get("https://api.backstack.com/account", { api: "backstack" })
+  ])
+      .then((response) => {
+        timezones.value = response[0].data;
+        data.value = response[1].data;
+      })
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+const setCurrentSetting = (label, key, value) => {
+  currentSetting.value = { label: label, key: key, value: value };
+  modalOpen.value = true;
+}
+
+const submitData = async () => {
+
+  error.value = null;
+
+  if (["title", "address", "city", "state", "zip", "contact_name", "contact_email", "country_id", "timezone_id"].includes(currentSetting.value.key)) {
+    if (!currentSetting.value.value) {
+      error.value = "Required value";
+      return false;
+    }
+  }
+
+  if(currentSetting.value.key === 'contact_email' && !validateEmail(currentSetting.value.value)) {
+    error.value = "Invalid email address";
+    return false;
+  }
+
+  submitting.value = true;
+  await axios
+      .post("https://api.backstack.com/account", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+      .then((response) => {
+        data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
+        // Update session values that are used in the active UI (e.g. nav dropdown).
+        if (currentSetting.value.key === 'title') {
+          session.account.title = currentSetting.value.value;
+        }
+        closeModal();
+      })
+      .catch((error) => error.value = error.fields[currentSetting.value.key])
+      .finally(() => submitting.value = false);
+};
+
+
+const closeModal = () => {
+  error.value = null;
+  modalOpen.value = false;
+};
+</script>
+
 <template>
   <PageHeading heading="Account Profile" as-subheading>
     <template #text> Basic information about your organization. </template>
@@ -70,79 +147,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import countries from "@/data/countries.json";
-import { useSession } from "@/session";
-import { Modal, Setting, Spinner, SettingButton, FormInput, FormSelect, PageHeading } from "@/components";
-import { validateEmail } from "@/utils";
 
-const session = useSession();
-const fetching = ref(false);
-const data = ref({});
-const submitting = ref(false);
-const timezones = ref([]);
-const error = ref(null);
-const currentSetting = ref(null);
-const canUpdate = session.hasAccess("account-profile:u");
-const modalOpen = ref(false);
-
-const fetchData = async () => {
-  fetching.value = true;
-
-  await Promise.all([
-    axios.get("https://api.backstack.com/static/timezones", { api: "backstack" }),
-    axios.get("https://api.backstack.com/account", { api: "backstack" })
-  ])
-    .then((response) => {
-      timezones.value = response[0].data;
-      data.value = response[1].data;
-    })
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-const setCurrentSetting = (label, key, value) => {
-  currentSetting.value = { label: label, key: key, value: value };
-  modalOpen.value = true;
-}
-
-const submitData = async () => {
-
-  error.value = null;
-
-  if (["title", "address", "city", "state", "zip", "contact_name", "contact_email", "country_id", "timezone_id"].includes(currentSetting.value.key)) {
-    if (!currentSetting.value.value) {
-      error.value = "Required value";
-      return false;
-    }
-  }
-
-  if(currentSetting.value.key === 'contact_email' && !validateEmail(currentSetting.value.value)) {
-    error.value = "Invalid email address";
-    return false;
-  }
-
-  submitting.value = true;
-  await axios
-    .post("https://api.backstack.com/account", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
-    .then((response) => {
-      data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
-      // Update session values that are used in the active UI (e.g. nav dropdown).
-      if (currentSetting.value.key === 'title') {
-        session.account.title = currentSetting.value.value;
-      }
-      closeModal();
-    })
-    .catch((error) => error.value = error.fields[currentSetting.value.key])
-    .finally(() => submitting.value = false);
-};
-
-
-const closeModal = () => {
-  error.value = null;
-  modalOpen.value = false;
-};
-</script>

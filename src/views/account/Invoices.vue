@@ -1,3 +1,33 @@
+<script setup>
+import axios from "axios";
+import { ref } from "vue";
+import { formatTimestamp, ucFirst } from "@/utils";
+import { useSession } from "@/session";
+import { Spinner, TableToolbar, Indicator, ActionDropdown } from "@/components";
+
+const session = useSession();
+const fetching = ref(false);
+const list = ref([]);
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/invoices", { api: "backstack" })
+      .then((response) => list.value = response.data.list)
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+const handleAction = (action) => {
+  if (action.key === "pay") {
+    console.log("Making payment for invoice", action.data);
+  } else if (action.key === "view") {
+    console.log("Viewing invoice", action.data);
+  }
+};
+</script>
+
 <template>
   <Spinner v-if="fetching" />
 
@@ -39,32 +69,3 @@
   </div>
 </template>
 
-<script setup>
-import axios from "axios";
-import { ref } from "vue";
-import { formatTimestamp, ucFirst } from "@/utils";
-import { useSession } from "@/session";
-import { Spinner, TableToolbar, Indicator, ActionDropdown } from "@/components";
-
-const session = useSession();
-const fetching = ref(false);
-const list = ref([]);
-
-const fetchData = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/invoices", { api: "backstack" })
-    .then((response) => list.value = response.data.list)
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-const handleAction = (action) => {
-  if (action.key === "pay") {
-    console.log("Making payment for invoice", action.data);
-  } else if (action.key === "view") {
-    console.log("Viewing invoice", action.data);
-  }
-};
-</script>

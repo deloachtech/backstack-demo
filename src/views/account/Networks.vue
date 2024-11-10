@@ -1,3 +1,51 @@
+<script setup>
+import { ref } from "vue";
+import { Spinner, TableToolbar } from "@/components";
+import DeleteNetwork from "./DeleteNetwork.vue";
+import CreateNetworkInvitation from "./CreateNetworkInvitation.vue";
+import axios from "axios";
+import { useSession } from "@/session";
+
+const list = ref([]);
+const fetching = ref(false);
+const deleting = ref(false);
+const creating = ref(false);
+const created = ref(false);
+const activeRecord = ref({});
+
+const session = useSession();
+
+const fetchList = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/networks", { api: "backstack" })
+      .then((response) => list.value = response.data.list)
+      .finally(() => fetching.value = false);
+};
+
+fetchList();
+
+const handleAction = (action, record) => {
+  if (action === "delete") {
+    deleting.value = true;
+    activeRecord.value = record;
+  } else if (action === "view") {
+    console.log("Viewing record", record);
+  }
+};
+
+const deleteSuccess = () => {
+  deleting.value = false;
+  list.value = list.value.filter((item) => item?.account_id !== activeRecord.value.account_id);
+  activeRecord.value = {};
+};
+
+const createSuccess = (record) => {
+  creating.value = false;
+  created.value = true;
+};
+</script>
+
 <template>
   <Spinner v-if="fetching" />
 
@@ -44,51 +92,3 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import { Spinner, TableToolbar } from "@/components";
-import DeleteNetwork from "./DeleteNetwork.vue";
-import CreateNetworkInvitation from "./CreateNetworkInvitation.vue";
-import axios from "axios";
-import { useSession } from "@/session";
-
-const list = ref([]);
-const fetching = ref(false);
-const deleting = ref(false);
-const creating = ref(false);
-const created = ref(false);
-const activeRecord = ref({});
-
-const session = useSession();
-
-const fetchList = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/networks", { api: "backstack" })
-    .then((response) => list.value = response.data.list)
-    .finally(() => fetching.value = false);
-};
-
-fetchList();
-
-const handleAction = (action, record) => {
-  if (action === "delete") {
-    deleting.value = true;
-    activeRecord.value = record;
-  } else if (action === "view") {
-    console.log("Viewing record", record);
-  }
-};
-
-const deleteSuccess = () => {
-  deleting.value = false;
-  list.value = list.value.filter((item) => item?.account_id !== activeRecord.value.account_id);
-  activeRecord.value = {};
-};
-
-const createSuccess = (record) => {
-  creating.value = false;
-  created.value = true;
-};
-</script>

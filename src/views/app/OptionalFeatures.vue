@@ -1,3 +1,53 @@
+<script setup>
+import { ref } from "vue";
+import { Modal, Spinner } from "@/components";
+import axios from "axios";
+import { useSession } from "@/session";
+
+const session = useSession();
+const fetching = ref(false);
+const data = ref({});
+const view = ref("modules");
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/app/optional-features", { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+const modal = ref(false);
+const record = ref({});
+const submitting = ref(false);
+const modalSubmitLabel = ref("Activate");
+const activateModuleId = ref(null);
+
+const toggleActivation = async () => {
+  submitting.value = true;
+  await axios
+      .post(`https://api.backstack.com/app/optional-features/${activateModuleId.value}`, null, { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => {
+        submitting.value = false;
+        activateModuleId.value = null;
+      });
+};
+
+const handleOptionClick = (option) => {
+  if (option.key === "more-info") {
+  } else if (option.key === "activate" || option.key === "deactivate") {
+    activateModuleId.value = option.record.id;
+    toggleActivation();
+  } else if (option.key === "settings") {
+    record.value = option.record;
+    modal.value = true;
+  }
+};
+</script>
+
 <template>
   <Spinner v-if="fetching" />
 
@@ -65,55 +115,6 @@
   </Modal>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { Modal, Spinner } from "@/components";
-import axios from "axios";
-import { useSession } from "@/session";
-
-const session = useSession();
-const fetching = ref(false);
-const data = ref({});
-const view = ref("modules");
-
-const fetchData = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/app/optional-features", { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-const modal = ref(false);
-const record = ref({});
-const submitting = ref(false);
-const modalSubmitLabel = ref("Activate");
-const activateModuleId = ref(null);
-
-const toggleActivation = async () => {
-  submitting.value = true;
-  await axios
-    .post(`https://api.backstack.com/app/optional-features/${activateModuleId.value}`, null, { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => {
-      submitting.value = false;
-      activateModuleId.value = null;
-    });
-};
-
-const handleOptionClick = (option) => {
-  if (option.key === "more-info") {
-  } else if (option.key === "activate" || option.key === "deactivate") {
-    activateModuleId.value = option.record.id;
-    toggleActivation();
-  } else if (option.key === "settings") {
-    record.value = option.record;
-    modal.value = true;
-  }
-};
-</script>
 
 <style scoped>
 .icon-square.bi {

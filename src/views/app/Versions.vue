@@ -1,3 +1,50 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { Modal, Spinner } from "@/components";
+
+const fetching = ref(false);
+const matrix = ref(null);
+const modulesAvailable = ref(false);
+const versions = ref([]);
+
+const fetchData = async () => {
+  fetching.value = true;
+  await Promise.all([
+    axios.get("https://api.backstack.com/app/versions", { api: "backstack" }),
+    axios.get("https://api.backstack.com/app/versions/feature-matrix", { api: "backstack" })
+  ])
+      .then((response) => {
+        versions.value = response[0].data;
+        matrix.value = response[1].data.matrix;
+        modulesAvailable.value = response[1].data.modules_available;
+      })
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+const showModal = ref(false);
+const record = ref({});
+const submitting = ref(false);
+
+const activateVersion = async () => {
+  submitting.value = true;
+  await axios
+      .post(`https://api.backstack.com/account/versions/${record.value.id}`, null, { api: "backstack" })
+      .then((response) => versions.value = response.data)
+      .finally(() => {
+        submitting.value = false;
+        showModal.value = false;
+      });
+};
+
+const handleInfoRequest = (_record) => {
+  record.value = _record;
+  showModal.value = true;
+};
+</script>
+
 <template>
   <Spinner v-if="fetching" />
 
@@ -113,52 +160,6 @@
   </Modal>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import { Modal, Spinner } from "@/components";
-
-const fetching = ref(false);
-const matrix = ref(null);
-const modulesAvailable = ref(false);
-const versions = ref([]);
-
-const fetchData = async () => {
-  fetching.value = true;
-  await Promise.all([
-    axios.get("https://api.backstack.com/app/versions", { api: "backstack" }),
-    axios.get("https://api.backstack.com/app/versions/feature-matrix", { api: "backstack" })
-  ])
-    .then((response) => {
-      versions.value = response[0].data;
-      matrix.value = response[1].data.matrix;
-      modulesAvailable.value = response[1].data.modules_available;
-    })
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-const showModal = ref(false);
-const record = ref({});
-const submitting = ref(false);
-
-const activateVersion = async () => {
-  submitting.value = true;
-  await axios
-    .post(`https://api.backstack.com/account/versions/${record.value.id}`, null, { api: "backstack" })
-    .then((response) => versions.value = response.data)
-    .finally(() => {
-      submitting.value = false;
-      showModal.value = false;
-    });
-};
-
-const handleInfoRequest = (_record) => {
-  record.value = _record;
-  showModal.value = true;
-};
-</script>
 
 <style scoped>
 .bi {

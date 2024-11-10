@@ -1,3 +1,80 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { Spinner, PageHeading, Modal, FormInput, Setting, SettingButton } from "@/components";
+import { useSession } from "@/session";
+import { validateEmail } from "@/utils";
+
+const fetching = ref(false);
+const data = ref({});
+const session = useSession();
+const item = ref({});
+const submitting = ref(false);
+const error = ref(null);
+const modalOpen = ref(false);
+const currentSetting = ref(null);
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/user", { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+
+
+const setCurrentSetting = (label, key, value) => {
+  currentSetting.value = { label: label, key: key, value: value };
+  modalOpen.value = true;
+}
+
+const submitData = async () => {
+  error.value = null;
+
+  if (currentSetting.value.key === "email" && !validateEmail(currentSetting.value.value)) {
+    error.value = "Invalid email address";
+    return;
+  }
+
+  if (currentSetting.value.key === "username" && currentSetting.value.value < 8) {
+    error.value = "Username must be at least 8 characters.";
+    return;
+  }
+
+  if (currentSetting.value.key === "name" && currentSetting.value.value) {
+    error.value = "Name required";
+    return;
+  }
+
+  submitting.value = true;
+  await axios
+      .post("https://api.backstack.com/user", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
+      .then((response) => {
+        data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
+
+        // The API response id the user object.
+        // Update session values that are used in the active UI (e.g. nav dropdown).
+
+        if (currentSetting.value.key === 'name') {
+          session.user.name = currentSetting.value.value;
+        }else if (currentSetting.value.key === 'avatar_color') {
+          session.user.avatar = response.data.avatar;
+          session.user.avatar_color = response.data.avatar_color;
+        }
+        closeModal();
+      })
+      .finally(() => submitting.value = false);
+};
+
+
+const closeModal = () => {
+  error.value = null;
+  modalOpen.value = false;
+};
+</script>
+
 <template>
   <PageHeading heading="User Profile">
     <template #text> Basic information about you. </template>
@@ -47,82 +124,5 @@
     </Modal>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import { Spinner, PageHeading, Modal, FormInput, Setting, SettingButton } from "@/components";
-import { useSession } from "@/session";
-import { validateEmail } from "@/utils";
-
-const fetching = ref(false);
-const data = ref({});
-const session = useSession();
-const item = ref({});
-const submitting = ref(false);
-const error = ref(null);
-const modalOpen = ref(false);
-const currentSetting = ref(null);
-
-const fetchData = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/user", { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-
-
-const setCurrentSetting = (label, key, value) => {
-  currentSetting.value = { label: label, key: key, value: value };
-  modalOpen.value = true;
-}
-
-const submitData = async () => {
-  error.value = null;
-
-  if (currentSetting.value.key === "email" && !validateEmail(currentSetting.value.value)) {
-    error.value = "Invalid email address";
-    return;
-  }
-
-  if (currentSetting.value.key === "username" && currentSetting.value.value < 8) {
-    error.value = "Username must be at least 8 characters.";
-    return;
-  }
-
-  if (currentSetting.value.key === "name" && currentSetting.value.value) {
-    error.value = "Name required";
-    return;
-  }
-
-  submitting.value = true;
-  await axios
-    .post("https://api.backstack.com/user", { [currentSetting.value.key]: currentSetting.value.value }, { api: "backstack" })
-    .then((response) => {
-      data.value[currentSetting.value.key] = currentSetting.value.value ?? '';
-
-      // The API response id the user object.
-      // Update session values that are used in the active UI (e.g. nav dropdown).
-      
-      if (currentSetting.value.key === 'name') {
-        session.user.name = currentSetting.value.value;
-      }else if (currentSetting.value.key === 'avatar_color') {
-        session.user.avatar = response.data.avatar;
-        session.user.avatar_color = response.data.avatar_color;
-      } 
-      closeModal();
-    })
-    .finally(() => submitting.value = false);
-};
-
-
-const closeModal = () => {
-  error.value = null;
-  modalOpen.value = false;
-};
-</script>
 
 <style scoped></style>

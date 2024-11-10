@@ -1,3 +1,23 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { formatTimestamp, formatSecondsDuration } from "@/utils";
+import { Spinner } from "@/components";
+
+const fetching = ref(false);
+const data = ref({});
+
+const fetchData = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/version-history", { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetchData();
+</script>
+
 <template>
   <Spinner v-if="fetching" />
 
@@ -20,23 +40,3 @@
     </table>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import { formatTimestamp, formatSecondsDuration } from "@/utils";
-import { Spinner } from "@/components";
-
-const fetching = ref(false);
-const data = ref({});
-
-const fetchData = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/version-history", { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetchData();
-</script>

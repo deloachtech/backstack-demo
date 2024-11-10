@@ -1,12 +1,8 @@
-<template>
-  <User heading="Add User" :open="open" :errors="errors" :submitting="submitting" @cancel="cancel" @submit="submit" />
-</template>
-
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
 import { validateEmail } from "@/utils";
-import User from "./components/User.vue";
+import {PageHeading} from "@/components";
 
 const emit = defineEmits(["cancel", "success"]);
 
@@ -45,9 +41,13 @@ const submit = async (data) => {
   submitting.value = true;
 
   await axios
-    .post("https://api.backstack.com/account/users", data.value, { api: "backstack" })
-    .then((response) => emit("success", response.data))
-    .catch((error) => errors.value = error.fields)
-    .finally(() => submitting.value = false);
+      .post("https://api.backstack.com/account/users", data.value, { api: "backstack" })
+      .then((response) => emit("success", response.data))
+      .catch((error) => errors.value = error.fields)
+      .finally(() => submitting.value = false);
 };
 </script>
+
+<template>
+  <PageHeading heading="Add User" :open="open" :errors="errors" :submitting="submitting" @cancel="cancel" @submit="submit" />
+</template>

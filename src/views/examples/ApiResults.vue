@@ -1,3 +1,48 @@
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { PageHeading, Spinner, ExternalLink } from "@/components";
+
+const fetching = ref(false);
+const uri = ref(null)
+const result = ref(null);
+const selected = ref(null);
+
+const uris = {
+  "App session": "https://api.backstack.com/app/session",
+  "App versions": "https://api.backstack.com/app/versions",
+  "App modules": "https://api.backstack.com/app/optional-features",
+  "User profile": "https://api.backstack.com/user",
+  "User notification settings": "https://api.backstack.com/user/notification-settings",
+  "Account profile": "https://api.backstack.com/account",
+  "Account payment settings": "https://api.backstack.com/account/stripe/settings",
+  "Account payment stats":"https://api.backstack.com/account/stripe/stats",
+  "Account users": "https://api.backstack.com/account/users",
+  "Account invoices": "https://api.backstack.com/account/invoices",
+  "Account payment methods": "https://api.backstack.com/account/payment-methods",
+  "Account network": "https://api.backstack.com/account/network-accounts",
+  "Account version history": "https://api.backstack.com/account/version-history",
+  "Account module history": "https://api.backstack.com/account/optional-features-history",
+};
+
+const fetchData = async (uri) => {
+  fetching.value = true;
+  await axios
+      .get(uri, { api: "backstack" })
+      .then((response) => result.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+
+const handleClick = (k, v) => {
+  selected.value = v;
+  uri.value = k;
+  fetchData(k);
+}
+
+
+</script>
+
 <template>
   <PageHeading heading="API Results">
 
@@ -46,47 +91,3 @@
  
 </template>
 
-<script setup>
-import { ref } from "vue";
-import axios from "axios";
-import { PageHeading, Spinner, ExternalLink } from "@/components";
-
-const fetching = ref(false);
-const uri = ref(null)
-const result = ref(null);
-const selected = ref(null);
-
-const uris = {
-  "App session": "https://api.backstack.com/app/session",
-  "App versions": "https://api.backstack.com/app/versions",
-  "App modules": "https://api.backstack.com/app/optional-features",
-  "User profile": "https://api.backstack.com/user",
-  "User notification settings": "https://api.backstack.com/user/notification-settings",
-  "Account profile": "https://api.backstack.com/account",
-  "Account payment settings": "https://api.backstack.com/account/stripe/settings",
-  "Account payment stats":"https://api.backstack.com/account/stripe/stats",
-  "Account users": "https://api.backstack.com/account/users",
-  "Account invoices": "https://api.backstack.com/account/invoices",
-  "Account payment methods": "https://api.backstack.com/account/payment-methods",
-  "Account network": "https://api.backstack.com/account/network-accounts",
-  "Account version history": "https://api.backstack.com/account/version-history",
-  "Account module history": "https://api.backstack.com/account/optional-features-history",
-};
-
-const fetchData = async (uri) => {
-  fetching.value = true;
-  await axios
-    .get(uri, { api: "backstack" })
-    .then((response) => result.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-
-const handleClick = (k, v) => {
-  selected.value = v;
-  uri.value = k;
-  fetchData(k);
-}
-
-
-</script>

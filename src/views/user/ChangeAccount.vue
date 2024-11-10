@@ -1,3 +1,47 @@
+<script setup>
+import { ref } from "vue";
+import { Spinner, PageHeading } from "@/components";
+import axios from "axios";
+import { useSession } from "@/session";
+import { useRouter } from "vue-router";
+
+const fetching = ref(false);
+const submitting = ref(false);
+const data = ref([]);
+const session = useSession();
+const accountId = ref(session.account.id);
+const errors = ref({});
+const router = useRouter();
+
+const fetch = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/user/change-account", { api: "backstack" })
+      .then((response) => data.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetch();
+
+const submit = async () => {
+  if (!accountId.value) {
+    errors.value.account_id = "Account required";
+    return;
+  }
+
+  submitting.value = true;
+  try {
+    const response = await axios.post("https://api.backstack.com/user/change-account", { account_id: accountId.value }, { api: "backstack" });
+    session.update(response.data);
+    await router.push("/");
+  } catch (error) {
+    errors.value = error.fields;
+  } finally {
+    submitting.value = false;
+  }
+};
+</script>
+
 <template>
   <PageHeading heading="Change Account">
     <template #text> Activate a different account for this application session. </template>
@@ -22,50 +66,6 @@
     </div></div>
 
 </template>
-
-<script setup>
-import { ref } from "vue";
-import { Spinner, PageHeading } from "@/components";
-import axios from "axios";
-import { useSession } from "@/session";
-import { useRouter } from "vue-router";
-
-const fetching = ref(false);
-const submitting = ref(false);
-const data = ref([]);
-const session = useSession();
-const accountId = ref(session.account.id);
-const errors = ref({});
-const router = useRouter();
-
-const fetch = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/user/change-account", { api: "backstack" })
-    .then((response) => data.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetch();
-
-const submit = async () => {
-  if (!accountId.value) {
-    errors.value.account_id = "Account required";
-    return;
-  }
-
-  submitting.value = true;
-  try {
-    const response = await axios.post("https://api.backstack.com/user/change-account", { account_id: accountId.value }, { api: "backstack" });
-    session.update(response.data);
-    await router.push("/");
-  } catch (error) {
-    errors.value = error.fields;
-  } finally {
-    submitting.value = false;
-  }
-};
-</script>
 
 <style scoped>
 .centered-container {

@@ -1,28 +1,3 @@
-<template>
-  <Modal :open="open" heading="Update Credit Card" :submitting="submitting" @submit="submit" @cancel="cancel">
-    <div class="row gy-4 form">
-      <div class="col-12">
-        <label for="cc-number" class="form-label">Card number</label>
-        <input id="cc-number" class="form-control" type="text" :value="`${card.brand} **** **** **** ${card.last4}`"
-          :aria-label="`${card.brand} **** **** **** ${card.last4}`" disabled readonly />
-      </div>
-      <div class="col-6">
-        <label for="exp_month" class="form-label">Expires Month</label>
-        <select id="exp_month" class="form-control" v-model="data.exp_month">
-          <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-        </select>
-      </div>
-      <div class="col-6">
-        <label for="exp_year" class="form-label">Expires Year</label>
-        <select id="exp_year" class="form-control" v-model="data.exp_year">
-          <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-        </select>
-      </div>
-      <div v-if="error" class="text-danger">Expiration date cannot be in the past.</div>
-    </div>
-  </Modal>
-</template>
-
 <script setup>
 import { ref, watch } from "vue";
 import axios from "axios";
@@ -53,12 +28,12 @@ const data = ref({
 });
 
 watch(
-  () => props.card,
-  (newCard) => {
-    data.value.exp_month = newCard.exp_month;
-    data.value.exp_year = newCard.exp_year;
-  },
-  { immediate: true }
+    () => props.card,
+    (newCard) => {
+      data.value.exp_month = newCard.exp_month;
+      data.value.exp_year = newCard.exp_year;
+    },
+    { immediate: true }
 );
 
 const currentYear = new Date().getFullYear();
@@ -84,13 +59,38 @@ const submit = async () => {
   submitting.value = true;
 
   await axios
-    .post(`https://api.backstack.com/account/payment-methods/${props.card.id}`, data.value, { api: "backstack" })
-    .then((response) => emit("success", response.data))
-    .catch((error) => error.value = true)
-    .finally(() => submitting.value = false);
+      .post(`https://api.backstack.com/account/payment-methods/${props.card.id}`, data.value, { api: "backstack" })
+      .then((response) => emit("success", response.data))
+      .catch((error) => error.value = true)
+      .finally(() => submitting.value = false);
 };
 
 const cancel = () => {
   emit("cancel");
 };
 </script>
+
+<template>
+  <Modal :open="open" heading="Update Credit Card" :submitting="submitting" @submit="submit" @cancel="cancel">
+    <div class="row gy-4 form">
+      <div class="col-12">
+        <label for="cc-number" class="form-label">Card number</label>
+        <input id="cc-number" class="form-control" type="text" :value="`${card.brand} **** **** **** ${card.last4}`"
+          :aria-label="`${card.brand} **** **** **** ${card.last4}`" disabled readonly />
+      </div>
+      <div class="col-6">
+        <label for="exp_month" class="form-label">Expires Month</label>
+        <select id="exp_month" class="form-control" v-model="data.exp_month">
+          <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <label for="exp_year" class="form-label">Expires Year</label>
+        <select id="exp_year" class="form-control" v-model="data.exp_year">
+          <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+        </select>
+      </div>
+      <div v-if="error" class="text-danger">Expiration date cannot be in the past.</div>
+    </div>
+  </Modal>
+</template>

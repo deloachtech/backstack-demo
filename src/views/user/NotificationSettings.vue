@@ -1,3 +1,86 @@
+<script setup>
+import { ref } from "vue";
+import { Spinner, PageHeading, Button } from "@/components";
+import { useSession } from "@/session";
+import axios from "axios";
+import { validateEmail } from "@/utils";
+
+const session = useSession();
+const fetchingSettings = ref(false);
+const updatingUser = ref(false);
+const updatingSettings = ref(false);
+const errors = ref({});
+
+
+const user = ref({
+  email: session.user.email,
+  mobile_number: session.user.mobile_number,
+});
+
+
+const settings = ref([]);
+
+const fetchSettings = async () => {
+  fetchingSettings.value = true;
+
+  await axios
+      .get("https://api.backstack.com/user/notification-settings", { api: "backstack" })
+      .then((response) =>settings.value = response.data)
+      .finally(() => fetchingSettings.value = false);
+};
+
+fetchSettings();
+
+
+const updateUser = async () => {
+
+  errors.value = {};
+
+  if (!user.value.email) {
+    errors.value.email = "Email required";
+  }else if (!validateEmail(user.value.email)) {
+    errors.value.email = "Invalid email address";
+  }
+
+  if(Object.keys(errors.value).length > 0) {
+    return;
+  }
+
+  updatingUser.value = true;
+
+  await axios
+      .post("https://api.backstack.com/user", user.value, { api: "backstack" })
+      .then((response) => {
+        session.user.email = user.value.email;
+        session.user.mobile_number = user.value.mobile_number;
+      })
+      .catch((error) => errors.value = error.fields)
+      .finally(() => updatingUser.value = false);
+};
+
+const updateSettings = async () => {
+
+  updatingSettings.value = true;
+
+  await axios
+      .post("https://api.backstack.com/user/notification-settings", {
+
+        // Filter settings to include only id, app, email, and text keys
+        settings: settings.value.map(setting => ({
+              id: setting.id,
+              app: setting.app,
+              email: setting.email,
+              text: setting.text
+            })
+        )
+      }, { api: "backstack" })
+      .then((response) => settings.value = response.data)
+      .finally(() => updatingSettings.value = false);
+};
+
+</script>
+
+
 <template>
   <PageHeading heading="Manage Notifications">
     <template #text> Manage how you receive notifications. </template>
@@ -78,84 +161,3 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { Spinner, PageHeading, Button } from "@/components";
-import { useSession } from "@/session";
-import axios from "axios";
-import { validateEmail } from "@/utils";
-
-const session = useSession();
-const fetchingSettings = ref(false);
-const updatingUser = ref(false);
-const updatingSettings = ref(false);
-const errors = ref({});
-
-
-const user = ref({
-  email: session.user.email,
-  mobile_number: session.user.mobile_number,
-});
-
-
-const settings = ref([]);
-
-const fetchSettings = async () => {
-  fetchingSettings.value = true;
-
-  await axios
-    .get("https://api.backstack.com/user/notification-settings", { api: "backstack" })
-    .then((response) =>settings.value = response.data)
-    .finally(() => fetchingSettings.value = false);
-};
-
-fetchSettings();
-
-
-const updateUser = async () => {
-
-  errors.value = {};
-
-  if (!user.value.email) {
-    errors.value.email = "Email required";
-  }else if (!validateEmail(user.value.email)) {
-    errors.value.email = "Invalid email address";
-  }
-
-  if(Object.keys(errors.value).length > 0) {
-    return;
-  }
-
-  updatingUser.value = true;
-  
-  await axios
-    .post("https://api.backstack.com/user", user.value, { api: "backstack" })
-    .then((response) => {
-      session.user.email = user.value.email;
-      session.user.mobile_number = user.value.mobile_number;
-    })
-    .catch((error) => errors.value = error.fields)
-    .finally(() => updatingUser.value = false);
-};
-
-const updateSettings = async () => {
-
-  updatingSettings.value = true;
-
-  await axios
-    .post("https://api.backstack.com/user/notification-settings", {
-
-      // Filter settings to include only id, app, email, and text keys
-      settings: settings.value.map(setting => ({
-        id: setting.id,
-        app: setting.app,
-        email: setting.email,
-        text: setting.text
-      })
-      )
-    }, { api: "backstack" })
-    .then((response) => settings.value = response.data) 
-    .finally(() => updatingSettings.value = false);
-};
-
-</script>

@@ -1,3 +1,18 @@
+<script setup>
+import { useRoute } from "vue-router";
+import AppTemplate from "@/template/AppTemplate.vue";
+import SigninTemplate from "@/template/SigninTemplate.vue";
+import { useSession } from "@/session";
+import Signup from "@/views/app/Signup.vue";
+import ForgotPassword from "@/views/app/ForgotPassword.vue";
+import ResetPassword from "@/views/app/ResetPassword.vue";
+import Login from "@/views/app/Login.vue";
+import { Spinner, Error404 } from "@/components";
+
+const route = useRoute();
+const session = useSession();
+</script>
+
 <template>
   <AppTemplate v-if="session.auth === true">
 
@@ -16,16 +31,3 @@
     <Error404 v-else buttonLabel="Login" />
   </SigninTemplate>
 </template>
-
-<script setup>
-import { useRoute } from "vue-router";
-import AppTemplate from "@/template/AppTemplate.vue";
-import SigninTemplate from "@/template/SigninTemplate.vue";
-import { useSession } from "@/session";
-import { ForgotPassword, Login, ResetPassword } from "@/views/app/login";
-import Signup from "@/views/app/signup/Signup.vue";
-import { Spinner, Error404 } from "@/components";
-
-const route = useRoute();
-const session = useSession();
-</script>

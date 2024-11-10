@@ -1,3 +1,83 @@
+<script setup>
+import axios from "axios";
+import { ref } from "vue";
+import AddPaymentMethod from "./AddPaymentMethod.vue";
+import DeletePaymentMethod from "./DeletePaymentMethod.vue";
+import UpdatePaymentMethod from "./UpdatePaymentMethod.vue";
+import { useSession } from "@/session";
+import { Spinner, PageHeading, TableToolbar } from "@/components";
+import { useRoute } from "vue-router";
+
+const session = useSession();
+const fetching = ref(false);
+const cards = ref({});
+const showSpinnerForCard = ref(null);
+const confirmDelete = ref(false);
+const confirmDeleteCardId = ref(null);
+const addCard = ref(false);
+const updateCard = ref(false);
+const updateCardCard = ref({});
+
+
+const route = useRoute();
+
+const appCanProcessPaymentMethods = (session.app.stripe_pub_key.length > 0 && session.app.stripe_key_exists === true);
+
+const fetchCards = async () => {
+  fetching.value = true;
+  await axios
+      .get("https://api.backstack.com/account/payment-methods", { api: "backstack" })
+      .then((response) => cards.value = response.data)
+      .finally(() => fetching.value = false);
+};
+
+fetchCards();
+
+
+const cardAdded = (card) => {
+  addCard.value = false;
+  if (card["default"]) {
+    cards.value.forEach((c) => c["default"] = false);
+  }
+  cards.value.unshift(card);
+};
+
+const cardDeleted = ($id) => {
+  confirmDelete.value = false;
+  confirmDeleteCardId.value = null;
+  cards.value = cards.value.filter(card => card.id !== $id);
+};
+
+const cardUpdated = (card) => {
+  updateCard.value = false;
+  const index = cards.value.findIndex((c) => c.id === card.id);
+  cards.value[index] = card;
+};
+
+const optionClicked = (option) => {
+  if (option.key === "delete") {
+    confirmDelete.value = true;
+    confirmDeleteCardId.value = option.id;
+  } else if (option.key === "make-default") {
+    makeDefault(option);
+  } else if (option.key === "update") {
+    updateCard.value = true;
+    updateCardCard.value = cards.value.find((card) => card.id === option.id);
+  }
+};
+
+
+const makeDefault = async (option) => {
+  showSpinnerForCard.value = option.id;
+  await axios
+      .post(`https://api.backstack.com/account/payment-methods/${option.id}/make-default`, null, { api: "backstack" })
+      .then((response) => {
+        cards.value.forEach((card) => card.default = card.id === option.id);
+      })
+      .finally(() => showSpinnerForCard.value = null);
+};
+</script>
+
 <template>
 
   <PageHeading heading="Payment Methods" :as-subheading="route.name !== 'accountPaymentMethods'">
@@ -71,86 +151,6 @@
 
   <UpdatePaymentMethod :open="updateCard" :card="updateCardCard" @cancel="updateCard = false" @success="cardUpdated" />
 </template>
-
-<script setup>
-import axios from "axios";
-import { ref } from "vue";
-import AddPaymentMethod from "./AddPaymentMethod.vue";
-import DeletePaymentMethod from "./DeletePaymentMethod.vue";
-import UpdatePaymentMethod from "./UpdatePaymentMethod.vue";
-import { useSession } from "@/session";
-import { Spinner, PageHeading, TableToolbar } from "@/components";
-import { useRoute } from "vue-router";
-
-const session = useSession();
-const fetching = ref(false);
-const cards = ref({});
-const showSpinnerForCard = ref(null);
-const confirmDelete = ref(false);
-const confirmDeleteCardId = ref(null);
-const addCard = ref(false);
-const updateCard = ref(false);
-const updateCardCard = ref({});
-
-
-const route = useRoute();
-
-const appCanProcessPaymentMethods = (session.app.stripe_pub_key.length > 0 && session.app.stripe_key_exists === true);
-
-const fetchCards = async () => {
-  fetching.value = true;
-  await axios
-    .get("https://api.backstack.com/account/payment-methods", { api: "backstack" })
-    .then((response) => cards.value = response.data)
-    .finally(() => fetching.value = false);
-};
-
-fetchCards();
-
-
-const cardAdded = (card) => {
-  addCard.value = false;
-  if (card["default"]) {
-    cards.value.forEach((c) => c["default"] = false);
-  }
-  cards.value.unshift(card);
-};
-
-const cardDeleted = ($id) => {
-  confirmDelete.value = false;
-  confirmDeleteCardId.value = null;
-  cards.value = cards.value.filter(card => card.id !== $id);
-};
-
-const cardUpdated = (card) => {
-  updateCard.value = false;
-  const index = cards.value.findIndex((c) => c.id === card.id);
-  cards.value[index] = card;
-};
-
-const optionClicked = (option) => {
-  if (option.key === "delete") {
-    confirmDelete.value = true;
-    confirmDeleteCardId.value = option.id;
-  } else if (option.key === "make-default") {
-    makeDefault(option);
-  } else if (option.key === "update") {
-    updateCard.value = true;
-    updateCardCard.value = cards.value.find((card) => card.id === option.id);
-  }
-};
-
-
-const makeDefault = async (option) => {
-  showSpinnerForCard.value = option.id;
-  await axios
-    .post(`https://api.backstack.com/account/payment-methods/${option.id}/make-default`, null, { api: "backstack" })
-    .then((response) => {
-      cards.value.forEach((card) => card.default = card.id === option.id);
-    })
-    .finally(() => showSpinnerForCard.value = null);
-};
-</script>
 
 
 <style scoped>
